@@ -43,11 +43,11 @@ confirmed, plus two screenshots the owner supplied.
 | Health: flagship | Swaasthya Kendra at Madanpur Khadar, since 2007, "currently Prayatn's flagship health program" | CONFIRMED |
 | Spelling | Owner rule (2026-09-23): use the spelling on the NGO's own signage in the photos. **None of the 86 photos shows either spelling on signage.** Clinic signs read "PRAYATN SCHOOL HEALTH CLINIC". The fallback in the owner's message was left as an unfilled template ("[SWAASTHYA / SWASTHYA]"), so the site keeps the old-site spelling the owner confirmed with facts 1–6: **Swaasthya Kendra**. | PENDING |
 | Education | Prayatn runs a school | CONFIRMED |
-| School name | "Seth Vidyalaya" (banners in photos) | PHOTO ONLY. The owner's reply left YES/NO unfilled, so it is not used. |
+| School name | "Seth Vidyalaya" | CONFIRMED by owner 2026-09-23 ("those are the program names"). |
 | School Health Clinic | "School Health Clinic" is a section heading in the owner's own photo document (and on clinic signage) | CONFIRMED (owner document). Used in one caption. |
 | Women's work | "doing stuff for women's foundations" (owner, informal) | CONFIRMED in substance. Site wording stays "Youth & Women Development". |
-| Legal Help Desk | banners: "Legal Help Desk, Organized by PRAYATN"; "Legal awareness camp/session" | PHOTO ONLY. YES/NO unfilled, so it is not named in copy. |
-| Mahila Panchayat | banners: "Mahila Panchayat", "Mahila Panchayat Training", Badarpur address fragment | PHOTO ONLY. YES/NO unfilled, so it is not named in copy. |
+| Legal Help Desk | "Legal Help Desk" | CONFIRMED by owner 2026-09-23. ("Legal awareness camp/session" banners are still PHOTO ONLY and not used.) |
+| Mahila Panchayat | "Mahila Panchayat", in Badarpur | CONFIRMED by owner 2026-09-23. |
 | Jagruk Families | banner: "Follow Up Meeting with Jagruk Families, Organized By PRAYATN" | PHOTO ONLY |
 | School figures (children, classes, results) | The owner will send the yearly report. **No numbers until then.** | PENDING |
 
@@ -88,7 +88,7 @@ Trustee portraits are **not** in `uploads/`, so the site shows names and roles o
 
 | Fact | Wording | Status |
 |---|---|---|
-| 80G | "Donations to Prayatn are exempt under section 80G of the Income Tax Act 1961." | **PENDING CONFIRMATION THAT REGISTRATION IS CURRENT.** Used verbatim from the old site, shown in grey with an asterisk under the donate details. **LAUNCH BLOCKER:** do not launch until the owner confirms. |
+| 80G | "Donations to Prayatn are exempt under section 80G of the Income Tax Act 1961." | **INCLUDED ON OWNER INSTRUCTION (2026-09-23)**, verbatim from the old site, shown in grey with an asterisk under the donate details. The owner says the trust is registered and will send the details. **Pre-launch check:** confirm the registration is current and add the number and validity once received. |
 | 80G registration number / validity | — | PENDING |
 | 12A, FCRA, CSR-1, NGO Darpan | — | PENDING (appear only if supplied) |
 
@@ -131,8 +131,13 @@ Footer: "Made by Aarav Chopra". CONFIRMED.
 
 ## Launch blockers
 
-1. 80G: confirm that the registration is current (the line is on the site verbatim).
-2. Bank details for `src/data/site.json`.
-3. Per-photo consent in `docs/ASSET-MANIFEST.md`, hero `gallery-81` first.
-4. YES/NO on naming Seth Vidyalaya, Legal Help Desk and Mahila Panchayat Badarpur (they appear on banners inside three used photos).
-5. Spelling: Swaasthya or Swasthya.
+Status on 2026-09-23. The site is not going live yet; the owner asked for everything to be added now and checked before launch.
+
+| # | Item | Status |
+|---|---|---|
+| 1 | 80G line | Added (verbatim). Before launch, confirm the registration is current and add its number and validity. |
+| 2 | Bank details | **Still open.** Not received yet. Slot ready in `src/data/site.json`. The site asks donors to call or email until then. |
+| 3 | Photo consent | **Done.** Owner confirmed consent for all photos (2026-09-23). |
+| 4 | Programme names | **Done.** Seth Vidyalaya, Legal Help Desk, Mahila Panchayat (Badarpur) are named in copy. |
+| 5 | Spelling: Swaasthya / Swasthya | **Still open.** Not answered; the site uses the old-site spelling "Swaasthya". |
+| 6 | School figures | Waiting for the yearly report. No numbers until then. |

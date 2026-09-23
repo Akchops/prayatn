@@ -99,8 +99,7 @@ CONTEXT LOSS  Tested by forcing loseContext(): yes. Hands over to tier 2 at the 
 320px         Verified: yes, both tiers.
 ```
 
-## Photos still needing consent (see docs/ASSET-MANIFEST.md)
+## Photo consent (see docs/ASSET-MANIFEST.md)
 
-All 15 photos on the site show identifiable people. **Nine of them show
-children.** The hero, `uploads/gallery-81.jpg`, comes first: it shows six women
-and two young children.
+All 15 photos on the site show identifiable people, and nine of them show
+children. The owner confirmed consent for all photos on 2026-09-23.

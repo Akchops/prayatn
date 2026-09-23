@@ -2,27 +2,27 @@
 
 Every image on the site comes from the owner's document of photos (`Photos._1.docx`, received 2026-09-23), extracted unchanged into `uploads/`. **No stock, no fetched, no generated imagery.**
 
-The owner stated on 2026-09-23 that "we have everyone's consent". Every photo that shows an identifiable person is still listed below for **per-photo confirmation before launch**, as the brief requires. Photos with **children** are marked 🧒.
+**Consent: CONFIRMED for all photos by the owner, Aarav Chopra, on 2026-09-23** ("we have all the photo consents"). The list below records which photos show identifiable people, and children (marked 🧒), so it is clear what that confirmation covers.
 
-## 1. Photos used on the site: confirm consent for each
+## 1. Photos used on the site
 
-| # | File | Where it appears | Shown at (max CSS px) | People | Consent confirmed? |
+| # | File | Where it appears | Shown at (max CSS px) | People | Consent |
 |---|---|---|---|---|---|
-| 81 | `uploads/gallery-81.jpg` | Home: The Weave (hero) | 1108×719 | 🧒 children + adults: Mahila Panchayat circle, two young children | **HIGHEST PRIORITY. Hero, first thing every visitor sees.** ☐ |
-| 4 | `uploads/swasthya-kendra-04.jpg` | Home: Health | 963×1280 | adults: woman on weighing scale | ☐ |
-| 3 | `uploads/swasthya-kendra-03.jpg` (cropped: top 25% removed) | Home: Health | 480×498 | adults: consultation; supporter signboard at top (site uses a crop without it) | ☐ |
-| 15 | `uploads/school-health-clinic-15.jpg` | Home: Health | 1280×1280 | 🧒 children + adults: health worker filling cards, 'Health check-ups 2.9.25' on board | ☐ |
-| 8 | `uploads/school-health-clinic-08.jpg` | Home: Health | 825×770 | 🧒 children + adults: boy's height measured | ☐ |
-| 9 | `uploads/school-health-clinic-09.jpg` | Home: Health | 1280×1280 | 🧒 children + adults: children holding up yellow health cards | ☐ |
-| 53 | `uploads/gallery-53.jpg` | Home: Education | 1231×900 | 🧒 children + adults: library reading | ☐ |
-| 47 | `uploads/gallery-47.jpg` | Home: Education | 1135×960 | 🧒 children + adults: computer lab | ☐ |
-| 44 | `uploads/gallery-44.jpg` | Home: Education | 782×670 | adults: teacher at blackboard | ☐ |
-| 58 | `uploads/gallery-58.jpg` | Home: Education | 1216×900 | 🧒 children + adults: children with paper wheels | ☐ |
-| 51 | `uploads/gallery-51.jpg` | Home: Education | 713×545 | 🧒 children + adults: morning exercise | ☐ |
-| 79 | `uploads/gallery-79.jpg` | Home: Youth & women | 793×515 | adults: Mahila Panchayat Training banner visible | ☐ |
-| 26 | `uploads/women-development-26.jpg` | Home: Youth & women | 669×567 | adults: women on striped rugs | ☐ |
-| 74 | `uploads/gallery-74.jpg` | Home: Youth & women | 1204×1204 | adults: Legal Help Desk banner visible | ☐ |
-| 86 | `uploads/gallery-86.jpg` | Home: Youth & women | 1108×719 | 🧒 children + adults: large outdoor gathering | ☐ |
+| 81 | `uploads/gallery-81.jpg` | Home: The Weave (hero) | 1108×719 | 🧒 children + adults: Mahila Panchayat circle, two young children | Hero. ✅ confirmed 2026-09-23 |
+| 4 | `uploads/swasthya-kendra-04.jpg` | Home: Health | 963×1280 | adults: woman on weighing scale | ✅ confirmed 2026-09-23 |
+| 3 | `uploads/swasthya-kendra-03.jpg` (cropped: top 25% removed) | Home: Health | 480×498 | adults: consultation; supporter signboard at top (site uses a crop without it) | ✅ confirmed 2026-09-23 |
+| 15 | `uploads/school-health-clinic-15.jpg` | Home: Health | 1280×1280 | 🧒 children + adults: health worker filling cards, 'Health check-ups 2.9.25' on board | ✅ confirmed 2026-09-23 |
+| 8 | `uploads/school-health-clinic-08.jpg` | Home: Health | 825×770 | 🧒 children + adults: boy's height measured | ✅ confirmed 2026-09-23 |
+| 9 | `uploads/school-health-clinic-09.jpg` | Home: Health | 1280×1280 | 🧒 children + adults: children holding up yellow health cards | ✅ confirmed 2026-09-23 |
+| 53 | `uploads/gallery-53.jpg` | Home: Education | 1231×900 | 🧒 children + adults: library reading | ✅ confirmed 2026-09-23 |
+| 47 | `uploads/gallery-47.jpg` | Home: Education | 1135×960 | 🧒 children + adults: computer lab | ✅ confirmed 2026-09-23 |
+| 44 | `uploads/gallery-44.jpg` | Home: Education | 782×670 | adults: teacher at blackboard | ✅ confirmed 2026-09-23 |
+| 58 | `uploads/gallery-58.jpg` | Home: Education | 1216×900 | 🧒 children + adults: children with paper wheels | ✅ confirmed 2026-09-23 |
+| 51 | `uploads/gallery-51.jpg` | Home: Education | 713×545 | 🧒 children + adults: morning exercise | ✅ confirmed 2026-09-23 |
+| 79 | `uploads/gallery-79.jpg` | Home: Youth & women | 793×515 | adults: Mahila Panchayat Training banner visible | ✅ confirmed 2026-09-23 |
+| 26 | `uploads/women-development-26.jpg` | Home: Youth & women | 669×567 | adults: women on striped rugs | ✅ confirmed 2026-09-23 |
+| 74 | `uploads/gallery-74.jpg` | Home: Youth & women | 1204×1204 | adults: Legal Help Desk banner visible | ✅ confirmed 2026-09-23 |
+| 86 | `uploads/gallery-86.jpg` | Home: Youth & women | 1108×719 | 🧒 children + adults: large outdoor gathering | ✅ confirmed 2026-09-23 |
 
 All 15 show identifiable people. 9 of the 15 show children.
 
@@ -30,7 +30,7 @@ All 15 show identifiable people. 9 of the 15 show children.
 
 - Chosen as the sharpest Mahila Panchayat circle photo. It is the highest resolution (1108×719) of the four photos with the Mahila Panchayat banner, and scores highest on a Laplacian-variance sharpness measure at equal display size (1192, against 1033, 886 and 868).
 - It shows six identifiable women and **two young children**: one in profile at right, one from behind.
-- The banner in the photo shows the words "Mahila Panchayat" and part of an address in Badarpur. Site copy does **not** name the programme; the caption reads "A women's meeting, held in a circle on the floor."
+- The banner in the photo shows "Mahila Panchayat" and part of an address in Badarpur. The owner confirmed the programme name, and the caption reads "A Mahila Panchayat meeting, held in a circle on the floor."
 - **Resolution cap:** the frame is never wider than 1108 CSS px, so the photo is never scaled above 1 image px per CSS px. On a 1920px screen it sits at 1108px inside the woven rug; it is never stretched.
 
 ## 2. Deliberate choices
@@ -38,7 +38,7 @@ All 15 show identifiable people. 9 of the 15 show children.
 - **Not used, for dignity or medical privacy:** #02 (a woman lying down during an examination) and #11 (a young child lying on an examination bed).
 - **Not used:** #66 (includes a well-known public figure, which could read as a political association).
 - **Supporter names:** the owner asked for Samrat Offset and Deloitte / United Way of Delhi to stay unnamed. No used photo shows either name: #03 is cropped to remove the clinic signboard. Photos showing those names (#01, 03, 05–07, 10, 13, 45, 54, 56, plus others with the clinic sign) are **not used**.
-- **Programme names on banners** (Mahila Panchayat, Legal Help Desk) are still visible *inside* #81, #79 and #74. The owner has not yet answered YES/NO on naming them. Site copy does not name them. If the answer is NO, #79 and #74 should be swapped out; #81 would need a crop that loses the banner.
+- **Programme names on banners** (Mahila Panchayat, Legal Help Desk): confirmed by the owner, and named in captions for #81, #79 and #74.
 
 ## 3. Full inventory (all 86 photos in `uploads/`)
 
