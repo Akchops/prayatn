@@ -1,0 +1,23 @@
+{
+  "name": "prayatn",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "images": "node scripts/build-images.mjs",
+    "dev": "vite",
+    "build": "node scripts/build-rug.mjs && node scripts/build-images.mjs && vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "budget": "node scripts/first-load-budget.mjs dist/"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1",
+    "sharp": "^0.35.4",
+    "vite": "^6.4.3"
+  },
+  "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource/hind": "^5.3.0",
+    "gsap": "^3.15.0"
+  }
+}

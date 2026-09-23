@@ -41,13 +41,13 @@ confirmed, plus two screenshots the owner supplied.
 | Areas of work | "Education, Healthcare Services, Youth & Women Development" | CONFIRMED |
 | Health: first centre | "first community-based health center – Swaasthya Kendra was started in 1998-99" | CONFIRMED |
 | Health: flagship | Swaasthya Kendra at Madanpur Khadar, since 2007, "currently Prayatn's flagship health program" | CONFIRMED |
-| Spelling | The old site says "Swaasthya"; the photo document says "Swasthya". The site uses **Swaasthya Kendra** (old-site spelling) until told otherwise. | PENDING |
+| Spelling | Owner rule (2026-09-23): use the spelling on the NGO's own signage in the photos. **None of the 86 photos shows either spelling on signage.** Clinic signs read "PRAYATN SCHOOL HEALTH CLINIC". The fallback in the owner's message was left as an unfilled template ("[SWAASTHYA / SWASTHYA]"), so the site keeps the old-site spelling the owner confirmed with facts 1–6: **Swaasthya Kendra**. | PENDING |
 | Education | Prayatn runs a school | CONFIRMED |
-| School name | "Seth Vidyalaya" (banners in photos) | PHOTO ONLY |
-| School Health Clinic | clinic signage "PRAYATN SCHOOL HEALTH CLINIC" | PHOTO ONLY (the photo document's section heading supports it) |
+| School name | "Seth Vidyalaya" (banners in photos) | PHOTO ONLY. The owner's reply left YES/NO unfilled, so it is not used. |
+| School Health Clinic | "School Health Clinic" is a section heading in the owner's own photo document (and on clinic signage) | CONFIRMED (owner document). Used in one caption. |
 | Women's work | "doing stuff for women's foundations" (owner, informal) | CONFIRMED in substance. Site wording stays "Youth & Women Development". |
-| Legal Help Desk | banners: "Legal Help Desk, Organized by PRAYATN"; "Legal awareness camp/session" | PHOTO ONLY |
-| Mahila Panchayat | banners: "Mahila Panchayat", "Mahila Panchayat Training", Badarpur address fragment | PHOTO ONLY |
+| Legal Help Desk | banners: "Legal Help Desk, Organized by PRAYATN"; "Legal awareness camp/session" | PHOTO ONLY. YES/NO unfilled, so it is not named in copy. |
+| Mahila Panchayat | banners: "Mahila Panchayat", "Mahila Panchayat Training", Badarpur address fragment | PHOTO ONLY. YES/NO unfilled, so it is not named in copy. |
 | Jagruk Families | banner: "Follow Up Meeting with Jagruk Families, Organized By PRAYATN" | PHOTO ONLY |
 | School figures (children, classes, results) | The owner will send the yearly report. **No numbers until then.** | PENDING |
 
@@ -80,15 +80,15 @@ Trustee portraits are **not** in `uploads/`, so the site shows names and roles o
 
 | Fact | Wording | Status |
 |---|---|---|
-| Method | Bank transfer only. **No UPI.** No payment processing is built. | CONFIRMED |
-| Bank details | account name, number, IFSC, bank and branch | PENDING (launch blocker) |
+| Method | Bank transfer only. **No UPI.** No payment processing is built. (The 2026-09-23 reply asked "[does the NGO have a UPI ID or QR?]" as an unfilled template; the owner's earlier answer "no upi only bank details" stands.) | CONFIRMED |
+| Bank details | account name, number, IFSC, bank and branch. Slot: `bank` in `src/data/site.json`. Until it is filled, the site asks donors to call or email for them. | PENDING (launch blocker) |
 | Cheque | "Cheque to be drawn in favour of Prayatn, New Delhi." | OLD SITE (verbatim) |
 
 ## Registration & tax (legal statements: verbatim only)
 
 | Fact | Wording | Status |
 |---|---|---|
-| 80G | "Donations to Prayatn are exempt under section 80G of the Income Tax Act 1961." | OLD SITE (verbatim), and the owner confirms it is registered |
+| 80G | "Donations to Prayatn are exempt under section 80G of the Income Tax Act 1961." | **PENDING CONFIRMATION THAT REGISTRATION IS CURRENT.** Used verbatim from the old site, shown in grey with an asterisk under the donate details. **LAUNCH BLOCKER:** do not launch until the owner confirms. |
 | 80G registration number / validity | — | PENDING |
 | 12A, FCRA, CSR-1, NGO Darpan | — | PENDING (appear only if supplied) |
 
@@ -110,8 +110,8 @@ with us, contribute financially & get involved." (OLD SITE)
 
 | Organisation | Where seen | Status |
 |---|---|---|
-| Samrat Offset Pvt. Ltd. | "SCHOOL HEALTH CLINIC — SUPPORTED BY" sign | PHOTO ONLY |
-| Deloitte, through United Way of Delhi | Seth Vidyalaya event banners ("SUPPORTED BY") | PHOTO ONLY |
+| Samrat Offset Pvt. Ltd. | "SCHOOL HEALTH CLINIC — SUPPORTED BY" sign | UNNAMED by owner instruction until they agree. No used photo shows the sign. |
+| Deloitte, through United Way of Delhi | Seth Vidyalaya event banners ("SUPPORTED BY") | UNNAMED by owner instruction until they agree. No used photo shows the banners. |
 | Jagori | banner in one women's-programme photo | PHOTO ONLY |
 
 ## Audience & actions (owner brief)
@@ -128,3 +128,11 @@ Footer: "Made by Aarav Chopra". CONFIRMED.
 - An old-site line "Families who came as children now send their own children". It is unverifiable narrative and is not used.
 - A search tool's guess that the trust "typically qualifies for 80G". It was speculation; the verbatim old-site sentence above is used instead.
 - Similar-named organisations that are **not** Prayatn: Prayatn Sanstha Jaipur, Prayatna (several), Prayas.
+
+## Launch blockers
+
+1. 80G: confirm that the registration is current (the line is on the site verbatim).
+2. Bank details for `src/data/site.json`.
+3. Per-photo consent in `docs/ASSET-MANIFEST.md`, hero `gallery-81` first.
+4. YES/NO on naming Seth Vidyalaya, Legal Help Desk and Mahila Panchayat Badarpur (they appear on banners inside three used photos).
+5. Spelling: Swaasthya or Swasthya.

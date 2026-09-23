@@ -1,0 +1,66 @@
+{
+  "gallery-81": {
+    "use": "hero",
+    "alt": "Women and two young children sit in a circle on a blue-and-white patterned durrie. A woman in a green kurta is speaking while the others listen; another woman sits on a chair behind them, and a Prayatn banner hangs on the left."
+  },
+  "swasthya-kendra-04": {
+    "use": "health",
+    "alt": "A woman in a black abaya stands on a weighing scale at the health centre, beside a health poster."
+  },
+  "swasthya-kendra-03": {
+    "use": "health",
+    "alt": "A health worker writes at her desk while a woman in an orange sari sits beside her. Shelves of medicine are behind them.",
+    "crop": {
+      "top": 0.25,
+      "why": "removes the clinic signboard naming a supporter (owner: keep supporters unnamed until confirmed)"
+    }
+  },
+  "school-health-clinic-15": {
+    "use": "health",
+    "alt": "A health worker fills in yellow health cards at a table while children wait beside her. 'Health check-ups' is chalked on the blackboard behind."
+  },
+  "school-health-clinic-08": {
+    "use": "health",
+    "alt": "A health worker measures a schoolboy's height against the wall of the clinic."
+  },
+  "school-health-clinic-09": {
+    "use": "health",
+    "alt": "Schoolchildren in uniform crowd together, holding their yellow health cards up high."
+  },
+  "gallery-53": {
+    "use": "school",
+    "alt": "Children in blue school uniforms read picture books at long tables in the school library."
+  },
+  "gallery-47": {
+    "use": "school",
+    "alt": "Children in woollen caps and school sweaters work at computers in the computer lab."
+  },
+  "gallery-44": {
+    "use": "school",
+    "alt": "A teacher pins a chart of Hindi punctuation marks to the blackboard."
+  },
+  "gallery-58": {
+    "use": "school",
+    "alt": "Four children in woolly hats hold up the colourful paper wheels they have made."
+  },
+  "gallery-51": {
+    "use": "school",
+    "alt": "Rows of children in the school yard stretch their arms above their heads during morning exercise."
+  },
+  "gallery-79": {
+    "use": "women",
+    "alt": "Women sit on a patterned rug in a small room for a training session, with a Prayatn banner on the wall."
+  },
+  "women-development-26": {
+    "use": "women",
+    "alt": "Women sit together on striped rugs on an office floor, in discussion."
+  },
+  "gallery-74": {
+    "use": "women",
+    "alt": "At a desk, a man in a white shirt talks with two women seated across from him."
+  },
+  "gallery-86": {
+    "use": "women",
+    "alt": "A large group of women sit on the grass of an open ground, facing a speaker."
+  }
+}

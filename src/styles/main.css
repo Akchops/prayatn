@@ -1,0 +1,391 @@
+/* Prayatn — "The Durrie".
+   Base styles are the no-JS page: everything is visible here. Anything the
+   motion layer hides is scoped under .js / .is-weaving and never applied under
+   prefers-reduced-motion. */
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('../fonts/bricolage-latin-wght.woff2') format('woff2-variations');
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Hind';
+  src: url('../fonts/hind-latin-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Hind';
+  src: url('../fonts/hind-latin-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+
+:root {
+  --khadi: #F3ECDF;
+  --khadi-deep: #E7DDCB;
+  --indigo: #1E2440;
+  --indigo-soft: #3A4166;
+  --marigold: #E2A019;
+  --rani: #C22F66;
+  --neem: #1D6E62;
+  --muted: #5B5E6E;          /* 6.1:1 on khadi */
+
+  --display: 'Bricolage Grotesque', 'Arial Narrow', system-ui, sans-serif;
+  --body: 'Hind', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Thread width in CSS px. The animated weave reads this same value, so the
+     static rug, the canvas and the warp lines below the hero all share a pitch. */
+  --t: 8px;
+  --head: 60px;
+  --gutter: 16px;
+  --max: 1240px;
+}
+@media (min-width: 768px) { :root { --t: 10px; --gutter: 32px; --head: 68px; } }
+@media (min-width: 1200px) { :root { --t: 12px; --gutter: 48px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--head) + 12px); }
+body {
+  margin: 0;
+  background: var(--khadi);
+  color: var(--indigo);
+  font: 400 1.0625rem/1.6 var(--body);
+  overflow-x: clip;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration-thickness: 2px; text-underline-offset: 3px; text-decoration-color: var(--marigold); }
+a:hover { text-decoration-color: currentColor; }
+:focus-visible { outline: 3px solid var(--rani); outline-offset: 3px; border-radius: 2px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 .5em; font-weight: 700; }
+h2 { font-size: clamp(1.9rem, 1.2rem + 3vw, 3.4rem); }
+h3 { font-size: 1.5rem; letter-spacing: -0.01em; }
+p { margin: 0 0 1em; }
+address { font-style: normal; }
+.small { font-size: .95rem; }
+
+.eyebrow {
+  font: 600 .8rem/1.2 var(--body);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--rani);
+  margin-bottom: .9em;
+}
+
+.skip {
+  position: absolute; left: 8px; top: -60px; z-index: 100;
+  background: var(--indigo); color: var(--khadi); padding: 10px 14px;
+}
+.skip:focus { top: 8px; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0 20px;
+  font: 600 1rem/1 var(--body);
+  text-decoration: none; border-radius: 0;
+  transition: background-color .15s, color .15s, box-shadow .15s;
+}
+.btn--donate { background: var(--marigold); color: var(--indigo); box-shadow: inset 0 -3px 0 rgba(30,36,64,.25); }
+.btn--donate:hover { background: #F0B535; }
+.btn--line { border: 2px solid var(--indigo); color: var(--indigo); }
+.btn--line:hover { background: var(--indigo); color: var(--khadi); }
+.link { font-weight: 600; }
+
+/* ---------- Header ---------- */
+.site-head {
+  position: sticky; top: 0; z-index: 50;
+  height: var(--head);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 0 var(--gutter);
+  background: var(--khadi);
+  box-shadow: 0 1px 0 rgba(30,36,64,.12);
+}
+.wordmark {
+  font: 800 1.55rem/1 var(--display);
+  letter-spacing: -0.03em;
+  text-decoration: none;
+  padding: 8px 0;
+  background: linear-gradient(90deg, var(--marigold) 0 33%, var(--rani) 0 66%, var(--neem) 0) bottom / 100% 3px no-repeat;
+}
+.nav { display: flex; align-items: center; gap: 8px; }
+.nav__list { display: none; list-style: none; margin: 0; padding: 0; gap: 4px; }
+.nav__list a { display: block; padding: 12px 12px; font-weight: 600; text-decoration: none; }
+.nav__list a:hover, .nav__list a[aria-current] { text-decoration: underline; text-decoration-color: var(--marigold); }
+.menu { position: relative; }
+.menu summary {
+  list-style: none; cursor: pointer; min-height: 44px; display: flex; align-items: center;
+  padding: 0 12px; font-weight: 600;
+}
+.menu summary::-webkit-details-marker { display: none; }
+.menu summary::after { content: ''; width: 8px; height: 8px; margin-left: 8px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); }
+.menu[open] summary::after { transform: translateY(2px) rotate(-135deg); }
+.menu ul {
+  position: absolute; right: -80px; top: calc(100% + 8px);
+  list-style: none; margin: 0; padding: 8px 0; min-width: 210px;
+  background: var(--indigo); color: var(--khadi);
+  box-shadow: 0 12px 30px rgba(30,36,64,.3);
+}
+.menu ul a { display: block; padding: 12px 20px; text-decoration: none; font-weight: 600; }
+.menu ul a:hover { background: var(--indigo-soft); }
+@media (min-width: 820px) {
+  .nav__list { display: flex; }
+  .menu { display: none; }
+}
+
+/* ---------- The Weave (hero) ---------- */
+.weave {
+  position: relative;
+  background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t));
+  isolation: isolate;
+}
+.weave__stage {
+  position: relative;
+  min-height: calc(100svh - var(--head));
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 12px;
+  padding: 16px var(--gutter) 20px;
+  align-items: center;
+  justify-items: center;
+}
+.weave__canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  display: block;
+}
+.weave__label {
+  position: relative; z-index: 2;
+  justify-self: stretch;
+  background: var(--khadi);
+  padding: 16px 18px 14px;
+  /* A cloth label stitched onto the rug. */
+  outline: 2px dashed rgba(30,36,64,.45);
+  outline-offset: -7px;
+  box-shadow: 0 2px 0 rgba(0,0,0,.18);
+}
+.weave__label h1 {
+  font-size: clamp(2.1rem, 1.4rem + 3.4vw, 4.6rem);
+  line-height: .95;
+  margin-bottom: .3em;
+  text-wrap: balance;
+}
+.weave__lede { margin: 0; font-size: 1rem; line-height: 1.45; max-width: 34ch; }
+.weave__figure { margin: 0; position: relative; z-index: 1; display: grid; justify-items: center; gap: 10px; width: 100%; }
+.weave__frame {
+  /* The hero never displays wider than the photo's native 1108 CSS px, and it
+     shrinks to leave the label and caption on screen inside the pin. */
+  width: min(100%, 1108px, calc((100svh - var(--head) - var(--reserve, 300px)) * 1108 / 719));
+  aspect-ratio: 1108 / 719;
+  background: var(--indigo);
+  box-shadow: 0 0 0 4px var(--khadi), 0 10px 30px rgba(0,0,0,.35);
+}
+.weave__photo, .weave__photo img { width: 100%; height: 100%; object-fit: cover; }
+.weave__caption {
+  position: relative; z-index: 2;
+  background: var(--khadi); padding: 4px 10px;
+  font-size: .9rem; line-height: 1.3; text-align: center;
+}
+.weave__hint { display: none; }
+
+@media (max-width: 767px) {
+  .weave { --reserve: 250px; }
+}
+@media (min-width: 768px) {
+  .weave { --reserve: 330px; }
+  .weave__label { justify-self: start; max-width: 560px; padding: 22px 26px 20px; }
+  .weave__lede { font-size: 1.1rem; }
+}
+@media (min-width: 1000px) {
+  .weave { --reserve: 150px; }
+  .weave__stage {
+    grid-template-columns: minmax(300px, 380px) 1fr;
+    grid-template-rows: 1fr;
+    gap: 32px;
+    padding: 28px var(--gutter);
+  }
+  .weave__label { align-self: center; }
+  .weave__frame { width: min(100%, 1108px, calc((100svh - var(--head) - var(--reserve)) * 1108 / 719)); }
+}
+
+/* Motion path only. Never under reduced motion; never without JS. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Until the canvas mounts, cover the finished rug and photo so the visitor
+     doesn't see the answer and then loose threads. If the weave never mounts
+     (script blocked, slow network), a CSS-only failsafe lifts the cover after
+     2.5s and the static hero shows. */
+  .js .weave::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background: var(--indigo);
+    animation: weave-failsafe .3s linear 2.5s both;
+  }
+  .js .weave:not(.is-weaving) .weave__frame { animation: weave-failsafe-in .3s linear 2.5s both; }
+  .is-weaving::before { animation: none; opacity: 0; }
+  .is-weaving { background: var(--indigo); }
+
+  /* While weaving, the canvas draws the photo: the <img> stays in the DOM
+     (it carries the alt text) but is not painted over the canvas. */
+  .is-weaving .weave__frame { background: none; box-shadow: 0 0 0 calc(4px * var(--caption, 0)) var(--khadi); }
+  .is-weaving .weave__photo { visibility: hidden; }
+  .is-weaving .weave__caption { opacity: var(--caption, 0); }
+  .is-weaving .weave__hint {
+    display: block; position: absolute; z-index: 2; left: 50%; bottom: 14px; transform: translateX(-50%);
+    margin: 0; padding: 6px 12px; font-size: .85rem; white-space: nowrap;
+    background: var(--khadi); color: var(--indigo);
+    opacity: var(--hint, 1);
+  }
+}
+@keyframes weave-failsafe { from { opacity: 1; } to { opacity: 0; } }
+@keyframes weave-failsafe-in { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .is-weaving .weave__hint { display: none; }
+}
+
+/* ---------- Reach (communities first) ---------- */
+.reach {
+  position: relative;
+  background: var(--indigo);
+  color: var(--khadi);
+  /* The warp threads left behind by the weave continue down into this band
+     and fade out: the same pitch as the rug above. */
+  background-image: linear-gradient(to bottom, transparent, var(--indigo) 240px),
+    repeating-linear-gradient(90deg, transparent 0 calc(var(--t) * .1), #D9D1C1 calc(var(--t) * .1) calc(var(--t) * .9), transparent calc(var(--t) * .9) var(--t));
+  background-size: 100% 100%, 100% 240px;
+  background-repeat: no-repeat;
+}
+.reach__inner { max-width: var(--max); margin: 0 auto; padding: 140px var(--gutter) 72px; }
+.reach h2 { color: var(--khadi); max-width: 16ch; }
+.reach__intro { max-width: 60ch; font-size: 1.1rem; color: #E4DDCE; }
+.reach__ways { display: grid; gap: 2px; margin-top: 28px; grid-template-columns: 1fr; }
+.reach__way {
+  display: grid; gap: 2px; padding: 16px 18px;
+  background: var(--indigo-soft); text-decoration: none;
+  border-left: 4px solid var(--marigold);
+  transition: background-color .15s;
+}
+a.reach__way:hover { background: #474F79; }
+.reach__k { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--marigold); font-weight: 600; }
+.reach__v { font: 700 1.35rem/1.2 var(--display); overflow-wrap: anywhere; }
+.reach__v--mail { font-size: 1.1rem; }
+@media (min-width: 700px) { .reach__ways { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .reach__ways { grid-template-columns: repeat(4, 1fr); } }
+
+/* ---------- Our work ---------- */
+.work { position: relative; padding: 24px 0 40px; }
+.thread {
+  position: absolute; top: 0; bottom: 0; left: calc(var(--gutter) / 2 - 3px);
+  width: 6px;
+}
+/* Drawn in full by default (no JS, reduced motion); JS scales it with scroll. */
+.thread__line {
+  height: 100%;
+  background: repeating-linear-gradient(to bottom, var(--rani) 0 calc(var(--t) * 3), #A0224F calc(var(--t) * 3) calc(var(--t) * 3.3));
+  transform-origin: top;
+}
+.prog { max-width: var(--max); margin: 0 auto; padding: 56px var(--gutter) 40px calc(var(--gutter) + 8px); }
+.prog__head { max-width: 62ch; margin-bottom: 28px; }
+.prog__num { font: 600 .85rem/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--neem); margin-bottom: 14px; }
+.prog--school .prog__num { color: var(--rani); }
+.prog--women .prog__num { color: #9A6A00; }
+.prog__head p:not(.prog__num) { font-size: 1.1rem; }
+.pull { margin: 20px 0 0; padding: 4px 0 4px 18px; border-left: 4px solid var(--marigold); font: 600 1.2rem/1.4 var(--display); }
+.pull p { margin: 0; }
+
+/* Photos are shown plain, at no more than their native width. */
+.m { margin: 0; width: 100%; }
+.m img { width: 100%; max-width: min(100%, var(--native)); }
+.m figcaption { padding: 8px 0 0; font-size: .9rem; color: var(--muted); }
+.mosaic { display: grid; gap: 14px; grid-template-columns: repeat(6, 1fr); }
+.mosaic > .m { grid-column: span 6; }
+.mosaic > .m--c, .mosaic > .m--d { grid-column: span 3; }
+@media (min-width: 900px) {
+  .mosaic { gap: 28px 24px; grid-template-columns: repeat(12, 1fr); align-items: start; }
+  .mosaic--health .m--a { grid-column: 1 / span 4; margin-top: 64px; }
+  .mosaic--health .m--b { grid-column: 5 / span 5; }
+  .mosaic--health .m--c { grid-column: 10 / span 3; margin-top: 120px; }
+  .mosaic--health .m--d { grid-column: 2 / span 4; }
+  .mosaic--health .m--e { grid-column: 6 / span 6; margin-top: 40px; }
+  .mosaic--school .m--a { grid-column: 1 / span 6; }
+  .mosaic--school .m--b { grid-column: 7 / span 4; margin-top: 80px; }
+  .mosaic--school .m--c { grid-column: 2 / span 5; }
+  .mosaic--school .m--d { grid-column: 7 / span 5; margin-top: 40px; }
+  .mosaic--school .m--e { grid-column: 4 / span 4; }
+  .mosaic--women .m--a { grid-column: 1 / span 6; }
+  .mosaic--women .m--b { grid-column: 7 / span 4; margin-top: 70px; }
+  .mosaic--women .m--c { grid-column: 2 / span 4; }
+  .mosaic--women .m--d { grid-column: 6 / span 7; margin-top: 30px; }
+}
+
+/* ---------- Since 1992 ---------- */
+.since { background: var(--khadi-deep); }
+.since__inner { max-width: var(--max); margin: 0 auto; padding: 72px var(--gutter); display: grid; gap: 24px; }
+.since__year {
+  margin: 0;
+  font: 800 clamp(6rem, 3rem + 16vw, 16rem)/.8 var(--display);
+  letter-spacing: -0.05em;
+  /* The year is filled with the durrie itself. */
+  color: var(--indigo);
+  /* Finer threads than the rug (.045em) so the numerals stay legible. */
+  background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * .045em) calc(20 * .045em);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.since__list { list-style: none; margin: 0 0 24px; padding: 0; border-top: 2px solid var(--indigo); }
+.since__list li { display: grid; grid-template-columns: 5.5rem 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(30,36,64,.2); }
+.since__list b { font-family: var(--display); font-size: 1.2rem; }
+@media (min-width: 900px) { .since__inner { grid-template-columns: 5fr 6fr; align-items: center; gap: 56px; } }
+
+/* ---------- Three ways in ---------- */
+.act { max-width: var(--max); margin: 0 auto; padding: 72px var(--gutter) 88px; }
+.act__title { max-width: 18ch; }
+.act__grid { display: grid; gap: 16px; margin-top: 32px; }
+.act__card {
+  background: #FBF7EF;
+  padding: 24px 22px;
+  border-top: 8px solid var(--marigold);
+  box-shadow: 0 1px 0 rgba(30,36,64,.1);
+}
+.act__card:nth-child(2) { border-top-color: var(--rani); }
+.act__card:nth-child(3) { border-top-color: var(--neem); }
+.act__card h2, .act__card h3:first-child { font-size: 1.9rem; }
+.act__card h3 + h3, .act__card p + h3, .act__card .small + h3 { font-size: 1.15rem; margin-top: 1.2em; }
+.tax { color: var(--muted); font-size: .9rem; margin: 18px 0 0; }
+.bank { margin: 0 0 1em; }
+dl.bank div { display: grid; grid-template-columns: 9rem 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(30,36,64,.15); }
+dl.bank dt { color: var(--muted); }
+dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+@media (min-width: 900px) { .act__grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* ---------- Inner pages ---------- */
+.inner { max-width: 880px; margin: 0 auto; padding: 48px var(--gutter) 80px; }
+.inner__head { padding-bottom: 32px; margin-bottom: 40px; border-bottom: 8px solid transparent; border-image: url('/rug.svg') 0 0 30 0 / 0 0 8px 0 round; }
+.inner__head h1 { font-size: clamp(2.2rem, 1.4rem + 4vw, 4rem); }
+.inner__lede { font-size: 1.2rem; max-width: 60ch; }
+.block { margin-bottom: 48px; }
+.block h2 { font-size: clamp(1.7rem, 1.2rem + 2vw, 2.4rem); }
+.big { font: 600 clamp(1.3rem, 1rem + 1.2vw, 1.7rem)/1.35 var(--display); }
+.trustees { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 2px; grid-template-columns: 1fr; }
+.trustees li { display: grid; gap: 2px; padding: 14px 16px; background: #FBF7EF; border-left: 4px solid var(--neem); }
+.trustees li:nth-child(-n+3) { border-left-color: var(--marigold); }
+.trustees__name { font: 700 1.2rem/1.2 var(--display); }
+.trustees__role { color: var(--muted); }
+@media (min-width: 640px) { .trustees { grid-template-columns: 1fr 1fr; } }
+.act__grid--page { margin-top: 0; }
+.page-inner .act__grid--page { grid-template-columns: 1fr; }
+
+/* ---------- Footer ---------- */
+.site-foot { background: var(--indigo); color: var(--khadi); }
+.site-foot__band { height: calc(var(--t) * 2); background: url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); }
+.site-foot__inner { max-width: var(--max); margin: 0 auto; padding: 48px var(--gutter) 24px; display: grid; gap: 28px; }
+.site-foot__name { font: 800 1.8rem/1 var(--display); margin-bottom: 10px; }
+.site-foot__links { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.site-foot__links a { display: inline-block; padding: 6px 0; }
+.site-foot a { text-decoration-color: var(--marigold); overflow-wrap: anywhere; }
+.site-foot__credit { max-width: var(--max); margin: 0 auto; padding: 16px var(--gutter) 28px; font-size: .9rem; color: #C9C2B3; border-top: 1px solid rgba(243,236,223,.15); }
+@media (min-width: 800px) { .site-foot__inner { grid-template-columns: 2fr 2fr 1fr; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; scroll-behavior: auto !important; }
+}

@@ -1,0 +1,182 @@
+{
+  "gallery-81": {
+    "width": 1108,
+    "height": 719,
+    "widths": [
+      360,
+      560,
+      800,
+      1108
+    ],
+    "alt": "Women and two young children sit in a circle on a blue-and-white patterned durrie. A woman in a green kurta is speaking while the others listen; another woman sits on a chair behind them, and a Prayatn banner hangs on the left.",
+    "use": "hero"
+  },
+  "swasthya-kendra-04": {
+    "width": 963,
+    "height": 1280,
+    "widths": [
+      360,
+      560,
+      800,
+      963
+    ],
+    "alt": "A woman in a black abaya stands on a weighing scale at the health centre, beside a health poster.",
+    "use": "health"
+  },
+  "swasthya-kendra-03": {
+    "width": 480,
+    "height": 498,
+    "widths": [
+      360,
+      480
+    ],
+    "alt": "A health worker writes at her desk while a woman in an orange sari sits beside her. Shelves of medicine are behind them.",
+    "use": "health"
+  },
+  "school-health-clinic-15": {
+    "width": 1280,
+    "height": 1280,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "alt": "A health worker fills in yellow health cards at a table while children wait beside her. 'Health check-ups' is chalked on the blackboard behind.",
+    "use": "health"
+  },
+  "school-health-clinic-08": {
+    "width": 825,
+    "height": 770,
+    "widths": [
+      360,
+      560,
+      800,
+      825
+    ],
+    "alt": "A health worker measures a schoolboy's height against the wall of the clinic.",
+    "use": "health"
+  },
+  "school-health-clinic-09": {
+    "width": 1280,
+    "height": 1280,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "alt": "Schoolchildren in uniform crowd together, holding their yellow health cards up high.",
+    "use": "health"
+  },
+  "gallery-53": {
+    "width": 1231,
+    "height": 900,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1231
+    ],
+    "alt": "Children in blue school uniforms read picture books at long tables in the school library.",
+    "use": "school"
+  },
+  "gallery-47": {
+    "width": 1135,
+    "height": 960,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1135
+    ],
+    "alt": "Children in woollen caps and school sweaters work at computers in the computer lab.",
+    "use": "school"
+  },
+  "gallery-44": {
+    "width": 782,
+    "height": 670,
+    "widths": [
+      360,
+      560,
+      782
+    ],
+    "alt": "A teacher pins a chart of Hindi punctuation marks to the blackboard.",
+    "use": "school"
+  },
+  "gallery-58": {
+    "width": 1216,
+    "height": 900,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1216
+    ],
+    "alt": "Four children in woolly hats hold up the colourful paper wheels they have made.",
+    "use": "school"
+  },
+  "gallery-51": {
+    "width": 713,
+    "height": 545,
+    "widths": [
+      360,
+      560,
+      713
+    ],
+    "alt": "Rows of children in the school yard stretch their arms above their heads during morning exercise.",
+    "use": "school"
+  },
+  "gallery-79": {
+    "width": 793,
+    "height": 515,
+    "widths": [
+      360,
+      560,
+      793
+    ],
+    "alt": "Women sit on a patterned rug in a small room for a training session, with a Prayatn banner on the wall.",
+    "use": "women"
+  },
+  "women-development-26": {
+    "width": 669,
+    "height": 567,
+    "widths": [
+      360,
+      560,
+      669
+    ],
+    "alt": "Women sit together on striped rugs on an office floor, in discussion.",
+    "use": "women"
+  },
+  "gallery-74": {
+    "width": 1204,
+    "height": 1204,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1204
+    ],
+    "alt": "At a desk, a man in a white shirt talks with two women seated across from him.",
+    "use": "women"
+  },
+  "gallery-86": {
+    "width": 1108,
+    "height": 719,
+    "widths": [
+      360,
+      560,
+      800,
+      1108
+    ],
+    "alt": "A large group of women sit on the grass of an open ground, facing a speaker.",
+    "use": "women"
+  }
+}

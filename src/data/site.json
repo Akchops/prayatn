@@ -1,0 +1,19 @@
+{
+  "_comment": "Every value here must match a CONFIRMED or OLD SITE row in docs/VERIFIED-FACTS.md.",
+  "name": "Prayatn",
+  "founded": 1992,
+  "address": ["E-103, Kalkaji", "New Delhi – 110019"],
+  "phones": ["011-26415831", "011-26415832"],
+  "email": "prayatn_1994@yahoo.co.in",
+  "chequePayee": "Cheque to be drawn in favour of Prayatn, New Delhi.",
+  "taxLine": "Donations to Prayatn are exempt under section 80G of the Income Tax Act 1961.",
+  "bank": null,
+  "_bank_example": {
+    "accountName": "",
+    "accountNumber": "",
+    "ifsc": "",
+    "bank": "",
+    "branch": ""
+  },
+  "credit": "Aarav Chopra"
+}

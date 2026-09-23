@@ -1,0 +1,5 @@
+node_modules/
+dist/
+qa-run/
+.DS_Store
+public/img/
