@@ -13,9 +13,21 @@ npm run preview    # http://localhost:4173
 npm run budget     # first-load gate (100 kB gzip)
 ```
 
-To check the site without a server, run `npm run preview-files` after the
-build. It writes single-file copies of the three pages into `preview/`. Each
-opens straight from disk and is marked "Pre-launch preview".
+## See it with every animation running
+
+**Online preview (recommended).** `.github/workflows/preview.yml` builds a
+pre-launch copy (noindex, with a "Pre-launch preview" bar) on every push. To
+publish it, switch on GitHub Pages once: repository **Settings → Pages →
+Build and deployment → Source: GitHub Actions**. The preview then appears at
+`https://<owner>.github.io/prayatn/`. GitHub Pages on a private repository
+needs a paid plan.
+
+**On your computer.** `npm install && npm run build && npm run preview`, then
+open http://localhost:4173.
+
+**Single files.** `npm run preview-files` writes self-contained copies of every
+page into `preview/`. Open them in Chrome, Safari or Firefox. Some in-app file
+viewers block scripts; there you will only see the still version.
 
 `dist/` is a plain static site and can be served by any host. Point 404s at `/404.html`.
 
@@ -31,6 +43,8 @@ opens straight from disk and is marked "Pre-launch preview".
 | `src/data/photos.json` | which photos are used, alt text, crops |
 | `uploads/` | the owner's photos (the only image source) |
 | `src/weave/` | The Weave: probe, WebGL tier, Canvas 2D tier, scroll layer |
+| `src/ui.js`, `src/motion.js` | gallery filter, lightbox, map, project previews; reveals and the photo strip |
+| pages | `/`, `/about/`, `/healthcare/`, `/education/`, `/women-development/`, `/gallery/`, `/get-involved/`, `/404.html` |
 
 ## Adding the bank details
 

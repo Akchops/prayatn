@@ -54,13 +54,17 @@ export function create(canvas, img) {
     },
     render(phs) {
       if (!geom) return;
-      const { t, frame: f, width: W } = geom;
+      const { t, width: W } = geom;
+      const F = geom.frame, C = geom.cover, k0 = phs.shrink;
+      // The photo's current rect: full-bleed at the start, its frame at the end of beat 1.
+      const f = { x: C.x + (F.x - C.x) * k0, y: C.y + (F.y - C.y) * k0, w: C.w + (F.w - C.w) * k0, h: C.h + (F.h - C.h) * k0 };
       const px = data.data;
-      const width = 0.42 + 0.58 * phs.tight;
-      const widthOut = width + (0.6 - width) * phs.hand;
-      const amp = (1 - phs.tight) * f.h * 0.6;
+      const width = 0.42 + 0.58 * phs.tight;           // the photo's threads close on load
+      const widthOut = 1 + (0.6 - 1) * phs.hand;       // the rug's warp relaxes at the handoff
+      const amp = (1 - phs.tight) * f.h * 0.25;
       const keepIn = 1 - phs.resolve;
       const keepOut = 1 - phs.hand;
+      const dim = phs.dim;
       const fx0 = f.x, fy0 = f.y, fx1 = f.x + f.w, fy1 = f.y + f.h;
       const sx = pw / f.w, sy = ph / f.h;
 
@@ -90,10 +94,10 @@ export function create(canvas, img) {
         for (let s2 = 0; s2 < S; s2++) {
           const fy = (s2 + 0.5) / S;
           const y = (j + fy) * t;
-          const wy = (fy - 0.5) / width + 0.5;
+          const rowIn = y >= fy0 && y < fy1;
+          const wy = (fy - 0.5) / (rowIn ? width : 1) + 0.5;
           const onWeftBody = wy > 0 && wy < 1;
           const weftShade = 0.72 + 0.28 * Math.sin(Math.PI * Math.min(1, Math.max(0, wy)));
-          const rowIn = y >= fy0 && y < fy1;
           let o = (j * S + s2) * buf.width * 4;
           for (let i = 0; i < cols; i++) {
             const top = warpOnTop(i, j);
@@ -103,7 +107,7 @@ export function create(canvas, img) {
               const x = (i + (s + 0.5) / S) * t;
               const inFrame = rowIn && x >= fx0 && x < fx1;
               const onWarp = inFrame ? onIn[s] : onOut[s];
-              const onWeft = onWeftBody && x < (inFrame ? head : outLimit);
+              const onWeft = onWeftBody && (inFrame || x < outLimit);
               let r = GROUND[0], g = GROUND[1], bl = GROUND[2], shade = 1;
               if (onWarp && (top || !onWeft)) {
                 if (inFrame) { const k = (vWarp * pw + uCol) * 4; r = photo[k]; g = photo[k + 1]; bl = photo[k + 2]; }
@@ -116,7 +120,8 @@ export function create(canvas, img) {
                 } else { r = rc[0]; g = rc[1]; bl = rc[2]; }
                 shade = weftShade;
               }
-              const m = 1 + (shade - 1) * (inFrame ? keepIn : keepOut);
+              let m = 1 + (shade - 1) * (inFrame ? keepIn : keepOut);
+              if (inFrame) m *= dim;
               px[o] = r * m; px[o + 1] = g * m; px[o + 2] = bl * m; px[o + 3] = 255;
             }
           }
@@ -126,9 +131,10 @@ export function create(canvas, img) {
       const d = geom.dpr;
       ctx.imageSmoothingEnabled = false;
       ctx.drawImage(buf, 0, 0, cols * t * d, rows * t * d);
-      // The resolve: the real photograph, drawn over its frame at full detail.
+      // The resolve: the real photograph over its frame at full detail (only
+      // once the rect has reached its native-size frame).
       if (phs.resolve > 0) {
-        ctx.globalAlpha = phs.resolve;
+        ctx.globalAlpha = phs.resolve * dim;
         ctx.imageSmoothingEnabled = true;
         ctx.drawImage(img, f.x * d, f.y * d, f.w * d, f.h * d);
         ctx.globalAlpha = 1;

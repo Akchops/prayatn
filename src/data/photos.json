@@ -62,5 +62,189 @@
   "gallery-86": {
     "use": "women",
     "alt": "A large group of women sit on the grass of an open ground, facing a speaker."
+  },
+  "school-health-clinic-12": {
+    "use": "health",
+    "alt": "Three young schoolchildren hold their yellow health cards as they wait their turn on the weighing scale."
+  },
+  "school-health-clinic-14": {
+    "use": "health",
+    "alt": "A health worker reads a boy's card as he stands on the scale, with a queue of children behind him."
+  },
+  "school-health-clinic-16": {
+    "use": "health",
+    "alt": "A health worker talks with a mother and her son across a table during a health and hygiene session."
+  },
+  "school-health-clinic-17": {
+    "use": "health",
+    "alt": "Mothers and children sit together on the floor of a classroom for a health session."
+  },
+  "school-health-clinic-19": {
+    "use": "health",
+    "alt": "A large group of women seated on the floor listen during a health session in a classroom."
+  },
+  "school-health-clinic-20": {
+    "use": "health",
+    "alt": "A health worker gives a deworming tablet to a small boy at the clinic, with another child waiting beside him."
+  },
+  "school-health-clinic-22": {
+    "use": "health",
+    "alt": "Schoolchildren line up holding deworming tablets and water bottles in front of a health worker."
+  },
+  "gallery-52": {
+    "use": "school",
+    "alt": "Children in blue uniforms make colourful \"MOM\" cards with paper, clay and pens at a classroom table."
+  },
+  "gallery-55": {
+    "use": "school",
+    "alt": "Students wearing sashes and holding gifts stand beside a teacher at an end-of-year farewell."
+  },
+  "gallery-57": {
+    "use": "school",
+    "alt": "Students in sports kit stand in rows on a sunny sports ground."
+  },
+  "gallery-59": {
+    "use": "school",
+    "alt": "Schoolchildren explore an interactive screen on a science museum visit."
+  },
+  "gallery-60": {
+    "use": "school",
+    "alt": "A young boy holds up his paper bicycle at a pre-primary competition."
+  },
+  "gallery-62": {
+    "use": "school",
+    "alt": "A class of children with medals sits together on sports day."
+  },
+  "gallery-63": {
+    "use": "school",
+    "alt": "Four young children in costume hold Indian flags in front of a Republic Day blackboard."
+  },
+  "gallery-69": {
+    "use": "school",
+    "alt": "A teacher stands with a class of children holding up the paper houses they made."
+  },
+  "gallery-48": {
+    "use": "school",
+    "alt": "Teachers hand out certificates in a classroom on certificate distribution day."
+  },
+  "gallery-50": {
+    "use": "school",
+    "alt": "A boy receives a certificate from a group of teachers and visitors."
+  },
+  "women-development-23": {
+    "use": "women",
+    "alt": "Women meet around desks in a room lined with hand-drawn posters."
+  },
+  "women-development-24": {
+    "use": "women",
+    "alt": "A woman in a red dupatta sits across the desk from a staff member taking notes."
+  },
+  "women-development-25": {
+    "use": "women",
+    "alt": "Three women talk across a desk in an office."
+  },
+  "women-development-27": {
+    "use": "women",
+    "alt": "At a desk under hand-drawn posters, a lawyer listens to a woman and takes notes."
+  },
+  "women-development-28": {
+    "use": "women",
+    "alt": "A woman and a staff member meet a lawyer at the Legal Help Desk."
+  },
+  "women-development-29": {
+    "use": "women",
+    "alt": "In a lane, a man in a suit talks with a group of women seated along the wall."
+  },
+  "women-development-30": {
+    "use": "women",
+    "alt": "Women gather under a red tent for a legal awareness camp organised by Prayatn."
+  },
+  "women-development-31": {
+    "use": "women",
+    "alt": "Three women sit in conversation in a meeting room."
+  },
+  "women-development-33": {
+    "use": "women",
+    "alt": "Women sit in a circle on bright patterned rugs, talking together."
+  },
+  "women-development-34": {
+    "use": "women",
+    "alt": "Women sit together on a patterned rug in a small office."
+  },
+  "gallery-42": {
+    "use": "women",
+    "alt": "A large group of women seated on the floor attend a meeting in a school room."
+  },
+  "gallery-61": {
+    "use": "women",
+    "alt": "Women sit around a long table during a training session."
+  },
+  "gallery-68": {
+    "use": "women",
+    "alt": "Young women with notebooks and water bottles sit around a table in a training room."
+  },
+  "gallery-70": {
+    "use": "women",
+    "alt": "Family members meet a lawyer at a desk."
+  },
+  "gallery-73": {
+    "use": "women",
+    "alt": "Women and men sit in a room for a follow-up meeting organised by Prayatn."
+  },
+  "gallery-75": {
+    "use": "women",
+    "alt": "Two men consult a lawyer at the Legal Help Desk."
+  },
+  "gallery-76": {
+    "use": "women",
+    "alt": "Women and children sit on the floor of an office for a legal awareness session."
+  },
+  "gallery-77": {
+    "use": "women",
+    "alt": "A group of women and a girl stand together holding small certificates."
+  },
+  "gallery-78": {
+    "use": "women",
+    "alt": "Women sit in a circle on a rug, deep in discussion."
+  },
+  "gallery-82": {
+    "use": "women",
+    "alt": "Women seated on chairs and on the floor talk together in an office."
+  },
+  "gallery-83": {
+    "use": "women",
+    "alt": "Women and children gather outside a house for a legal awareness meeting in the lane."
+  },
+  "gallery-84": {
+    "use": "women",
+    "alt": "Women sit close together on a rug, one reading from a register."
+  },
+  "gallery-85": {
+    "use": "women",
+    "alt": "A woman stands to speak to a room full of women seated on rugs."
+  },
+  "gallery-41": {
+    "use": "events",
+    "alt": "Guests seated in the school courtyard at an annual function."
+  },
+  "gallery-65": {
+    "use": "events",
+    "alt": "Guests on a row of chairs in the school courtyard at an event."
+  },
+  "gallery-67": {
+    "use": "events",
+    "alt": "A group of guests stands together in a school corridor."
+  },
+  "gallery-46": {
+    "use": "events",
+    "alt": "Parents seated in a classroom for a meeting."
+  },
+  "gallery-49": {
+    "use": "events",
+    "alt": "Parents and children gather in a school hall for a meeting."
+  },
+  "gallery-72": {
+    "use": "events",
+    "alt": "A woman receives a certificate from two men in a classroom."
   }
 }

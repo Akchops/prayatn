@@ -15,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 export async function start(section) {
   const stage = section.querySelector('.weave__stage');
   const frame = section.querySelector('.weave__frame');
+  const introEl = section.querySelector('.weave__intro');
   const img = section.querySelector('.weave__photo img');
   if (!stage || !frame || !img) return;
 
@@ -43,15 +44,21 @@ export async function start(section) {
   let geom = null;
   let progress = 0;          // what is drawn
   let goal = 0;              // where the scroll says we should be
+  let intro = 0.55;          // load intro: the photo's threads settle from loose to tight
+  let introT0 = 0;
   let raf = 0;
+  const aspect = img.naturalWidth / img.naturalHeight;
 
   function measure() {
     const s = stage.getBoundingClientRect();
     const f = frame.getBoundingClientRect();
     const t = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--t')) || 10;
+    // The opening rect: the photo scaled to cover the whole stage.
+    const cw = Math.max(s.width, s.height * aspect), ch = cw / aspect;
     geom = {
       width: s.width, height: s.height, t,
       frame: { x: f.left - s.left, y: f.top - s.top, w: f.width, h: f.height },
+      cover: { x: (s.width - cw) / 2, y: (s.height - ch) / 2, w: cw, h: ch },
     };
     renderer.resize(geom);
   }
@@ -80,21 +87,30 @@ export async function start(section) {
 
   function draw() {
     if (retired) return;
-    const ph = phases(progress);
+    const ph = phases(progress, intro);
     const t0 = performance.now();
     renderer.render(ph);
     watch(performance.now() - t0);
     section.style.setProperty('--caption', ph.caption.toFixed(3));
-    section.style.setProperty('--hint', ph.hint.toFixed(3));
+    section.style.setProperty('--intro-out', ph.introOut.toFixed(3));
+    section.style.setProperty('--label-in', ph.labelIn.toFixed(3));
+    // Once the title has gone, it must not catch clicks meant for the scene.
+    introEl?.toggleAttribute('data-gone', ph.introOut > 0.95);
   }
 
   // Scroll sets the goal; this loop eases towards it and stops when it
   // arrives, so nothing renders while the page is still.
-  function tick() {
+  function tick(now) {
     const d = goal - progress;
     progress = Math.abs(d) < 0.0005 ? goal : progress + d * 0.2;
+    // Load intro: 1.4s ease-out from loose to tight, whatever the scroll does.
+    if (intro < 1) {
+      if (!introT0) introT0 = now;
+      const k = Math.min(1, (now - introT0) / 1400);
+      intro = 0.55 + 0.45 * (1 - Math.pow(1 - k, 3));
+    }
     draw();
-    raf = progress === goal ? 0 : requestAnimationFrame(tick);
+    raf = progress === goal && intro >= 1 ? 0 : requestAnimationFrame(tick);
   }
   const kick = () => { if (!raf && !retired) raf = requestAnimationFrame(tick); };
 
@@ -121,14 +137,16 @@ export async function start(section) {
     section.classList.add('is-weaving');
     measure();
     draw();
+    kick();                                        // starts the load intro
 
     const st = ScrollTrigger.create({
       trigger: stage,
       start: () => `top ${headH()}px`,
       // 3 beats x beatPx(): desktop 3 x 700 = 2100px, phone 3 x 420 = 1260px.
-      //   beat 1: the weft shuttles through the loose warp, row by row
-      //   beat 2: the threads tighten and slide into register; the photo appears
-      //   beat 3: the photo resolves, the caption lands, the rug's weft withdraws
+      //   beat 1: the title lifts; the full-bleed photo contracts into its frame
+      //           while the durrie is woven in around it
+      //   beat 2: the label arrives; the photo resolves from threads to detail
+      //   beat 3: the caption holds; the rug's weft withdraws into the next section
       end: () => '+=' + BEATS * beatPx(),
       pin: true,
       invalidateOnRefresh: true,
@@ -141,8 +159,7 @@ export async function start(section) {
       cancelAnimationFrame(raf); raf = 0;
       target.remove();
       section.classList.remove('is-weaving');
-      section.style.removeProperty('--caption');
-      section.style.removeProperty('--hint');
+      for (const v of ['--caption', '--intro-out', '--label-in']) section.style.removeProperty(v);
     };
   });
 

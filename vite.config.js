@@ -3,6 +3,14 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const root = import.meta.dirname;
+// BASE: where the site is served from ("/" for the real domain, "/prayatn/"
+// for a GitHub Pages preview). PREVIEW: adds noindex and a preview bar.
+const BASE = process.env.BASE || '/';
+const PREVIEW = Boolean(process.env.PREVIEW);
+const withBase = (html) => BASE === '/' ? html : html
+  .replace(/(href|src|data-preview)="\/(?!\/|src\/)/g, `$1="${BASE}`)
+  .replace(/(srcset|imagesrcset)="([^"]*)"/g, (m, a, v) => `${a}="${v.replace(/(^|, )\//g, `$1${BASE}`)}"`)
+  .replace(/url\('\/(?!\/)/g, `url('${BASE}`);
 const read = (p) => readFileSync(resolve(root, p), 'utf8');
 const json = (p) => JSON.parse(read(p));
 
@@ -21,6 +29,20 @@ function picture(name, attrs, images) {
   const fallback = im.widths.find((w) => w >= 800) ?? im.widths.at(-1);
   const loading = a.loading ?? 'lazy';
   return `<picture class="${esc(a.class ?? 'photo')}"><source type="image/avif" srcset="${set('avif')}" sizes="${sizes}"><img src="/img/${name}-${fallback}.jpg" srcset="${set('jpg')}" sizes="${sizes}" width="${im.width}" height="${im.height}" alt="${esc(im.alt)}" loading="${loading}" decoding="async"${a.fetchpriority ? ` fetchpriority="${a.fetchpriority}"` : ''} style="--native:${im.width}px"${a.id ? ` id="${a.id}"` : ''}></picture>`;
+}
+
+const CATS = { health: 'Healthcare', school: 'Education', women: 'Women development', events: 'Events' };
+
+// A grid of every photo in a category (or all of them, grouped), each with its
+// description as the caption. Figures carry data-cat for the gallery filter.
+function gallery(which, images) {
+  const names = Object.keys(images).filter((n) => images[n].use !== 'hero' && (which === 'all' || images[n].use === which));
+  const fig = (n) => `<figure class="g-item" data-cat="${images[n].use}">${picture(n, 'sizes="(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw"', images)}<figcaption>${esc(images[n].alt)}</figcaption></figure>`;
+  if (which !== 'all') return `<div class="g-grid">${names.map(fig).join('')}</div>`;
+  return Object.entries(CATS).map(([cat, label]) => {
+    const list = names.filter((n) => images[n].use === cat);
+    return `<section class="g-group" data-cat="${cat}" aria-labelledby="g-${cat}"><h2 id="g-${cat}" class="g-group__title">${label}</h2><div class="g-grid">${list.map(fig).join('')}</div></section>`;
+  }).join('');
 }
 
 function bankBlock(site) {
@@ -57,17 +79,26 @@ function templates() {
           cheque: esc(site.chequePayee),
           taxLine: esc(site.taxLine),
           credit: esc(site.credit),
+          tagline: esc(site.tagline),
+          blurb: esc(site.blurb),
           bank: bankBlock(site),
         };
         const fill = (s) => s
           .replace(/<!--@(\w+)-->/g, (_, p) => fill(read(`src/partials/${p}.html`)))
           .replace(/\{\{img ([\w-]+)([^}]*)\}\}/g, (_, n, a) => picture(n, a, images))
+          .replace(/\{\{gallery ([\w-]+)\}\}/g, (_, w) => gallery(w, images))
+          .replace(/\{\{weave ([\w-]+)\}\}/g, (_, n) => { if (!images[n]) throw new Error(`{{weave ${n}}}: unknown photo`); return `--weave-img:url('/img/${n}-weave.png');--weave-rows:${images[n].rows}`; })
           .replace(/\{\{(\w+)\}\}/g, (m, k) => {
             if (!(k in vars)) throw new Error(`Unknown template variable ${m} in ${ctx.path}`);
             return vars[k];
           })
           .replace(/ data-nav="(\w+)"/g, (_, n) => (n === page ? ' aria-current="page"' : ''));
-        return fill(html);
+        let out = withBase(fill(html));
+        if (PREVIEW) {
+          out = out.replace('<head>', '<head>\n    <meta name="robots" content="noindex, nofollow">')
+            .replace(/<body([^>]*)>/, '<body$1>\n    <div class="preview-bar">Pre-launch preview · not the live site</div>');
+        }
+        return out;
       },
     },
     handleHotUpdate({ file, server }) {
@@ -77,6 +108,7 @@ function templates() {
 }
 
 export default defineConfig({
+  base: BASE,
   plugins: [templates()],
   build: {
     target: 'es2019',
@@ -85,6 +117,10 @@ export default defineConfig({
         home: resolve(root, 'index.html'),
         about: resolve(root, 'about/index.html'),
         involved: resolve(root, 'get-involved/index.html'),
+        healthcare: resolve(root, 'healthcare/index.html'),
+        education: resolve(root, 'education/index.html'),
+        women: resolve(root, 'women-development/index.html'),
+        gallery: resolve(root, 'gallery/index.html'),
         notfound: resolve(root, '404.html'),
       },
     },

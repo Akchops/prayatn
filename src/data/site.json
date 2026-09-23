@@ -2,8 +2,14 @@
   "_comment": "Every value here must match a CONFIRMED or OLD SITE row in docs/VERIFIED-FACTS.md.",
   "name": "Prayatn",
   "founded": 1992,
-  "address": ["E-103, Kalkaji", "New Delhi – 110019"],
-  "phones": ["011-26415831", "011-26415832"],
+  "address": [
+    "E-103, G.F., Kalkaji",
+    "New Delhi – 110019"
+  ],
+  "phones": [
+    "011-26415831",
+    "011-26415832"
+  ],
   "email": "prayatn_1994@yahoo.co.in",
   "chequePayee": "Cheque to be drawn in favour of Prayatn, New Delhi.",
   "taxLine": "Donations to Prayatn are exempt under section 80G of the Income Tax Act 1961.",
@@ -15,5 +21,7 @@
     "bank": "",
     "branch": ""
   },
-  "credit": "Aarav Chopra"
+  "credit": "Aarav Chopra",
+  "tagline": "A Developmental Effort",
+  "blurb": "A registered Public Charitable Trust working for the disadvantaged sections of the society since 1992. Empowering communities through education, healthcare, and women development."
 }

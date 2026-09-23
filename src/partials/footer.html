@@ -1,22 +1,49 @@
 <footer class="site-foot">
       <div class="site-foot__band" aria-hidden="true"></div>
       <div class="site-foot__inner">
-        <div>
-          <p class="site-foot__name">Prayatn</p>
-          <p>A registered Public Charitable Trust, working with the disadvantaged sections of society since {{founded}}.</p>
+        <div class="foot-brand">
+          <img class="foot-brand__logo" src="/logo-khadi.png" width="219" height="231" alt="Prayatn">
+          <p class="foot-brand__tag">{{tagline}}</p>
+          <p>{{blurb}}</p>
         </div>
-        <address>
-          {{address}}<br>
-          <a href="{{tel1}}">{{phone1}}</a>, <a href="{{tel2}}">{{phone2}}</a><br>
-          <a href="mailto:{{email}}">{{email}}</a>
-        </address>
-        <ul class="site-foot__links">
-          <li><a href="/#work">Our work</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/get-involved/#donate">Donate</a></li>
-          <li><a href="/get-involved/#volunteer">Volunteer</a></li>
-          <li><a href="/get-involved/#contact">Contact</a></li>
-        </ul>
+        <nav class="foot-col" aria-label="Quick links">
+          <h2 class="foot-col__title">Quick links</h2>
+          <ul>
+            <li><a href="/about/">About us</a></li>
+            <li><a href="/healthcare/">Healthcare</a></li>
+            <li><a href="/education/">Education</a></li>
+            <li><a href="/women-development/">Women development</a></li>
+            <li><a href="/gallery/">Gallery</a></li>
+            <li><a href="/about/#trustees">Trustees</a></li>
+            <li><a href="/get-involved/">Get involved</a></li>
+          </ul>
+        </nav>
+        <div class="foot-col">
+          <h2 class="foot-col__title">Our projects</h2>
+          <ul>
+            <li><a href="/healthcare/#swaasthya-kendra">Swaasthya Kendra</a></li>
+            <li><a href="/healthcare/#school-health">School Health Program</a></li>
+            <li><a href="/education/#seth-vidyalaya">Seth Vidyalaya</a></li>
+            <li><a href="/education/#scholarship">Scholarship Scheme for Students</a></li>
+            <li><a href="/women-development/#mahila-panchayat">Mahila Panchayat</a></li>
+            <li><a href="/women-development/#legal-help-desk">Legal Help Desk</a></li>
+            <li><a href="/women-development/#gbv">Addressing GBV in Communities</a></li>
+          </ul>
+        </div>
+        <div class="foot-col foot-col--contact">
+          <h2 class="foot-col__title">Find us</h2>
+          <address>
+            {{address}}<br>
+            Tel: <a href="{{tel1}}">{{phone1}}</a>, <a href="{{tel2}}">{{phone2}}</a><br>
+            <a href="mailto:{{email}}">{{email}}</a>
+          </address>
+          <div class="map" data-map>
+            <a class="map__open" href="https://www.google.com/maps/search/?api=1&amp;query=E-103%2C%20Kalkaji%2C%20New%20Delhi%20110019" target="_blank" rel="noopener">Open in Google Maps ↗</a>
+          </div>
+        </div>
       </div>
-      <p class="site-foot__credit">© {{year}} Prayatn · Made by {{credit}}</p>
+      <div class="site-foot__base">
+        <p>© {{year}} Prayatn · {{tagline}}</p>
+        <p>Made by {{credit}}</p>
+      </div>
     </footer>

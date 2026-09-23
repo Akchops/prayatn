@@ -5,17 +5,28 @@ Run on 2026-09-23 against the production build (`npm run build`, served by
 the full 54-capture run is reproduced by
 `node scripts/motion-qa.mjs http://localhost:4173 --out ./qa-run --settle 1000`.
 
-## immersive-motion-qa
+## immersive-motion-qa (rerun after the rework, 2026-09-23)
 
 ```
 VERDICT: PASS
-SIGNATURE: 2 — An object assembling under scroll. "The Weave": the hero photograph (uploads/gallery-81.jpg, a Mahila Panchayat circle) is woven from its own ikat-dyed threads under pinned scroll. Loose, mis-registered warp threads, then the weft shuttling through row by row in a chevron twill, then the threads tightening and sliding into register until the photo resolves. The rug's weft then withdraws, and the bare warp continues as the threads of the next section. — Home, first screen (section.weave, pinned 3 × beatPx) — docs/qa/weave-320-webgl.jpg and docs/qa/weave-320-canvas2d.jpg: eight captures at 0, 15, 30, 45, 60, 72, 85 and 100% of the pin, each a different mid-assembly state of the same element; matrix frames laptop/0pct vs laptop/12_5pct (loose warp → half-woven photo) and modern-phone/0pct vs 12_5pct.
+SIGNATURE: 5 — A full-screen morph between sections. "The Weave": the opening screen is the Mahila Panchayat photo (uploads/gallery-81.jpg) woven full-bleed behind the PRAYATN title; its threads settle into register on load. Under pinned scroll the title lifts away, the photo contracts from full-bleed into its native-size frame while a durrie is woven in around it row by row, the label arrives, the photo resolves from threads to full detail, and the rug's weft withdraws into the warp threads of the next section. — Home, first screen (section.weave, pinned 3 × beatPx) — docs/qa/weave-320-webgl.jpg (WebGL, 8 pin positions + context loss), docs/qa/weave-390-canvas2d.jpg, docs/qa/weave-1440-canvas2d.jpg; every consecutive pair shows the same element mid-transformation.
 MATRIX: 54/54 captured, console clean, network clean (0 console errors, 0 page errors, 0 failed requests, 0 warnings)
-REDUCED MOTION: No pin and no canvas. The finished composition is shown statically: the photo on the woven rug with its caption and all text. Visible text 2,646 chars and 15 images, identical to the no-WebGL pass. The thread line is drawn in full. docs/qa/reduced-motion-390.jpg.
-NO WEBGL: Tier 2 (Canvas 2D) renders the same assembly behaviour. Console clean, no black rectangle. docs/qa/no-webgl-390.jpg. A forced WEBGL_lose_context mid-scroll hands tier 1 over to tier 2 at the same progress with no errors (docs/qa/boundary-and-context-loss-320.jpg, right).
-NO JS: Every heading, paragraph, photo, label, phone number, email and the donate text is present and readable. The hero shows the static rug with the photo (tier 3, in the HTML). docs/qa/no-js-390.jpg.
-320px: The signature runs in full at 320×568 in both tier 1 (WebGL) and tier 2 (Canvas 2D), with the label, the frame (288×187) and the caption all inside the pinned viewport. Captured at eight pin positions per tier (docs/qa/weave-320-*.jpg). The pin releases into the next section with the warp threads continuing across the boundary (docs/qa/boundary-and-context-loss-320.jpg, left).
+REDUCED MOTION: No pin, canvas, GSAP or reveals. The title screen on its woven-photo background, then the photo framed on the rug, then every section static. 4,291 chars of text, 28 images. docs/qa/reduced-motion-390.jpg.
+NO WEBGL: Tier 2 (Canvas 2D) plays the same sequence. Console clean. docs/qa/no-webgl-390.jpg. Forcing WEBGL_lose_context mid-scroll hands over to tier 2 at the same progress with no errors.
+NO JS: Every heading, paragraph, photo, project, phone number, the donate text and the footer are present. The hero shows the title over the woven photo, then the framed photo (tier 3, in the HTML). docs/qa/no-js-390.jpg.
+320px: The signature runs in full at 320×568 in WebGL and Canvas 2D; title, label, frame and caption fit the pinned stage (docs/qa/weave-320-webgl.jpg, docs/qa/matrix-320.jpg).
 ```
+
+Motion beyond the signature:
+- The PRAYATN letters rise in on load.
+- Headings rise out of a mask.
+- Photos are uncovered by six withdrawing "weft" slats.
+- The projects index slides a band of durrie behind the hovered row, and a photo follows the pointer.
+- "Days at Prayatn" drifts sideways with scroll.
+- The rani thread draws down through the programmes.
+- 34 years counts up.
+- Nav links underline with a three-colour thread.
+- Pages cross-fade (View Transitions).
 
 ## web-visual-qa punch list
 
@@ -51,9 +62,9 @@ Checked and passing:
 
 | | Phone 390×844 (DPR 2.6) | Laptop 1440×900 |
 |---|---|---|
-| **First load (gate): HTML + render-blocking CSS + entry JS, gzip** | **10.0 kB** (limit 100 kB) | same |
-| First view, everything on the wire | 357 kB (images 221, fonts 73, lazy JS 54, HTML/CSS 9) | 384 kB |
-| After scrolling the whole page | 720 kB | 522 kB |
+| **First load (gate): HTML + render-blocking CSS + entry JS, gzip** | **14.8 kB** home (limit 100 kB); ≤ 15.3 kB on every page | same |
+| First view, everything on the wire | 327 kB (images 183, fonts 73, lazy JS 57, HTML/CSS 14) | 288 kB |
+| After scrolling the whole home page | 1,212 kB (31 photos) | 732 kB |
 
 GSAP + ScrollTrigger (45 kB gzip) and the weave renderers (6.6 kB) are dynamic
 imports and never load under reduced motion. The site does not use three.js at all.

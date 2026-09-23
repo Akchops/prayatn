@@ -40,13 +40,22 @@ for (const name of Object.keys(photos)) {
   for (const w of widths) {
     const base = join(out, `${name}-${w}`);
     if (!existsSync(`${base}.avif`) || crop) {
-      await src.clone().resize({ width: w }).avif({ quality: 52, effort: 6 }).toFile(`${base}.avif`);
+      await src.clone().resize({ width: w }).avif({ quality: 52, effort: 4 }).toFile(`${base}.avif`);
     }
     if (!existsSync(`${base}.jpg`) || crop) {
       await src.clone().resize({ width: w }).jpeg({ quality: 74, mozjpeg: true, progressive: true }).toFile(`${base}.jpg`);
     }
   }
-  manifest[name] = { width, height, widths, alt: photos[name].alt, use: photos[name].use };
+  // A thread-resolution copy: 160 threads across, an even number of rows,
+  // for the woven-photo backgrounds (.woven). Shown with image-rendering:
+  // pixelated at exactly one pixel per thread, so it reads as cloth, never as
+  // a blurry upscale.
+  const rows = Math.max(2, Math.round((160 * height) / width / 2) * 2);
+  const weave = join(out, `${name}-weave.png`);
+  if (!existsSync(weave) || crop) {
+    await src.clone().resize(160, rows, { fit: 'cover' }).png({ palette: true, colours: 96, dither: 0 }).toFile(weave);
+  }
+  manifest[name] = { width, height, widths, rows, alt: photos[name].alt, use: photos[name].use };
 }
 
 writeFileSync(join(root, 'src/data/images.json'), JSON.stringify(manifest, null, 2) + '\n');

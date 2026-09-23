@@ -8,6 +8,7 @@
       800,
       1108
     ],
+    "rows": 104,
     "alt": "Women and two young children sit in a circle on a blue-and-white patterned durrie at a Mahila Panchayat meeting. A woman in a green kurta is speaking while the others listen; another woman sits on a chair behind them, and a Prayatn Mahila Panchayat banner hangs on the left.",
     "use": "hero"
   },
@@ -20,6 +21,7 @@
       800,
       963
     ],
+    "rows": 212,
     "alt": "A woman in a black abaya stands on a weighing scale at the health centre, beside a health poster.",
     "use": "health"
   },
@@ -30,6 +32,7 @@
       360,
       480
     ],
+    "rows": 166,
     "alt": "A health worker writes at her desk while a woman in an orange sari sits beside her. Shelves of medicine are behind them.",
     "use": "health"
   },
@@ -43,6 +46,7 @@
       1108,
       1280
     ],
+    "rows": 160,
     "alt": "A health worker fills in yellow health cards at a table while children wait beside her. 'Health check-ups' is chalked on the blackboard behind.",
     "use": "health"
   },
@@ -55,6 +59,7 @@
       800,
       825
     ],
+    "rows": 150,
     "alt": "A health worker measures a schoolboy's height against the wall of the clinic.",
     "use": "health"
   },
@@ -68,6 +73,7 @@
       1108,
       1280
     ],
+    "rows": 160,
     "alt": "Schoolchildren in uniform crowd together, holding their yellow health cards up high.",
     "use": "health"
   },
@@ -81,6 +87,7 @@
       1108,
       1231
     ],
+    "rows": 116,
     "alt": "Children in blue school uniforms read picture books at long tables in the school library.",
     "use": "school"
   },
@@ -94,6 +101,7 @@
       1108,
       1135
     ],
+    "rows": 136,
     "alt": "Children in woollen caps and school sweaters work at computers in the computer lab.",
     "use": "school"
   },
@@ -105,6 +113,7 @@
       560,
       782
     ],
+    "rows": 138,
     "alt": "A teacher pins a chart of Hindi punctuation marks to the blackboard.",
     "use": "school"
   },
@@ -118,6 +127,7 @@
       1108,
       1216
     ],
+    "rows": 118,
     "alt": "Four children in woolly hats hold up the colourful paper wheels they have made.",
     "use": "school"
   },
@@ -129,6 +139,7 @@
       560,
       713
     ],
+    "rows": 122,
     "alt": "Rows of children in the school yard stretch their arms above their heads during morning exercise.",
     "use": "school"
   },
@@ -140,6 +151,7 @@
       560,
       793
     ],
+    "rows": 104,
     "alt": "Women sit on a patterned rug in a small room for a Mahila Panchayat training session, with a Prayatn banner on the wall.",
     "use": "women"
   },
@@ -151,6 +163,7 @@
       560,
       669
     ],
+    "rows": 136,
     "alt": "Women sit together on striped rugs on an office floor, in discussion.",
     "use": "women"
   },
@@ -164,6 +177,7 @@
       1108,
       1204
     ],
+    "rows": 160,
     "alt": "At the Legal Help Desk, a man in a white shirt talks with two women seated across the desk from him.",
     "use": "women"
   },
@@ -176,7 +190,594 @@
       800,
       1108
     ],
+    "rows": 104,
     "alt": "A large group of women sit on the grass of an open ground, facing a speaker.",
     "use": "women"
+  },
+  "school-health-clinic-12": {
+    "width": 1280,
+    "height": 1280,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "rows": 160,
+    "alt": "Three young schoolchildren hold their yellow health cards as they wait their turn on the weighing scale.",
+    "use": "health"
+  },
+  "school-health-clinic-14": {
+    "width": 963,
+    "height": 1280,
+    "widths": [
+      360,
+      560,
+      800,
+      963
+    ],
+    "rows": 212,
+    "alt": "A health worker reads a boy's card as he stands on the scale, with a queue of children behind him.",
+    "use": "health"
+  },
+  "school-health-clinic-16": {
+    "width": 1280,
+    "height": 963,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "rows": 120,
+    "alt": "A health worker talks with a mother and her son across a table during a health and hygiene session.",
+    "use": "health"
+  },
+  "school-health-clinic-17": {
+    "width": 515,
+    "height": 523,
+    "widths": [
+      360,
+      515
+    ],
+    "rows": 162,
+    "alt": "Mothers and children sit together on the floor of a classroom for a health session.",
+    "use": "health"
+  },
+  "school-health-clinic-19": {
+    "width": 1280,
+    "height": 963,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "rows": 120,
+    "alt": "A large group of women seated on the floor listen during a health session in a classroom.",
+    "use": "health"
+  },
+  "school-health-clinic-20": {
+    "width": 1280,
+    "height": 1280,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "rows": 160,
+    "alt": "A health worker gives a deworming tablet to a small boy at the clinic, with another child waiting beside him.",
+    "use": "health"
+  },
+  "school-health-clinic-22": {
+    "width": 1280,
+    "height": 1280,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "rows": 160,
+    "alt": "Schoolchildren line up holding deworming tablets and water bottles in front of a health worker.",
+    "use": "health"
+  },
+  "gallery-52": {
+    "width": 694,
+    "height": 881,
+    "widths": [
+      360,
+      560,
+      694
+    ],
+    "rows": 204,
+    "alt": "Children in blue uniforms make colourful \"MOM\" cards with paper, clay and pens at a classroom table.",
+    "use": "school"
+  },
+  "gallery-55": {
+    "width": 926,
+    "height": 715,
+    "widths": [
+      360,
+      560,
+      800,
+      926
+    ],
+    "rows": 124,
+    "alt": "Students wearing sashes and holding gifts stand beside a teacher at an end-of-year farewell.",
+    "use": "school"
+  },
+  "gallery-57": {
+    "width": 793,
+    "height": 505,
+    "widths": [
+      360,
+      560,
+      793
+    ],
+    "rows": 102,
+    "alt": "Students in sports kit stand in rows on a sunny sports ground.",
+    "use": "school"
+  },
+  "gallery-59": {
+    "width": 960,
+    "height": 710,
+    "widths": [
+      360,
+      560,
+      800,
+      960
+    ],
+    "rows": 118,
+    "alt": "Schoolchildren explore an interactive screen on a science museum visit.",
+    "use": "school"
+  },
+  "gallery-60": {
+    "width": 720,
+    "height": 800,
+    "widths": [
+      360,
+      560,
+      720
+    ],
+    "rows": 178,
+    "alt": "A young boy holds up his paper bicycle at a pre-primary competition.",
+    "use": "school"
+  },
+  "gallery-62": {
+    "width": 1131,
+    "height": 720,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1131
+    ],
+    "rows": 102,
+    "alt": "A class of children with medals sits together on sports day.",
+    "use": "school"
+  },
+  "gallery-63": {
+    "width": 570,
+    "height": 630,
+    "widths": [
+      360,
+      560,
+      570
+    ],
+    "rows": 176,
+    "alt": "Four young children in costume hold Indian flags in front of a Republic Day blackboard.",
+    "use": "school"
+  },
+  "gallery-69": {
+    "width": 709,
+    "height": 743,
+    "widths": [
+      360,
+      560,
+      709
+    ],
+    "rows": 168,
+    "alt": "A teacher stands with a class of children holding up the paper houses they made.",
+    "use": "school"
+  },
+  "gallery-48": {
+    "width": 852,
+    "height": 720,
+    "widths": [
+      360,
+      560,
+      800,
+      852
+    ],
+    "rows": 136,
+    "alt": "Teachers hand out certificates in a classroom on certificate distribution day.",
+    "use": "school"
+  },
+  "gallery-50": {
+    "width": 850,
+    "height": 720,
+    "widths": [
+      360,
+      560,
+      800,
+      850
+    ],
+    "rows": 136,
+    "alt": "A boy receives a certificate from a group of teachers and visitors.",
+    "use": "school"
+  },
+  "women-development-23": {
+    "width": 676,
+    "height": 644,
+    "widths": [
+      360,
+      560,
+      676
+    ],
+    "rows": 152,
+    "alt": "Women meet around desks in a room lined with hand-drawn posters.",
+    "use": "women"
+  },
+  "women-development-24": {
+    "width": 634,
+    "height": 641,
+    "widths": [
+      360,
+      560,
+      634
+    ],
+    "rows": 162,
+    "alt": "A woman in a red dupatta sits across the desk from a staff member taking notes.",
+    "use": "women"
+  },
+  "women-development-25": {
+    "width": 651,
+    "height": 564,
+    "widths": [
+      360,
+      560,
+      651
+    ],
+    "rows": 138,
+    "alt": "Three women talk across a desk in an office.",
+    "use": "women"
+  },
+  "women-development-27": {
+    "width": 619,
+    "height": 629,
+    "widths": [
+      360,
+      560,
+      619
+    ],
+    "rows": 162,
+    "alt": "At a desk under hand-drawn posters, a lawyer listens to a woman and takes notes.",
+    "use": "women"
+  },
+  "women-development-28": {
+    "width": 664,
+    "height": 626,
+    "widths": [
+      360,
+      560,
+      664
+    ],
+    "rows": 150,
+    "alt": "A woman and a staff member meet a lawyer at the Legal Help Desk.",
+    "use": "women"
+  },
+  "women-development-29": {
+    "width": 599,
+    "height": 509,
+    "widths": [
+      360,
+      560,
+      599
+    ],
+    "rows": 136,
+    "alt": "In a lane, a man in a suit talks with a group of women seated along the wall.",
+    "use": "women"
+  },
+  "women-development-30": {
+    "width": 695,
+    "height": 521,
+    "widths": [
+      360,
+      560,
+      695
+    ],
+    "rows": 120,
+    "alt": "Women gather under a red tent for a legal awareness camp organised by Prayatn.",
+    "use": "women"
+  },
+  "women-development-31": {
+    "width": 667,
+    "height": 592,
+    "widths": [
+      360,
+      560,
+      667
+    ],
+    "rows": 142,
+    "alt": "Three women sit in conversation in a meeting room.",
+    "use": "women"
+  },
+  "women-development-33": {
+    "width": 640,
+    "height": 546,
+    "widths": [
+      360,
+      560,
+      640
+    ],
+    "rows": 136,
+    "alt": "Women sit in a circle on bright patterned rugs, talking together.",
+    "use": "women"
+  },
+  "women-development-34": {
+    "width": 1280,
+    "height": 963,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "rows": 120,
+    "alt": "Women sit together on a patterned rug in a small office.",
+    "use": "women"
+  },
+  "gallery-42": {
+    "width": 684,
+    "height": 595,
+    "widths": [
+      360,
+      560,
+      684
+    ],
+    "rows": 140,
+    "alt": "A large group of women seated on the floor attend a meeting in a school room.",
+    "use": "women"
+  },
+  "gallery-61": {
+    "width": 663,
+    "height": 536,
+    "widths": [
+      360,
+      560,
+      663
+    ],
+    "rows": 130,
+    "alt": "Women sit around a long table during a training session.",
+    "use": "women"
+  },
+  "gallery-68": {
+    "width": 748,
+    "height": 572,
+    "widths": [
+      360,
+      560,
+      748
+    ],
+    "rows": 122,
+    "alt": "Young women with notebooks and water bottles sit around a table in a training room.",
+    "use": "women"
+  },
+  "gallery-70": {
+    "width": 686,
+    "height": 686,
+    "widths": [
+      360,
+      560,
+      686
+    ],
+    "rows": 160,
+    "alt": "Family members meet a lawyer at a desk.",
+    "use": "women"
+  },
+  "gallery-73": {
+    "width": 1280,
+    "height": 831,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "rows": 104,
+    "alt": "Women and men sit in a room for a follow-up meeting organised by Prayatn.",
+    "use": "women"
+  },
+  "gallery-75": {
+    "width": 1204,
+    "height": 1204,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1204
+    ],
+    "rows": 160,
+    "alt": "Two men consult a lawyer at the Legal Help Desk.",
+    "use": "women"
+  },
+  "gallery-76": {
+    "width": 1108,
+    "height": 719,
+    "widths": [
+      360,
+      560,
+      800,
+      1108
+    ],
+    "rows": 104,
+    "alt": "Women and children sit on the floor of an office for a legal awareness session.",
+    "use": "women"
+  },
+  "gallery-77": {
+    "width": 880,
+    "height": 584,
+    "widths": [
+      360,
+      560,
+      800,
+      880
+    ],
+    "rows": 106,
+    "alt": "A group of women and a girl stand together holding small certificates.",
+    "use": "women"
+  },
+  "gallery-78": {
+    "width": 759,
+    "height": 493,
+    "widths": [
+      360,
+      560,
+      759
+    ],
+    "rows": 104,
+    "alt": "Women sit in a circle on a rug, deep in discussion.",
+    "use": "women"
+  },
+  "gallery-82": {
+    "width": 818,
+    "height": 533,
+    "widths": [
+      360,
+      560,
+      800,
+      818
+    ],
+    "rows": 104,
+    "alt": "Women seated on chairs and on the floor talk together in an office.",
+    "use": "women"
+  },
+  "gallery-83": {
+    "width": 784,
+    "height": 511,
+    "widths": [
+      360,
+      560,
+      784
+    ],
+    "rows": 104,
+    "alt": "Women and children gather outside a house for a legal awareness meeting in the lane.",
+    "use": "women"
+  },
+  "gallery-84": {
+    "width": 789,
+    "height": 514,
+    "widths": [
+      360,
+      560,
+      789
+    ],
+    "rows": 104,
+    "alt": "Women sit close together on a rug, one reading from a register.",
+    "use": "women"
+  },
+  "gallery-85": {
+    "width": 814,
+    "height": 528,
+    "widths": [
+      360,
+      560,
+      800,
+      814
+    ],
+    "rows": 104,
+    "alt": "A woman stands to speak to a room full of women seated on rugs.",
+    "use": "women"
+  },
+  "gallery-41": {
+    "width": 807,
+    "height": 603,
+    "widths": [
+      360,
+      560,
+      800,
+      807
+    ],
+    "rows": 120,
+    "alt": "Guests seated in the school courtyard at an annual function.",
+    "use": "events"
+  },
+  "gallery-65": {
+    "width": 1280,
+    "height": 831,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "rows": 104,
+    "alt": "Guests on a row of chairs in the school courtyard at an event.",
+    "use": "events"
+  },
+  "gallery-67": {
+    "width": 955,
+    "height": 481,
+    "widths": [
+      360,
+      560,
+      800,
+      955
+    ],
+    "rows": 80,
+    "alt": "A group of guests stands together in a school corridor.",
+    "use": "events"
+  },
+  "gallery-46": {
+    "width": 872,
+    "height": 658,
+    "widths": [
+      360,
+      560,
+      800,
+      872
+    ],
+    "rows": 120,
+    "alt": "Parents seated in a classroom for a meeting.",
+    "use": "events"
+  },
+  "gallery-49": {
+    "width": 1137,
+    "height": 963,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1137
+    ],
+    "rows": 136,
+    "alt": "Parents and children gather in a school hall for a meeting.",
+    "use": "events"
+  },
+  "gallery-72": {
+    "width": 833,
+    "height": 541,
+    "widths": [
+      360,
+      560,
+      800,
+      833
+    ],
+    "rows": 104,
+    "alt": "A woman receives a certificate from two men in a classroom.",
+    "use": "events"
   }
 }

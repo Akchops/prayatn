@@ -1,0 +1,55 @@
+# Builds the site and publishes a PRE-LAUNCH PREVIEW to GitHub Pages
+# (https://<owner>.github.io/prayatn/), marked noindex with a preview bar.
+# It deploys only once Pages is switched on: Settings → Pages → Source:
+# "GitHub Actions". Until then the build still runs and the deploy is skipped.
+name: Preview
+
+on:
+  push:
+    branches: [claude/upbeat-curie-vtbltb]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-preview
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      pages: ${{ steps.pages.outcome }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          BASE: /${{ github.event.repository.name }}/
+          PREVIEW: '1'
+      - run: node scripts/first-load-budget.mjs dist/
+      - id: pages
+        uses: actions/configure-pages@v5
+        continue-on-error: true
+      - if: steps.pages.outcome == 'success'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.pages == 'success'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

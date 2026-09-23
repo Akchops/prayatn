@@ -22,7 +22,7 @@ mkdirSync(out, { recursive: true });
 
 const images = JSON.parse(readFileSync(join(root, 'src/data/images.json'), 'utf8'));
 const b64 = (p) => readFileSync(p).toString('base64');
-const mime = { woff2: 'font/woff2', svg: 'image/svg+xml', jpg: 'image/jpeg' };
+const mime = { woff2: 'font/woff2', svg: 'image/svg+xml', jpg: 'image/jpeg', png: 'image/png' };
 const dataUri = (p) => `data:${mime[p.split('.').pop()]};base64,${b64(p)}`;
 
 // One classic script with every dynamic import (GSAP, the weave) bundled in.
@@ -33,16 +33,13 @@ const js = (await build({
   logLevel: 'error',
 })).outputFiles[0].text.replace(/<\/script/gi, '<\\/script');
 
-const pages = {
-  'index.html': 'prayatn-home.html',
-  'about/index.html': 'prayatn-about.html',
-  'get-involved/index.html': 'prayatn-get-involved.html',
-};
+const slugs = ['about', 'get-involved', 'healthcare', 'education', 'women-development', 'gallery'];
+const pages = { 'index.html': 'prayatn-home.html' };
+for (const s of slugs) pages[`${s}/index.html`] = `prayatn-${s}.html`;
 const link = (href) => {
-  if (href === '/' ) return 'prayatn-home.html';
+  if (href === '/') return 'prayatn-home.html';
   if (href.startsWith('/#')) return 'prayatn-home.html' + href.slice(1);
-  if (href.startsWith('/about/')) return 'prayatn-about.html' + href.slice(7);
-  if (href.startsWith('/get-involved/')) return 'prayatn-get-involved.html' + href.slice(14);
+  for (const s of slugs) if (href.startsWith(`/${s}/`)) return `prayatn-${s}.html` + href.slice(s.length + 2);
   return href;
 };
 
@@ -70,6 +67,10 @@ for (const [src, name] of Object.entries(pages)) {
       return `<img src="${dataUri(join(dist, 'img', `${n}-${w}.jpg`))}"`;
     })
     .replace(/<link rel="preload" as="image"[^>]*>/g, '')
+    // Woven backgrounds, logos and the project thumbnails.
+    .replace(/url\('(\/img\/[\w-]+-weave\.png)'\)/g, (_, u) => `url('${dataUri(join(dist, u))}')`)
+    .replace(/src="(\/logo-[\w-]+\.png)"/g, (_, u) => `src="${dataUri(join(dist, u))}"`)
+    .replace(/(src|data-preview)="(\/img\/[\w-]+\.jpg)"/g, (_, a, u) => `${a}="${dataUri(join(dist, u))}"`)
     .replace(/<meta property="og:image"[^>]*>/g, '')
     .replace(/<link rel="icon"[^>]*>/, `<link rel="icon" href="${dataUri(join(dist, 'favicon.svg'))}">`);
 

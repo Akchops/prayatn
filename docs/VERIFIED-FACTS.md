@@ -24,7 +24,7 @@ confirmed, plus two screenshots the owner supplied.
 | Years of experience | Calculated at build time from 1992. Never hard-coded ("34 years" is out of date by definition). | CONFIRMED (method) |
 | Office | Kalkaji, South Delhi | CONFIRMED |
 | Founders | Founded by **several people**, not one. No individual founder narrative. | CONFIRMED |
-| Tagline on banners | "PRAYATN (A Developmental Effort)" | PHOTO ONLY |
+| Tagline | "A Developmental Effort" | OLD SITE (footer screenshot supplied 2026-09-23), also on banners. Used. |
 
 ## Mission
 
@@ -51,6 +51,21 @@ confirmed, plus two screenshots the owner supplied.
 | Jagruk Families | banner: "Follow Up Meeting with Jagruk Families, Organized By PRAYATN" | PHOTO ONLY |
 | School figures (children, classes, results) | The owner will send the yearly report. **No numbers until then.** | PENDING |
 
+## Projects (old-site footer, "OUR PROJECTS", supplied by owner 2026-09-23)
+
+| Project | Status |
+|---|---|
+| Swaasthya Kendra | OLD SITE. Also settles the spelling: the old site uses **Swaasthya**. |
+| School Health Program | OLD SITE |
+| Seth Vidyalaya | OLD SITE + owner |
+| Scholarship Scheme for Students | OLD SITE. Name only: no details, amounts or numbers are used. |
+| Addressing GBV in Communities | OLD SITE. Name only; "GBV" is written out as gender-based violence. |
+| Mahila Panchayat (Badarpur), Legal Help Desk | owner, 2026-09-23 |
+
+Footer blurb (OLD SITE, verbatim): "A registered Public Charitable Trust working for the disadvantaged sections of the society since 1992. Empowering communities through education, healthcare, and women development."
+
+Logo: cropped from the old-site footer screenshot (`src/logo-source/`) into `public/logo-ink.png` and `public/logo-khadi.png`. **Replace with the original logo file when available.**
+
 ## Governance: Board of Trustees (seven members)
 
 Verbatim from the old-site screenshot:
@@ -71,8 +86,9 @@ Trustee portraits are **not** in `uploads/`, so the site shows names and roles o
 
 | Fact | Wording | Status |
 |---|---|---|
-| Address | E-103, Kalkaji, New Delhi – 110019 | CONFIRMED |
-| Phone | 011-26415831, 011-26415832 | CONFIRMED |
+| Address | E-103, G.F., Kalkaji, New Delhi – 110019 | CONFIRMED; "G.F." (ground floor) from the old-site footer. |
+| Phone | 011-26415831, 011-26415832 | CONFIRMED (owner, facts 1–6). |
+| Phone (old-site footer) | "Tel.: 011- 45688954" | **CONFLICT, NOT USED.** The old-site footer shows a different number from the two confirmed ones. The owner must say which number(s) are current. |
 | Email | prayatn_1994@yahoo.co.in | CONFIRMED |
 | Domain | prayatnonline.org (likely) | CONFIRMED |
 
@@ -139,5 +155,7 @@ Status on 2026-09-23. The site is not going live yet; the owner asked for everyt
 | 2 | Bank details | **Still open.** Not received yet. Slot ready in `src/data/site.json`. The site asks donors to call or email until then. |
 | 3 | Photo consent | **Done.** Owner confirmed consent for all photos (2026-09-23). |
 | 4 | Programme names | **Done.** Seth Vidyalaya, Legal Help Desk, Mahila Panchayat (Badarpur) are named in copy. |
-| 5 | Spelling: Swaasthya / Swasthya | **Still open.** Not answered; the site uses the old-site spelling "Swaasthya". |
+| 5 | Spelling: Swaasthya / Swasthya | **Resolved by the old site:** its footer lists "Swaasthya Kendra". |
+| 7 | Phone number | **Open.** Old-site footer shows 011-45688954; the site uses the confirmed 011-26415831 / 26415832. |
+| 8 | Logo | Stopgap crop from a screenshot; send the original file. |
 | 6 | School figures | Waiting for the yearly report. No numbers until then. |

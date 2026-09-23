@@ -25,11 +25,15 @@ uniform vec2 uRes;       // canvas size in device px
 uniform float uDpr;      // device px per CSS px
 uniform vec2 uStage;     // stage size in CSS px
 uniform float uT;        // thread width in CSS px (the --t custom property)
-uniform vec4 uFrame;     // photo frame rect in CSS px, top-left origin: x, y, w, h
+uniform vec4 uFrame;     // the photo's final frame in CSS px, top-left origin: x, y, w, h
+uniform vec4 uCover;     // the photo scaled to cover the whole stage (the opening frame)
 uniform sampler2D uTex;  // the photograph, uploaded with FLIP_Y
 
-uniform float uWeft;     // 0..1 beat 1: how far the shuttle has travelled
-uniform float uTight;    // 0..1 beat 2: threads close up and slide into register
+uniform float uShrink;   // 0..1 beat 1: the photo contracts from uCover to uFrame
+uniform float uDim;      // brightness of the photo, low behind the opening title
+
+uniform float uWeft;     // 0..1 beat 1: how far the rug's shuttle has travelled around the photo
+uniform float uTight;    // 0..1 on load: the photo's threads close up and slide into register
 uniform float uResolve;  // 0..1 beat 3: thread texture dissolves to the full photo
 uniform float uHand;     // 0..1 beat 3 end: weft withdraws outside the frame
 
@@ -65,10 +69,15 @@ bool warpOnTop(float i, float j) {
   return mod(i + flip * j, 4.0) < 2.0;
 }
 
+// The photo's current rect: full-bleed at the start, its native-size frame
+// by the end of beat 1.
+vec4 rect() { return mix(uCover, uFrame, uShrink); }
+
 // The photograph at a CSS-px position on the stage. Positions outside the
-// frame are clamped to its edge, so displaced threads never sample garbage.
+// rect are clamped to its edge, so displaced threads never sample garbage.
 vec3 photo(vec2 p) {
-  vec2 uv = clamp((p - uFrame.xy) / uFrame.zw, 0.0, 1.0);
+  vec4 r = rect();
+  vec2 uv = clamp((p - r.xy) / r.zw, 0.0, 1.0);
   return texture2D(uTex, vec2(uv.x, 1.0 - uv.y)).rgb;   // 1-y: texture was flipped on upload
 }
 
@@ -83,15 +92,15 @@ void main() {
   float i = cell.x;
   float j = cell.y;
 
-  bool inFrame = p.x >= uFrame.x && p.y >= uFrame.y &&
-                 p.x < uFrame.x + uFrame.z && p.y < uFrame.y + uFrame.w;
+  vec4 r = rect();
+  bool inFrame = p.x >= r.x && p.y >= r.y && p.x < r.x + r.z && p.y < r.y + r.w;
 
   // Thread width as a fraction of its cell. Loose threads (0.42) leave the
   // ground visible between them; at 1.0 neighbours touch and the cloth is
-  // closed. Outside the frame the warp relaxes to 0.6 as the weft leaves, to
+  // closed. The photo's threads close on load; the rug's are always closed. Outside the frame the warp relaxes to 0.6 as the weft leaves, to
   // match the warp lines drawn in CSS below the hero.
-  float width = mix(0.42, 1.0, uTight);
-  float warpWidth = inFrame ? width : mix(width, 0.6, uHand);
+  float width = inFrame ? mix(0.42, 1.0, uTight) : 1.0;
+  float warpWidth = inFrame ? width : mix(1.0, 0.6, uHand);
 
   // Position across each thread, 0..1 from edge to edge; outside 0..1 means
   // this pixel is in the gap beside the thread.
@@ -108,15 +117,17 @@ void main() {
   bool weftHere = p.x < head * uStage.x;
 
   // Outside the frame the weft withdraws again at the end, right to left, top
-  // rows first, leaving bare warp to carry into the next section.
+  // rows first, leaving bare warp to carry into the next section. Inside the
+  // photo's rect the weft is always there: the photo is cloth from the start.
   float away = clamp((uHand - delay * 0.5) / 0.7, 0.0, 1.0);
   if (!inFrame) weftHere = weftHere && p.x < (1.0 - away) * uStage.x;
+  else weftHere = true;
   bool onWeft = onWeftBody && weftHere;
 
   // Ikat mis-registration. Each thread's dye is shifted along its length by a
   // random amount that shrinks to zero as the cloth tightens, so the picture
   // starts as scattered colour and only lines up at the end of beat 2.
-  float amp = (1.0 - uTight) * uFrame.w * 0.6;
+  float amp = (1.0 - uTight) * r.w * 0.25;
   float warpShift = (hash(i + 1.0) - 0.5) * amp;
   float weftShift = (hash(j + 101.0) - 0.5) * amp;
 
@@ -153,8 +164,12 @@ void main() {
   col *= mix(1.0, shade, keep);
 
   // The final step inside the frame: the thread-quantised picture becomes the
-  // photograph itself, pixel for pixel.
+  // photograph itself, pixel for pixel. Only reached once the rect is at its
+  // native size, so the sharp photo is never shown enlarged.
   if (inFrame) col = mix(col, photo(p), uResolve);
+
+  // Darken the photo behind the opening title; lifts as the title leaves.
+  if (inFrame) col *= uDim;
 
   gl_FragColor = vec4(col, 1.0);
 }`;
@@ -199,7 +214,7 @@ export function create(canvas, img, { allowSoftware = false, onLost } = {}) {
   gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
   const loc = {};
-  for (const n of ['uRes', 'uDpr', 'uStage', 'uT', 'uFrame', 'uTex', 'uWeft', 'uTight', 'uResolve', 'uHand']) {
+  for (const n of ['uRes', 'uDpr', 'uStage', 'uT', 'uFrame', 'uCover', 'uTex', 'uWeft', 'uTight', 'uResolve', 'uHand', 'uShrink', 'uDim']) {
     loc[n] = gl.getUniformLocation(prog, n);
   }
 
@@ -247,6 +262,9 @@ export function create(canvas, img, { allowSoftware = false, onLost } = {}) {
       gl.uniform2f(loc.uStage, geom.width, geom.height);
       gl.uniform1f(loc.uT, geom.t);
       gl.uniform4f(loc.uFrame, geom.frame.x, geom.frame.y, geom.frame.w, geom.frame.h);
+      gl.uniform4f(loc.uCover, geom.cover.x, geom.cover.y, geom.cover.w, geom.cover.h);
+      gl.uniform1f(loc.uShrink, ph.shrink);
+      gl.uniform1f(loc.uDim, ph.dim);
       gl.uniform1f(loc.uWeft, ph.weft);
       gl.uniform1f(loc.uTight, ph.tight);
       gl.uniform1f(loc.uResolve, ph.resolve);

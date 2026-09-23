@@ -3,7 +3,7 @@
   <head>
     <!--@head-->
     <title>Prayatn · Education, health and women's development in Delhi since 1992</title>
-    <meta name="description" content="Prayatn is a registered Public Charitable Trust in Kalkaji, New Delhi, working with the disadvantaged sections of society since 1992 through education, healthcare, and youth and women's development.">
+    <meta name="description" content="Prayatn, a developmental effort: a registered Public Charitable Trust in Kalkaji, New Delhi, working with the disadvantaged sections of society since 1992 through education, healthcare and women development.">
     <meta property="og:title" content="Prayatn">
     <meta property="og:description" content="Education, healthcare, and youth and women's development in Delhi since 1992.">
     <meta property="og:image" content="/img/gallery-81-1108.jpg">
@@ -13,24 +13,40 @@
     <!--@header-->
     <main id="main">
 
-      <!-- THE WEAVE. The <img> inside .weave__frame is tier 3: it is always in
-           the DOM and is what no-JS, reduced-motion and no-WebGL-and-no-canvas
-           visitors see, on the static rug (rug.svg). JS mounts a canvas over it
-           that weaves the same photograph out of its own threads under scroll. -->
+      <!-- THE WEAVE. Static (no JS, reduced motion): the opening title over a
+           woven-photo background, then the photo in its frame on the rug. With
+           motion: both states share one pinned stage and a canvas weaves the
+           first into the second. The <img> in .weave__frame is tier 3 and is
+           always in the DOM. -->
       <section class="weave" id="weave" aria-labelledby="weave-title" data-weave>
         <div class="weave__stage">
-          <div class="weave__label">
-            <p class="eyebrow">Kalkaji, New Delhi · Since {{founded}}</p>
-            <h1 id="weave-title">Many hands.<br> One floor.</h1>
-            <p class="weave__lede">Education, health care, and youth and women's development, side by side with the communities we work in.</p>
-          </div>
-          <figure class="weave__figure">
-            <div class="weave__frame">
-              {{img gallery-81 class="weave__photo" sizes="(min-width: 1100px) 1108px, 100vw" loading="eager" fetchpriority="high"}}
+          <div class="weave__intro woven" style="{{weave gallery-81}}">
+            <div class="intro">
+              <p class="intro__tag">{{tagline}}</p>
+              <h1 class="intro__word" id="weave-title" aria-label="Prayatn"><span aria-hidden="true" style="--i:0">P</span><span aria-hidden="true" style="--i:1">R</span><span aria-hidden="true" style="--i:2">A</span><span aria-hidden="true" style="--i:3">Y</span><span aria-hidden="true" style="--i:4">A</span><span aria-hidden="true" style="--i:5">T</span><span aria-hidden="true" style="--i:6">N</span></h1>
+              <p class="intro__place">Kalkaji, New Delhi · Since {{founded}}</p>
+              <p class="intro__lede">A registered Public Charitable Trust working for the disadvantaged sections of society. Empowering communities through education, healthcare, and women development.</p>
+              <div class="intro__cta">
+                <a class="btn btn--donate" href="/get-involved/#donate">Donate</a>
+                <a class="btn btn--ghost" href="/get-involved/#volunteer">Volunteer</a>
+                <a class="btn btn--ghost" href="/get-involved/#contact">Contact</a>
+              </div>
             </div>
-            <figcaption class="weave__caption">A Mahila Panchayat meeting, held in a circle on the floor.</figcaption>
-          </figure>
-          <p class="weave__hint" aria-hidden="true">Scroll — the picture is woven from its own threads</p>
+            <p class="intro__cue" aria-hidden="true"><span>Scroll</span></p>
+          </div>
+          <div class="weave__scene">
+            <div class="weave__label">
+              <p class="eyebrow">Many hands since {{founded}}</p>
+              <h2 class="weave__h">Many hands.<br> One floor.</h2>
+              <p class="weave__lede">Education, health care, and women's development, side by side with the communities we work in.</p>
+            </div>
+            <figure class="weave__figure">
+              <div class="weave__frame">
+                {{img gallery-81 class="weave__photo" sizes="(min-width: 1100px) 1108px, 100vw" loading="eager" fetchpriority="high"}}
+              </div>
+              <figcaption class="weave__caption">A Mahila Panchayat meeting, held in a circle on the floor.</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
@@ -48,15 +64,38 @@
         </div>
       </section>
 
+      <!-- What we do: every project, one line each. Hover (desktop) shows a
+           photo from that project; phones get a thumbnail. -->
+      <section class="projects" aria-labelledby="projects-title">
+        <div class="projects__inner">
+          <header class="projects__head">
+            <p class="eyebrow">What we do</p>
+            <h2 id="projects-title" class="rv">Seven projects, three kinds of work</h2>
+            <p>Our direct interventions are in the field of Education, Healthcare Services, Youth &amp; Women Development.</p>
+          </header>
+          <ol class="plist" data-plist>
+            <li><a class="plist__row" href="/healthcare/#swaasthya-kendra" data-preview="/img/swasthya-kendra-04-800.jpg"><span class="plist__n">01</span><span class="plist__name">Swaasthya Kendra</span><span class="plist__area">Healthcare</span><img class="plist__thumb" src="/img/swasthya-kendra-04-360.jpg" alt="" width="360" height="479" loading="lazy"></a></li>
+            <li><a class="plist__row" href="/healthcare/#school-health" data-preview="/img/school-health-clinic-09-800.jpg"><span class="plist__n">02</span><span class="plist__name">School Health Program</span><span class="plist__area">Healthcare</span><img class="plist__thumb" src="/img/school-health-clinic-09-360.jpg" alt="" width="360" height="360" loading="lazy"></a></li>
+            <li><a class="plist__row" href="/education/#seth-vidyalaya" data-preview="/img/gallery-53-800.jpg"><span class="plist__n">03</span><span class="plist__name">Seth Vidyalaya</span><span class="plist__area">Education</span><img class="plist__thumb" src="/img/gallery-53-360.jpg" alt="" width="360" height="263" loading="lazy"></a></li>
+            <li><a class="plist__row" href="/education/#scholarship"><span class="plist__n">04</span><span class="plist__name">Scholarship Scheme for Students</span><span class="plist__area">Education</span><span class="plist__thumb plist__thumb--rug"></span></a></li>
+            <li><a class="plist__row" href="/women-development/#mahila-panchayat" data-preview="/img/gallery-79-793.jpg"><span class="plist__n">05</span><span class="plist__name">Mahila Panchayat</span><span class="plist__area">Women development</span><img class="plist__thumb" src="/img/gallery-79-360.jpg" alt="" width="360" height="234" loading="lazy"></a></li>
+            <li><a class="plist__row" href="/women-development/#legal-help-desk" data-preview="/img/women-development-28-664.jpg"><span class="plist__n">06</span><span class="plist__name">Legal Help Desk</span><span class="plist__area">Women development</span><img class="plist__thumb" src="/img/women-development-28-360.jpg" alt="" width="360" height="339" loading="lazy"></a></li>
+            <li><a class="plist__row" href="/women-development/#gbv"><span class="plist__n">07</span><span class="plist__name">Addressing GBV in Communities</span><span class="plist__area">Women development</span><span class="plist__thumb plist__thumb--rug"></span></a></li>
+          </ol>
+        </div>
+        <div class="plist__float" aria-hidden="true"><img alt=""></div>
+      </section>
+
       <!-- Our work: one thread runs through all three programmes. -->
       <div class="work" id="work">
         <div class="thread" aria-hidden="true"><div class="thread__line"></div></div>
 
         <section class="prog prog--health" aria-labelledby="health-title">
           <header class="prog__head">
-            <p class="prog__num">01 · Health</p>
-            <h2 id="health-title">Health care, close to home</h2>
-            <p>Our first community health centre, <strong>Swaasthya Kendra</strong>, opened in 1998–99. The Swaasthya Kendra at Madanpur Khadar has run since 2007 and is our flagship health programme.</p>
+            <p class="prog__num">01 · Healthcare</p>
+            <h2 id="health-title" class="rv">Health care, close to home</h2>
+            <p>Our first community health centre, <strong>Swaasthya Kendra</strong>, opened in 1998–99. The Swaasthya Kendra at Madanpur Khadar has run since 2007 and is our flagship health programme. Our <strong>School Health Program</strong> brings check-ups to schoolchildren.</p>
+            <p><a class="link" href="/healthcare/">More on healthcare →</a></p>
           </header>
           <div class="mosaic mosaic--health">
             <figure class="m m--a">{{img swasthya-kendra-04 sizes="(min-width: 900px) 30vw, 60vw"}}</figure>
@@ -70,9 +109,11 @@
         <section class="prog prog--school" aria-labelledby="school-title">
           <header class="prog__head">
             <p class="prog__num">02 · Education</p>
-            <h2 id="school-title">A school of our own</h2>
+            <h2 id="school-title" class="rv">A school of our own</h2>
             <p>Seth Vidyalaya is Prayatn's school: reading, lessons at the blackboard, computers, craft and exercise in the yard.</p>
+            <p>We also run a <strong>Scholarship Scheme for Students</strong>.</p>
             <blockquote class="pull"><p>Your support for our mission will ensure that children from the underprivileged sections of society continue their Education.</p></blockquote>
+            <p><a class="link" href="/education/">More on education →</a></p>
           </header>
           <div class="mosaic mosaic--school">
             <figure class="m m--a">{{img gallery-53 sizes="(min-width: 900px) 44vw, 100vw"}}</figure>
@@ -85,10 +126,11 @@
 
         <section class="prog prog--women" aria-labelledby="women-title">
           <header class="prog__head">
-            <p class="prog__num">03 · Youth &amp; women</p>
-            <h2 id="women-title">Youth &amp; women development</h2>
+            <p class="prog__num">03 · Women development</p>
+            <h2 id="women-title" class="rv">Women development</h2>
             <p>We work so that people can respond to and change their situation of inequality and injustice, with education and awareness, community involvement and collective action as the driving force of social and economic change.</p>
-            <p>Our work with women includes the <strong>Mahila Panchayat</strong> in Badarpur and a <strong>Legal Help Desk</strong>.</p>
+            <p>Our work with women includes the <strong>Mahila Panchayat</strong> in Badarpur, a <strong>Legal Help Desk</strong>, and <strong>Addressing GBV (gender-based violence) in Communities</strong>.</p>
+            <p><a class="link" href="/women-development/">More on women development →</a></p>
           </header>
           <div class="mosaic mosaic--women">
             <figure class="m m--a">{{img gallery-79 sizes="(min-width: 900px) 40vw, 100vw"}}<figcaption>Mahila Panchayat training.</figcaption></figure>
@@ -99,16 +141,34 @@
         </section>
       </div>
 
+      <!-- Moments: a strip of photos that drifts sideways as you scroll. -->
+      <section class="moments" aria-labelledby="moments-title">
+        <div class="moments__head">
+          <h2 id="moments-title" class="rv">Days at Prayatn</h2>
+          <a class="link" href="/gallery/">See the whole gallery →</a>
+        </div>
+        <div class="moments__track" data-moments>
+          <figure class="mo">{{img gallery-63 sizes="(min-width: 900px) 24vw, 70vw"}}</figure>
+          <figure class="mo">{{img women-development-30 sizes="(min-width: 900px) 30vw, 80vw"}}</figure>
+          <figure class="mo">{{img school-health-clinic-22 sizes="(min-width: 900px) 24vw, 70vw"}}</figure>
+          <figure class="mo">{{img gallery-59 sizes="(min-width: 900px) 30vw, 80vw"}}</figure>
+          <figure class="mo">{{img gallery-77 sizes="(min-width: 900px) 30vw, 80vw"}}</figure>
+          <figure class="mo">{{img gallery-62 sizes="(min-width: 900px) 30vw, 80vw"}}</figure>
+          <figure class="mo">{{img women-development-33 sizes="(min-width: 900px) 30vw, 80vw"}}</figure>
+          <figure class="mo">{{img gallery-60 sizes="(min-width: 900px) 24vw, 70vw"}}</figure>
+        </div>
+      </section>
+
       <section class="since" aria-labelledby="since-title">
         <div class="since__inner">
           <p class="since__year" aria-hidden="true">{{founded}}</p>
           <div class="since__text">
-            <h2 id="since-title">Since {{founded}}: <span data-years>{{years}}</span> years of work</h2>
+            <h2 id="since-title" class="rv">Since {{founded}}: <span data-years>{{years}}</span> years of work</h2>
             <ol class="since__list">
               <li><b>1992</b> Prayatn is founded by a group of people, to work with the disadvantaged sections of society.</li>
               <li><b>1998–99</b> The first community-based health centre, Swaasthya Kendra, opens.</li>
               <li><b>2007</b> Swaasthya Kendra at Madanpur Khadar begins. It is our flagship health programme today.</li>
-              <li><b>Today</b> Swaasthya Kendra, Seth Vidyalaya, the Mahila Panchayat and the Legal Help Desk are all running.</li>
+              <li><b>Today</b> Seven projects running: Swaasthya Kendra, the School Health Program, Seth Vidyalaya, the Scholarship Scheme for Students, the Mahila Panchayat, the Legal Help Desk, and Addressing GBV in Communities.</li>
             </ol>
             <p><a class="link" href="/about/">How we work, and who runs Prayatn →</a></p>
           </div>
@@ -116,7 +176,7 @@
       </section>
 
       <section class="act" id="get-involved" aria-labelledby="act-title">
-        <h2 id="act-title" class="act__title">Three ways in. Pick the one that suits you.</h2>
+        <h2 id="act-title" class="act__title rv">Three ways in. Pick the one that suits you.</h2>
         <div class="act__grid">
           <article class="act__card" id="donate">
             <h3>Donate</h3>
