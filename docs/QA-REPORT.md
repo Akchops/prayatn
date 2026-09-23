@@ -17,6 +17,21 @@ NO JS: Every heading, paragraph, photo, project, phone number, the donate text a
 320px: The signature runs in full at 320×568 in WebGL and Canvas 2D; title, label, frame and caption fit the pinned stage (docs/qa/weave-320-webgl.jpg, docs/qa/matrix-320.jpg).
 ```
 
+Each page opens differently (header `data-intro`):
+- Healthcare: threads weave the photo in.
+- Education: a diagonal wipe, and the title letters drop in.
+- Women development: the photo opens as a circle, and the words un-blur.
+- Gallery: three prints are dealt, and the letters scatter in.
+- About: the print swings on a pin, and the title types itself.
+- Get involved: weft slats pull apart, and the words slide in.
+
+The programme pages each have a pinned photo reel, 1 px of travel per px of scroll:
+- Healthcare: the photos pan inside their frames.
+- Education: the cards tilt as they pass.
+- Women development: the cards grow at the centre.
+
+The phone menu is a full-screen woven panel with staggered links, and its three-thread icon folds into an ✕.
+
 Motion beyond the signature:
 - The PRAYATN letters rise in on load.
 - Headings rise out of a mask.

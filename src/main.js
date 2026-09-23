@@ -12,6 +12,9 @@ import('./ui.js').catch(() => {});
 if (!reduce.matches) import('./motion.js').catch(() => {});
 
 if (!reduce.matches) {
+  const reel = document.querySelector('[data-reel]');
+  if (reel) import('./reel.js').then((m) => m.start(reel)).catch(() => {});
+
   const weave = document.querySelector('[data-weave]');
   if (weave) {
     import('./weave/index.js').then((m) => m.start(weave)).catch(() => { /* tier 3 stands */ });

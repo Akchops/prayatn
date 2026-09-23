@@ -69,10 +69,27 @@ if (plist && float && matchMedia('(hover: hover) and (pointer: fine)').matches) 
     float.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%) rotate(${still ? 0 : (tx - x) * 0.03}deg)`;
     raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(loop) : 0;
   };
-  plist.addEventListener('pointermove', (e) => { tx = e.clientX + 170; ty = e.clientY; if (!raf) raf = requestAnimationFrame(loop); });
+  // The preview rides in the empty right-hand part of the list, following the
+  // pointer vertically (and a little horizontally), so it never covers a name.
+  plist.addEventListener('pointermove', (e) => {
+    const r = plist.getBoundingClientRect();
+    tx = r.left + r.width * 0.72 + (e.clientX - (r.left + r.width / 2)) * 0.08;
+    ty = e.clientY;
+    if (!raf) raf = requestAnimationFrame(loop);
+  });
   plist.addEventListener('pointerover', (e) => {
     const row = e.target.closest('.plist__row');
     if (row?.dataset.preview) { fimg.src = row.dataset.preview; float.classList.add('is-on'); } else float.classList.remove('is-on');
   });
   plist.addEventListener('pointerleave', () => float.classList.remove('is-on'));
+}
+
+// Phone menu: lock the page behind it, close with Escape or on following a link.
+const menu = document.querySelector('[data-menu]');
+if (menu) {
+  const sync = () => document.documentElement.classList.toggle('menu-open', menu.open);
+  menu.addEventListener('toggle', sync);
+  menu.addEventListener('click', (e) => { if (e.target.closest('.menu__panel a')) menu.open = false; });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.open) { menu.open = false; menu.querySelector('summary').focus(); } });
+  matchMedia('(min-width: 1080px)').addEventListener('change', (m) => { if (m.matches) menu.open = false; });
 }

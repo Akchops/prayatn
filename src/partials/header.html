@@ -13,18 +13,24 @@
           <li><a href="/gallery/" data-nav="gallery">Gallery</a></li>
           <li><a href="/get-involved/" data-nav="get-involved">Get involved</a></li>
         </ul>
-        <details class="menu">
-          <summary>Menu</summary>
-          <ul>
-            <li><a href="/about/">About us</a></li>
-            <li><a href="/healthcare/">Healthcare</a></li>
-            <li><a href="/education/">Education</a></li>
-            <li><a href="/women-development/">Women development</a></li>
-            <li><a href="/gallery/">Gallery</a></li>
-            <li><a href="/about/#trustees">Trustees</a></li>
-            <li><a href="/get-involved/#volunteer">Volunteer</a></li>
-            <li><a href="/get-involved/#contact">Contact</a></li>
-          </ul>
+        <details class="menu" data-menu>
+          <summary aria-label="Menu"><span class="menu__label">Menu</span><span class="menu__icon" aria-hidden="true"><i></i><i></i><i></i></span></summary>
+          <div class="menu__panel">
+            <ul class="menu__list">
+              <li><a href="/about/"><span class="menu__n">01</span>About us</a></li>
+              <li><a href="/healthcare/"><span class="menu__n">02</span>Healthcare</a></li>
+              <li><a href="/education/"><span class="menu__n">03</span>Education</a></li>
+              <li><a href="/women-development/"><span class="menu__n">04</span>Women development</a></li>
+              <li><a href="/gallery/"><span class="menu__n">05</span>Gallery</a></li>
+              <li><a href="/about/#trustees"><span class="menu__n">06</span>Trustees</a></li>
+              <li><a href="/get-involved/"><span class="menu__n">07</span>Get involved</a></li>
+            </ul>
+            <div class="menu__foot">
+              <a class="btn btn--donate" href="/get-involved/#donate">Donate</a>
+              <a class="btn btn--ghost" href="/get-involved/#volunteer">Volunteer</a>
+              <p><a href="{{tel1}}">{{phone1}}</a> · <a href="mailto:{{email}}">{{email}}</a></p>
+            </div>
+          </div>
         </details>
         <a class="btn btn--donate" href="/get-involved/#donate">Donate</a>
       </nav>

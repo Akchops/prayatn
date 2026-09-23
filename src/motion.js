@@ -81,3 +81,104 @@ document.querySelectorAll('.since [data-years]').forEach((el) => {
     requestAnimationFrame(step);
   }).observe(el);
 });
+
+// Page headers: the title rises word by word; the photo card drifts up and
+// the text drifts down as the header scrolls away.
+// Page headers: split the title into letters or words, depending on the page's
+// opening (data-intro), so each page's title arrives differently.
+const PER_LETTER = { wipe: 1, deal: 1, swing: 1 };
+document.querySelectorAll('.band__title').forEach((t) => {
+  const text = t.textContent.trim();
+  const intro = t.closest('[data-intro]')?.dataset.intro;
+  t.setAttribute('aria-label', text);
+  let i = 0;
+  t.innerHTML = text.split(/\s+/).map((w) => PER_LETTER[intro]
+    ? `<span class="wd" aria-hidden="true" style="display:inline-block;white-space:nowrap">${[...w].map((ch) => `<span class="u" style="--i:${i++}">${ch}</span>`).join('')}</span>`
+    : `<span class="u" aria-hidden="true" style="--i:${i++}">${w}</span>`).join(' ');
+});
+const band = document.querySelector('[data-band]');
+if (band) {
+  const card = band.querySelector('.band__card');
+  const inner = band.querySelector('.band__inner');
+  let raf = 0;
+  const place = () => {
+    raf = 0;
+    const y = Math.min(window.scrollY, band.offsetHeight);
+    if (card) card.style.translate = `0 ${(-y * 0.18).toFixed(1)}px`;
+    if (inner) inner.style.translate = `0 ${(y * 0.12).toFixed(1)}px`;
+  };
+  window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(place); }, { passive: true });
+}
+
+// Galleries: columns drift at different speeds as you scroll.
+const items = [...document.querySelectorAll('.g-item')];
+if (items.length) {
+  const SPEED = [-0.07, 0.05, -0.03];
+  let cols = [];
+  const measure = () => {
+    const lefts = [...new Set(items.map((i) => i.offsetLeft))].sort((a, b) => a - b);
+    cols = items.map((i) => (lefts.length > 1 ? SPEED[lefts.indexOf(i.offsetLeft) % 3] : 0));
+  };
+  const visible = new Set();
+  const vio = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target))), { rootMargin: '20% 0px' });
+  items.forEach((i) => vio.observe(i));
+  let raf = 0;
+  const place = () => {
+    raf = 0;
+    const mid = window.innerHeight / 2;
+    visible.forEach((el) => {
+      const k = cols[items.indexOf(el)] || 0;
+      if (!k) { el.style.translate = ''; return; }
+      const r = el.getBoundingClientRect();
+      el.style.translate = `0 ${((r.top + r.height / 2 - mid) * k).toFixed(1)}px`;
+    });
+  };
+  measure();
+  window.addEventListener('resize', () => { measure(); place(); });
+  window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(place); }, { passive: true });
+  document.querySelector('[data-gfilter]')?.addEventListener('click', () => requestAnimationFrame(() => { measure(); place(); }));
+}
+
+// Ticker: runs by itself, and speeds up (and reverses) with the reader's scroll.
+const ticker = document.querySelector('[data-ticker]');
+const anim = ticker?.getAnimations?.()[0];
+if (anim) {
+  let lastY = window.scrollY, lastT = performance.now(), rate = 1, raf = 0;
+  const settle = () => {
+    rate += (1 - rate) * 0.06;
+    anim.playbackRate = rate;
+    raf = Math.abs(rate - 1) > 0.01 ? requestAnimationFrame(settle) : 0;
+  };
+  window.addEventListener('scroll', () => {
+    const now = performance.now(), v = (window.scrollY - lastY) / Math.max(1, now - lastT);
+    lastY = window.scrollY; lastT = now;
+    rate = Math.max(-6, Math.min(6, 1 + v * 4));
+    if (!raf) raf = requestAnimationFrame(settle);
+  }, { passive: true });
+}
+
+// Cards tilt towards the pointer (desktop).
+if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  document.querySelectorAll('.act__card, .projgrid a, .nextprog a, .trustees li').forEach((c) => {
+    c.classList.add('tilt');
+    c.addEventListener('pointermove', (e) => {
+      const r = c.getBoundingClientRect();
+      c.style.setProperty('--ry', `${((e.clientX - r.left) / r.width - 0.5) * 8}deg`);
+      c.style.setProperty('--rx', `${((e.clientY - r.top) / r.height - 0.5) * -8}deg`);
+    });
+    c.addEventListener('pointerleave', () => { c.style.setProperty('--rx', '0deg'); c.style.setProperty('--ry', '0deg'); });
+  });
+}
+
+// Lists rise in one item after another.
+const groups = ['.trustees', '.since__list', '.projgrid', '.act__grid', '.foot-col ul'];
+groups.forEach((sel) => document.querySelectorAll(sel).forEach((g) => {
+  const kids = [...g.children].filter(below);
+  kids.forEach((k, i) => { k.classList.add('rise'); k.style.setProperty('--d', i); });
+  if (!kids.length) return;
+  new IntersectionObserver(([e], obs) => {
+    if (!e.isIntersecting) return;
+    obs.disconnect();
+    kids.forEach((k) => k.classList.add('is-in'));
+  }, { rootMargin: '0px 0px -10% 0px' }).observe(g);
+}));

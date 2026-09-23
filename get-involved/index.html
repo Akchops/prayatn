@@ -8,18 +8,19 @@
   <body class="page-inner">
     <!--@header-->
     <main id="main">
-      <header class="band woven" style="{{weave gallery-77}}">
+      <header class="band woven" data-band data-intro="slats" style="{{weave gallery-77}}">
         <div class="band__inner">
           <p class="band__kicker">Get involved</p>
           <h1 class="band__title band__title--m">Donate, volunteer, or just get in touch</h1>
           <p class="band__lede">Your support for our mission will ensure that children from the underprivileged sections of society continue their Education. You can connect with us, contribute financially &amp; get involved.</p>
         </div>
+        {{bandimg gallery-77}}
       </header>
       <div class="inner">
 
       <div class="act__grid act__grid--page">
         <section class="act__card" id="donate" aria-labelledby="donate-h">
-          <h2 id="donate-h">Donate</h2>
+          <h2 id="donate-h" class="rv">Donate</h2>
           <h3>By cheque</h3>
           <p>{{cheque}}</p>
           <p class="small">Post it to Prayatn, {{addressLine}}.</p>
@@ -28,13 +29,13 @@
           <p class="tax">* {{taxLine}}</p>
         </section>
         <section class="act__card" id="volunteer" aria-labelledby="volunteer-h">
-          <h2 id="volunteer-h">Volunteer</h2>
+          <h2 id="volunteer-h" class="rv">Volunteer</h2>
           <p>Write to us with a little about yourself and the time you can give.</p>
           <p><a class="btn btn--line" href="mailto:{{email}}?subject=Volunteering%20with%20Prayatn">Email us to volunteer</a></p>
           <p class="small">Or call <a href="{{tel1}}">{{phone1}}</a>.</p>
         </section>
         <section class="act__card" id="contact" aria-labelledby="contact-h">
-          <h2 id="contact-h">Contact</h2>
+          <h2 id="contact-h" class="rv">Contact</h2>
           <address>Prayatn<br>{{address}}</address>
           <p>Phone: <a href="{{tel1}}">{{phone1}}</a>, <a href="{{tel2}}">{{phone2}}</a></p>
           <p>Email: <a href="mailto:{{email}}">{{email}}</a></p>

@@ -8,12 +8,13 @@
   <body class="page-inner page-prog">
     <!--@header-->
     <main id="main">
-      <header class="band woven" style="{{weave school-health-clinic-09}}">
+      <header class="band woven" data-band data-intro="weave" style="{{weave school-health-clinic-09}}">
         <div class="band__inner">
           <p class="band__kicker">Our work · 01</p>
           <h1 class="band__title">Healthcare</h1>
           <p class="band__lede">Health care close to home, for families and for schoolchildren.</p>
         </div>
+        {{bandimg school-health-clinic-09}}
       </header>
 
       <div class="prog-page">
@@ -30,6 +31,15 @@
           <p class="big">Check-ups for schoolchildren at the School Health Clinic: height, weight, health cards, and deworming.</p>
         </section>
       </div>
+
+      <section class="reel" aria-labelledby="reel-h" data-reel="pan">
+        <div class="reel__head">
+          <h2 id="reel-h" class="rv">A day of check-ups</h2>
+          <p>From the health centre and the School Health Clinic.</p>
+        </div>
+        {{reel health}}
+        <div class="reel__bar" aria-hidden="true"><i></i></div>
+      </section>
 
       <section class="pgallery" aria-labelledby="hg-h">
         <h2 id="hg-h" class="pgallery__title rv">From the health centre and the clinic</h2>

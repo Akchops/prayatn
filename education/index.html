@@ -8,12 +8,13 @@
   <body class="page-inner page-prog">
     <!--@header-->
     <main id="main">
-      <header class="band woven" style="{{weave gallery-53}}">
+      <header class="band woven" data-band data-intro="wipe" style="{{weave gallery-53}}">
         <div class="band__inner">
           <p class="band__kicker">Our work · 02</p>
           <h1 class="band__title">Education</h1>
           <p class="band__lede">Your support for our mission will ensure that children from the underprivileged sections of society continue their Education.</p>
         </div>
+        {{bandimg gallery-53}}
       </header>
 
       <div class="prog-page">
@@ -30,6 +31,15 @@
           <p class="pblock__ask">To ask about it, call <a href="{{tel1}}">{{phone1}}</a> or write to <a href="mailto:{{email}}?subject=Scholarship%20Scheme">{{email}}</a>.</p>
         </section>
       </div>
+
+      <section class="reel" aria-labelledby="reel-h" data-reel="tilt">
+        <div class="reel__head">
+          <h2 id="reel-h" class="rv">A year at Seth Vidyalaya</h2>
+          <p>Lessons, craft, sports day, Republic Day and trips out.</p>
+        </div>
+        {{reel school}}
+        <div class="reel__bar" aria-hidden="true"><i></i></div>
+      </section>
 
       <section class="pgallery" aria-labelledby="eg-h">
         <h2 id="eg-h" class="pgallery__title rv">School days</h2>

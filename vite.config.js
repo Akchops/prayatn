@@ -45,6 +45,26 @@ function gallery(which, images) {
   }).join('');
 }
 
+// The photo card in a page's header band. The same photo is already the
+// woven background, so this copy is decorative (alt=""). Its width is capped
+// at the photo's native size in CSS (--native).
+function bandImg(name, images) {
+  const im = images[name];
+  if (!im) throw new Error(`{{bandimg ${name}}}: unknown photo`);
+  const set = (ext) => im.widths.map((w) => `/img/${name}-${w}.${ext} ${w}w`).join(', ');
+  const sizes = '(min-width: 1000px) 46vw, 92vw';
+  return `<div class="band__card" aria-hidden="true" style="--native:${im.width}px;--ar:${im.width}/${im.height};--weave-img:url('/img/${name}-weave.png')"><picture><source type="image/avif" srcset="${set('avif')}" sizes="${sizes}"><img src="/img/${name}-${im.widths.find((w) => w >= 800) ?? im.widths.at(-1)}.jpg" srcset="${set('jpg')}" sizes="${sizes}" width="${im.width}" height="${im.height}" alt="" fetchpriority="high" decoding="async"></picture></div>`;
+}
+
+// A horizontal reel of one category's photos (up to 9), each with its caption.
+// Without JS or with reduced motion it is a swipeable row; with motion it is
+// pinned and driven by vertical scroll (src/reel.js).
+function reel(which, images) {
+  const names = Object.keys(images).filter((n) => images[n].use === which).slice(0, 9);
+  const card = (n, i) => `<figure class="reel__card"><div class="reel__img">${picture(n, 'sizes="(min-width: 900px) 42vw, 80vw"', images)}</div><figcaption><span class="reel__n">${String(i + 1).padStart(2, '0')}</span>${esc(images[n].alt)}</figcaption></figure>`;
+  return `<div class="reel__track" data-reel-track>${names.map(card).join('')}</div>`;
+}
+
 function bankBlock(site) {
   const b = site.bank;
   const phones = site.phones.map((p) => `<a href="${tel(p)}">${p}</a>`).join(' or ');
@@ -87,6 +107,8 @@ function templates() {
           .replace(/<!--@(\w+)-->/g, (_, p) => fill(read(`src/partials/${p}.html`)))
           .replace(/\{\{img ([\w-]+)([^}]*)\}\}/g, (_, n, a) => picture(n, a, images))
           .replace(/\{\{gallery ([\w-]+)\}\}/g, (_, w) => gallery(w, images))
+          .replace(/\{\{reel ([\w-]+)\}\}/g, (_, w) => reel(w, images))
+          .replace(/\{\{bandimg ([\w-]+)\}\}/g, (_, n) => bandImg(n, images))
           .replace(/\{\{weave ([\w-]+)\}\}/g, (_, n) => { if (!images[n]) throw new Error(`{{weave ${n}}}: unknown photo`); return `--weave-img:url('/img/${n}-weave.png');--weave-rows:${images[n].rows}`; })
           .replace(/\{\{(\w+)\}\}/g, (m, k) => {
             if (!(k in vars)) throw new Error(`Unknown template variable ${m} in ${ctx.path}`);

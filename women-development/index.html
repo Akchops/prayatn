@@ -8,12 +8,13 @@
   <body class="page-inner page-prog">
     <!--@header-->
     <main id="main">
-      <header class="band woven" style="{{weave women-development-33}}">
+      <header class="band woven" data-band data-intro="circle" style="{{weave women-development-33}}">
         <div class="band__inner">
           <p class="band__kicker">Our work · 03</p>
           <h1 class="band__title">Women development</h1>
           <p class="band__lede">Education and awareness, community involvement and collective action as the driving force of social and economic change.</p>
         </div>
+        {{bandimg women-development-33}}
       </header>
 
       <div class="prog-page">
@@ -35,6 +36,15 @@
           <p>Prayatn works to enable people to respond to and change their situation of inequality and injustice.</p>
         </section>
       </div>
+
+      <section class="reel" aria-labelledby="reel-h" data-reel="scale">
+        <div class="reel__head">
+          <h2 id="reel-h" class="rv">Circles, camps and the help desk</h2>
+          <p>Meetings on the floor, legal awareness in the lanes, and one-to-one help.</p>
+        </div>
+        {{reel women}}
+        <div class="reel__bar" aria-hidden="true"><i></i></div>
+      </section>
 
       <section class="pgallery" aria-labelledby="wg-h">
         <h2 id="wg-h" class="pgallery__title rv">Meetings, trainings and the help desk</h2>
