@@ -13,6 +13,10 @@ npm run preview    # http://localhost:4173
 npm run budget     # first-load gate (100 kB gzip)
 ```
 
+To check the site without a server, run `npm run preview-files` after the
+build. It writes single-file copies of the three pages into `preview/`. Each
+opens straight from disk and is marked "Pre-launch preview".
+
 `dist/` is a plain static site and can be served by any host. Point 404s at `/404.html`.
 
 ## Where things are
