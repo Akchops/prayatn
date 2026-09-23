@@ -56,9 +56,34 @@ export async function start(section) {
     renderer.resize(geom);
   }
 
+  // Performance watchdog. Scroll-driven frames are timed; if drawing takes
+  // longer than 12ms on average (leaving no room in a 16.7ms frame), step
+  // down: Canvas 2D gets cheaper sampling, then WebGL or Canvas 2D gives way
+  // to the static hero (tier 3), which is already in the DOM underneath.
+  let cost = 0, samples = 0;
+  function watch(ms) {
+    cost = samples ? cost * 0.8 + ms * 0.2 : ms;
+    if (++samples < 8 || cost < 12) return;
+    samples = 0;
+    if (renderer.degrade?.()) { measure(); return; }
+    retire();
+  }
+  let retired = false;
+  function retire() {
+    retired = true;
+    cancelAnimationFrame(raf); raf = 0;
+    target.remove();
+    renderer.destroy();
+    section.classList.remove('is-weaving');
+    document.documentElement.dataset.weaveTier = 'static';
+  }
+
   function draw() {
+    if (retired) return;
     const ph = phases(progress);
+    const t0 = performance.now();
     renderer.render(ph);
+    watch(performance.now() - t0);
     section.style.setProperty('--caption', ph.caption.toFixed(3));
     section.style.setProperty('--hint', ph.hint.toFixed(3));
   }
@@ -71,7 +96,7 @@ export async function start(section) {
     draw();
     raf = progress === goal ? 0 : requestAnimationFrame(tick);
   }
-  const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+  const kick = () => { if (!raf && !retired) raf = requestAnimationFrame(tick); };
 
   // WebGL context lost (tab backgrounded on a phone, GPU reset): swap the
   // canvas for a fresh one running the Canvas 2D tier, at the same progress.
@@ -108,7 +133,7 @@ export async function start(section) {
       pin: true,
       invalidateOnRefresh: true,
       onUpdate: (self) => { goal = self.progress; kick(); },
-      onRefresh: (self) => { measure(); goal = progress = self.progress; draw(); },
+      onRefresh: (self) => { if (retired) return; measure(); goal = progress = self.progress; draw(); },
     });
 
     return () => {

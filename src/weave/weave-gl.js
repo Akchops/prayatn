@@ -88,10 +88,10 @@ void main() {
 
   // Thread width as a fraction of its cell. Loose threads (0.42) leave the
   // ground visible between them; at 1.0 neighbours touch and the cloth is
-  // closed. Outside the frame the warp relaxes to 0.8 as the weft leaves, to
+  // closed. Outside the frame the warp relaxes to 0.6 as the weft leaves, to
   // match the warp lines drawn in CSS below the hero.
   float width = mix(0.42, 1.0, uTight);
-  float warpWidth = inFrame ? width : mix(width, 0.8, uHand);
+  float warpWidth = inFrame ? width : mix(width, 0.6, uHand);
 
   // Position across each thread, 0..1 from edge to edge; outside 0..1 means
   // this pixel is in the gap beside the thread.

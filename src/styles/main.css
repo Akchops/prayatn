@@ -251,7 +251,7 @@ address { font-style: normal; }
   /* The warp threads left behind by the weave continue down into this band
      and fade out: the same pitch as the rug above. */
   background-image: linear-gradient(to bottom, transparent, var(--indigo) 240px),
-    repeating-linear-gradient(90deg, transparent 0 calc(var(--t) * .1), #D9D1C1 calc(var(--t) * .1) calc(var(--t) * .9), transparent calc(var(--t) * .9) var(--t));
+    repeating-linear-gradient(90deg, transparent 0 calc(var(--t) * .2), #D9D1C1 calc(var(--t) * .2) calc(var(--t) * .8), transparent calc(var(--t) * .8) var(--t));
   background-size: 100% 100%, 100% 240px;
   background-repeat: no-repeat;
 }
@@ -266,7 +266,7 @@ address { font-style: normal; }
   transition: background-color .15s;
 }
 a.reach__way:hover { background: #474F79; }
-.reach__k { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--marigold); font-weight: 600; }
+.reach__k { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: #F2B940; font-weight: 600; }  /* marigold lifted to 5.5:1 on the tile */
 .reach__v { font: 700 1.35rem/1.2 var(--display); overflow-wrap: anywhere; }
 .reach__v--mail { font-size: 1.1rem; }
 @media (min-width: 700px) { .reach__ways { grid-template-columns: 1fr 1fr; } }
@@ -288,7 +288,7 @@ a.reach__way:hover { background: #474F79; }
 .prog__head { max-width: 62ch; margin-bottom: 28px; }
 .prog__num { font: 600 .85rem/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--neem); margin-bottom: 14px; }
 .prog--school .prog__num { color: var(--rani); }
-.prog--women .prog__num { color: #9A6A00; }
+.prog--women .prog__num { color: #7F5700; }  /* dark marigold, 5.5:1 on khadi */
 .prog__head p:not(.prog__num) { font-size: 1.1rem; }
 .pull { margin: 20px 0 0; padding: 4px 0 4px 18px; border-left: 4px solid var(--marigold); font: 600 1.2rem/1.4 var(--display); }
 .pull p { margin: 0; }
@@ -331,6 +331,9 @@ a.reach__way:hover { background: #474F79; }
   background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * .045em) calc(20 * .045em);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
+  /* An indigo edge keeps the numerals' shape where khadi threads meet the
+     khadi background. */
+  -webkit-text-stroke: max(2px, .018em) var(--indigo);
 }
 .since__list { list-style: none; margin: 0 0 24px; padding: 0; border-top: 2px solid var(--indigo); }
 .since__list li { display: grid; grid-template-columns: 5.5rem 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(30,36,64,.2); }

@@ -7,7 +7,9 @@
 import { rowColor, warpOnTop, COLORS } from './pattern.js';
 import { hash } from './phases.js';
 
-const S = 5;                       // samples per thread, per axis (odd, so edge samples fall in the gaps)
+// Samples per thread, per axis. Odd, so edge samples fall in the gaps between
+// threads. 5 by default; degrade() drops to 3 on slow devices.
+let S = 5;
 const GROUND = COLORS.indigo;
 const WARP_OUT = [217, 209, 193];  // #D9D1C1, as in the shader
 
@@ -29,23 +31,17 @@ export function create(canvas, img) {
     photo = cx.getImageData(0, 0, pw, ph).data;
   }
 
-  // Photo colour at a CSS-px stage position, clamped to the frame.
-  function photoAt(x, y, out) {
-    const f = geom.frame;
-    const u = Math.min(pw - 1, Math.max(0, Math.floor(((x - f.x) / f.w) * pw)));
-    const v = Math.min(ph - 1, Math.max(0, Math.floor(((y - f.y) / f.h) * ph)));
-    const k = (v * pw + u) * 4;
-    out[0] = photo[k]; out[1] = photo[k + 1]; out[2] = photo[k + 2];
-    return out;
-  }
-
-  const wc = [0, 0, 0], fc = [0, 0, 0];
+  let warpShift = new Float32Array(0);
+  let onIn = new Uint8Array(S), onOut = new Uint8Array(S);
+  let shIn = new Float32Array(S), shOut = new Float32Array(S);
 
   return {
     kind: 'canvas2d',
     resize(g) {
       geom = g;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      // DPR capped at 1.5: the threads are drawn as scaled-up blocks anyway,
+      // and a 3x canvas costs this tier more than it shows.
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.round(g.width * dpr);
       canvas.height = Math.round(g.height * dpr);
       geom.dpr = canvas.width / g.width;
@@ -53,6 +49,7 @@ export function create(canvas, img) {
       rows = Math.ceil(g.height / g.t);
       buf.width = cols * S; buf.height = rows * S;
       data = bctx.createImageData(buf.width, buf.height);
+      warpShift = new Float32Array(cols);
       samplePhoto();
     },
     render(phs) {
@@ -60,50 +57,67 @@ export function create(canvas, img) {
       const { t, frame: f, width: W } = geom;
       const px = data.data;
       const width = 0.42 + 0.58 * phs.tight;
+      const widthOut = width + (0.6 - width) * phs.hand;
       const amp = (1 - phs.tight) * f.h * 0.6;
       const keepIn = 1 - phs.resolve;
       const keepOut = 1 - phs.hand;
+      const fx0 = f.x, fy0 = f.y, fx1 = f.x + f.w, fy1 = f.y + f.h;
+      const sx = pw / f.w, sy = ph / f.h;
+
+      // Everything that depends only on the column, or only on the sample's
+      // position inside a thread, is worked out once per frame, not per sample.
+      for (let i = 0; i < cols; i++) warpShift[i] = (hash(i + 1) - 0.5) * amp;
+      for (let s = 0; s < S; s++) {
+        const fx = (s + 0.5) / S;
+        const wIn = (fx - 0.5) / width + 0.5, wOut = (fx - 0.5) / widthOut + 0.5;
+        onIn[s] = wIn > 0 && wIn < 1 ? 1 : 0;
+        onOut[s] = wOut > 0 && wOut < 1 ? 1 : 0;
+        shIn[s] = 0.72 + 0.28 * Math.sin(Math.PI * Math.min(1, Math.max(0, wIn)));
+        shOut[s] = 0.72 + 0.28 * Math.sin(Math.PI * Math.min(1, Math.max(0, wOut)));
+      }
+      const kr = COLORS.khadi[0] + (WARP_OUT[0] - COLORS.khadi[0]) * phs.hand;
+      const kg = COLORS.khadi[1] + (WARP_OUT[1] - COLORS.khadi[1]) * phs.hand;
+      const kb = COLORS.khadi[2] + (WARP_OUT[2] - COLORS.khadi[2]) * phs.hand;
 
       for (let j = 0; j < rows; j++) {
         const delay = (j / rows) * 0.6;
         const head = Math.min(1, Math.max(0, (phs.weft - delay) / 0.4)) * W;
         const away = Math.min(1, Math.max(0, (phs.hand - delay * 0.5) / 0.7));
+        const outLimit = Math.min(head, (1 - away) * W);
         const weftShift = (hash(j + 101) - 0.5) * amp;
         const rc = rowColor(j);
-        for (let sy = 0; sy < S; sy++) {
-          const fy = (sy + 0.5) / S;
+        const vRow = Math.min(ph - 1, Math.max(0, Math.floor(((j + 0.5) * t - fy0) * sy)));
+        for (let s2 = 0; s2 < S; s2++) {
+          const fy = (s2 + 0.5) / S;
           const y = (j + fy) * t;
           const wy = (fy - 0.5) / width + 0.5;
           const onWeftBody = wy > 0 && wy < 1;
           const weftShade = 0.72 + 0.28 * Math.sin(Math.PI * Math.min(1, Math.max(0, wy)));
-          let o = (j * S + sy) * buf.width * 4;
+          const rowIn = y >= fy0 && y < fy1;
+          let o = (j * S + s2) * buf.width * 4;
           for (let i = 0; i < cols; i++) {
-            const warpShift = (hash(i + 1) - 0.5) * amp;
-            for (let sx = 0; sx < S; sx++, o += 4) {
-              const fx = (sx + 0.5) / S;
-              const x = (i + fx) * t;
-              const inFrame = x >= f.x && y >= f.y && x < f.x + f.w && y < f.y + f.h;
-              const ww = inFrame ? width : width + (0.8 - width) * phs.hand;
-              const wx = (fx - 0.5) / ww + 0.5;
-              const onWarp = wx > 0 && wx < 1;
-              let weftHere = x < head;
-              if (!inFrame) weftHere = weftHere && x < (1 - away) * W;
-              const onWeft = onWeftBody && weftHere;
-
-              let c = GROUND, shade = 1;
-              const top = onWarp && onWeft ? warpOnTop(i, j) : onWarp;
-              if (onWarp || onWeft) {
-                if (top) {
-                  c = inFrame ? photoAt((i + 0.5) * t, y + warpShift, wc)
-                              : mixInto(wc, COLORS.khadi, WARP_OUT, phs.hand);
-                  shade = 0.72 + 0.28 * Math.sin(Math.PI * Math.min(1, Math.max(0, wx)));
-                } else {
-                  c = inFrame ? photoAt(x + weftShift, (j + 0.5) * t, fc) : rc;
-                  shade = weftShade;
-                }
+            const top = warpOnTop(i, j);
+            const uCol = Math.min(pw - 1, Math.max(0, Math.floor(((i + 0.5) * t - fx0) * sx)));
+            const vWarp = Math.min(ph - 1, Math.max(0, Math.floor((y + warpShift[i] - fy0) * sy)));
+            for (let s = 0; s < S; s++, o += 4) {
+              const x = (i + (s + 0.5) / S) * t;
+              const inFrame = rowIn && x >= fx0 && x < fx1;
+              const onWarp = inFrame ? onIn[s] : onOut[s];
+              const onWeft = onWeftBody && x < (inFrame ? head : outLimit);
+              let r = GROUND[0], g = GROUND[1], bl = GROUND[2], shade = 1;
+              if (onWarp && (top || !onWeft)) {
+                if (inFrame) { const k = (vWarp * pw + uCol) * 4; r = photo[k]; g = photo[k + 1]; bl = photo[k + 2]; }
+                else { r = kr; g = kg; bl = kb; }
+                shade = inFrame ? shIn[s] : shOut[s];
+              } else if (onWeft) {
+                if (inFrame) {
+                  const u = Math.min(pw - 1, Math.max(0, Math.floor((x + weftShift - fx0) * sx)));
+                  const k = (vRow * pw + u) * 4; r = photo[k]; g = photo[k + 1]; bl = photo[k + 2];
+                } else { r = rc[0]; g = rc[1]; bl = rc[2]; }
+                shade = weftShade;
               }
-              const k = 1 + (shade - 1) * (inFrame ? keepIn : keepOut);
-              px[o] = c[0] * k; px[o + 1] = c[1] * k; px[o + 2] = c[2] * k; px[o + 3] = 255;
+              const m = 1 + (shade - 1) * (inFrame ? keepIn : keepOut);
+              px[o] = r * m; px[o + 1] = g * m; px[o + 2] = bl * m; px[o + 3] = 255;
             }
           }
         }
@@ -120,13 +134,16 @@ export function create(canvas, img) {
         ctx.globalAlpha = 1;
       }
     },
+    // Cheaper sampling: 9 samples per thread instead of 25. Returns false when
+    // there is nothing cheaper left, and the caller falls back to tier 3.
+    degrade() {
+      if (S === 3) return false;
+      S = 3;
+      onIn = new Uint8Array(S); onOut = new Uint8Array(S);
+      shIn = new Float32Array(S); shOut = new Float32Array(S);
+      if (geom) this.resize(geom);
+      return true;
+    },
     destroy() {},
   };
-}
-
-function mixInto(out, a, b, k) {
-  out[0] = a[0] + (b[0] - a[0]) * k;
-  out[1] = a[1] + (b[1] - a[1]) * k;
-  out[2] = a[2] + (b[2] - a[2]) * k;
-  return out;
 }
