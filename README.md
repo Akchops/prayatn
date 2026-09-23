@@ -24,7 +24,7 @@ opens straight from disk and is marked "Pre-launch preview".
 | | |
 |---|---|
 | `docs/VERIFIED-FACTS.md` | every fact on the site and its status, plus the **launch blockers** |
-| `docs/ASSET-MANIFEST.md` | every photo, with a consent checkbox per photo |
+| `docs/ASSET-MANIFEST.md` | every photo, who is in it, and its consent status |
 | `docs/QA-REPORT.md` | QA verdict, punch list, page weight, evidence in `docs/qa/` |
 | `docs/CONCEPTS.md` | the three Phase 2 concepts |
 | `src/data/site.json` | contact details, cheque and 80G lines, **bank details slot** |
