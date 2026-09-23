@@ -55,8 +55,7 @@ for (const [src, name] of Object.entries(pages)) {
 
   // Scripts: drop the module entry and preloads; add the bundle at the end.
   html = html.replace(/<script type="module"[^>]*><\/script>/g, '')
-    .replace(/<link rel="modulepreload"[^>]*>/g, '')
-    .replace('</body>', `<script>${js}</script></body>`);
+    .replace(/<link rel="modulepreload"[^>]*>/g, '');
 
   // Photos: one JPEG each, at native width for the hero (so the native-size
   // cap is exercised) and at most 800px for the rest.
@@ -81,6 +80,8 @@ for (const [src, name] of Object.entries(pages)) {
   html = html.replace('<head>', '<head>\n    <meta name="robots" content="noindex, nofollow">')
     .replace(/<body([^>]*)>/, `<body$1>\n    <div style="background:#1E2440;color:#F3ECDF;font:600 13px/1.4 system-ui,sans-serif;padding:6px 16px;text-align:center">Pre-launch preview · not the live site</div>`);
 
+  // The bundle goes in last, so none of the rewrites above can touch it.
+  html = html.replace('</body>', () => `<script>${js}</script></body>`);
   writeFileSync(join(out, name), html);
   console.log(`${name}  ${(html.length / 1024).toFixed(0)} kB`);
 }
