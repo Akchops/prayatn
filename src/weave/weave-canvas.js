@@ -11,7 +11,7 @@ import { hash } from './phases.js';
 // threads. 5 by default; degrade() drops to 3 on slow devices.
 let S = 5;
 const GROUND = COLORS.indigo;
-const WARP_OUT = [217, 209, 193];  // #D9D1C1, as in the shader
+const WARP_OUT = [52, 60, 98];     // #343C62, as in the shader
 
 export function create(canvas, img) {
   const ctx = canvas.getContext('2d', { alpha: false });
@@ -79,9 +79,9 @@ export function create(canvas, img) {
         shIn[s] = 0.72 + 0.28 * Math.sin(Math.PI * Math.min(1, Math.max(0, wIn)));
         shOut[s] = 0.72 + 0.28 * Math.sin(Math.PI * Math.min(1, Math.max(0, wOut)));
       }
-      const kr = COLORS.khadi[0] + (WARP_OUT[0] - COLORS.khadi[0]) * phs.hand;
-      const kg = COLORS.khadi[1] + (WARP_OUT[1] - COLORS.khadi[1]) * phs.hand;
-      const kb = COLORS.khadi[2] + (WARP_OUT[2] - COLORS.khadi[2]) * phs.hand;
+      const kr = COLORS.warp[0] + (WARP_OUT[0] - COLORS.warp[0]) * phs.hand;
+      const kg = COLORS.warp[1] + (WARP_OUT[1] - COLORS.warp[1]) * phs.hand;
+      const kb = COLORS.warp[2] + (WARP_OUT[2] - COLORS.warp[2]) * phs.hand;
 
       for (let j = 0; j < rows; j++) {
         const delay = (j / rows) * 0.6;

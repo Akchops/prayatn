@@ -38,13 +38,13 @@ uniform float uResolve;  // 0..1 beat 3: thread texture dissolves to the full ph
 uniform float uHand;     // 0..1 beat 3 end: weft withdraws outside the frame
 
 // The palette. Must match src/weave/pattern.js and main.css.
-const vec3 KHADI    = vec3(0.953, 0.925, 0.875);  // #F3ECDF warp
+const vec3 WARP     = vec3(0.204, 0.235, 0.384);  // #343C62 the rug's warp, tone-on-tone with the weft
 const vec3 INDIGO   = vec3(0.118, 0.141, 0.251);  // #1E2440 main weft
 const vec3 MARIGOLD = vec3(0.886, 0.627, 0.098);  // #E2A019
 const vec3 RANI     = vec3(0.761, 0.184, 0.400);  // #C22F66
 const vec3 NEEM     = vec3(0.114, 0.431, 0.384);  // #1D6E62
 const vec3 GROUND   = vec3(0.118, 0.141, 0.251);  // gaps between threads show the indigo ground
-const vec3 WARP_OUT = vec3(0.851, 0.820, 0.757);  // #D9D1C1 the warp colour of the band below the hero
+const vec3 WARP_OUT = vec3(0.204, 0.235, 0.384);  // #343C62 the warp lines continuing into the band below
 
 const float PI = 3.14159265;
 
@@ -62,11 +62,10 @@ vec3 rowColor(float j) {
   return INDIGO;
 }
 
-// Chevron twill: a 2/2 twill steps one column per row, drawing diagonals;
-// the diagonal direction flips every 8 columns, which makes the zig-zag.
+// Plain weave: warp and weft alternate over and under at every crossing,
+// a fine even cloth. mod(i + j, 2) is 0 on alternate cells like a chessboard.
 bool warpOnTop(float i, float j) {
-  float flip = mod(floor(i / 8.0), 2.0) < 0.5 ? 1.0 : -1.0;
-  return mod(i + flip * j, 4.0) < 2.0;
+  return mod(i + j, 2.0) < 0.5;
 }
 
 // The photo's current rect: full-bleed at the start, its native-size frame
@@ -134,7 +133,7 @@ void main() {
   // Thread dye. Inside the frame a warp thread carries the photo's column
   // through its centre line, a weft thread its row. Outside, the durrie.
   vec3 warpCol = inFrame ? photo(vec2((i + 0.5) * uT, p.y + warpShift))
-                         : mix(KHADI, WARP_OUT, uHand);
+                         : mix(WARP, WARP_OUT, uHand);
   vec3 weftCol = inFrame ? photo(vec2(p.x + weftShift, (j + 0.5) * uT))
                          : rowColor(j);
 

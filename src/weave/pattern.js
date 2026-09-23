@@ -3,7 +3,8 @@
 // If you change a number here, change it in the shader too.
 
 export const COLORS = {
-  khadi: [243, 236, 223],   // #F3ECDF  unbleached cotton: the warp
+  khadi: [243, 236, 223],   // #F3ECDF  unbleached cotton
+  warp: [52, 60, 98],       // #343C62  the rug's warp: a lighter indigo, tone-on-tone with the weft
   indigo: [30, 36, 64],     // #1E2440  the main weft
   marigold: [226, 160, 25], // #E2A019
   rani: [194, 47, 102],     // #C22F66
@@ -21,13 +22,10 @@ export function rowColor(j) {
   return COLORS.indigo;
 }
 
-// Chevron twill. In each cell either the warp (vertical) or the weft
-// (horizontal) thread is on top. A 2/2 twill steps one column per row, which
-// draws diagonals; flipping the diagonal every 8 columns turns them into the
-// zig-zag you see on durries.
+// Plain weave: warp and weft alternate over and under every thread, which
+// gives a fine, even cloth texture (the owner found the chevron twill too
+// loud behind the photo). CHEVRON is kept as the tile width.
 export const CHEVRON = 8;
 export function warpOnTop(i, j) {
-  const flip = Math.floor(i / CHEVRON) % 2 === 0 ? 1 : -1;
-  const k = (((i + flip * j) % 4) + 4) % 4;
-  return k < 2;
+  return ((i + j) % 2 + 2) % 2 === 0;
 }

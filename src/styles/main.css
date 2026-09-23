@@ -301,7 +301,7 @@ address { font-style: normal; }
   /* The warp threads left behind by the weave continue down into this band
      and fade out: the same pitch as the rug above. */
   background-image: linear-gradient(to bottom, transparent, var(--indigo) 240px),
-    repeating-linear-gradient(90deg, transparent 0 calc(var(--t) * .2), #D9D1C1 calc(var(--t) * .2) calc(var(--t) * .8), transparent calc(var(--t) * .8) var(--t));
+    repeating-linear-gradient(90deg, transparent 0 calc(var(--t) * .2), #343C62 calc(var(--t) * .2) calc(var(--t) * .8), transparent calc(var(--t) * .8) var(--t));
   background-size: 100% 100%, 100% 240px;
   background-repeat: no-repeat;
 }

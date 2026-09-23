@@ -14,7 +14,7 @@ let rects = '';
 for (let j = 0; j < ROWS; j++) {
   for (let i = 0; i < COLS; i++) {
     const warp = warpOnTop(i, j);
-    const c = warp ? COLORS.khadi : rowColor(j);
+    const c = warp ? COLORS.warp : rowColor(j);
     rects += `<rect x="${i}" y="${j}" width="1" height="1" fill="${hex(c)}"/>`;
     // A darker hairline down one side of the top thread gives it roundness
     // without a gradient per cell.
