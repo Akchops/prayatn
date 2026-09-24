@@ -801,3 +801,29 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .sp { margin: 20px 0 0; max-width: min(100%, 640px); }
 .sp img { width: 100%; }
 @media (min-width: 1000px) { .pblock .sp { grid-column: 2; } }
+
+/* ---------- Partners & supporters (hidden until src/data/partners.json is filled) ----------
+   Each name sits on its own weft thread; with motion the rows slide in from
+   alternate sides as the section scrolls into view (src/motion.js). */
+.partners { background: var(--indigo); color: var(--khadi); overflow: hidden; }
+.partners--about { margin: 0 calc(-1 * var(--gutter)) 48px; }
+.partners__inner { max-width: var(--max); margin: 0 auto; padding: 64px var(--gutter) 56px; }
+.partners h2 { color: var(--khadi); font-size: clamp(1.9rem, 1.2rem + 3vw, 3.4rem); }
+.partners .eyebrow { color: #F2B940; }
+.partners__list { list-style: none; margin: 24px 0 0; padding: 0; }
+.partners__row { position: relative; border-top: 1px solid rgba(243,236,223,.14); }
+.partners__row::after {
+  /* the weft thread under each name, in turn marigold, rani, neem */
+  content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 3px;
+  background: var(--marigold); transform-origin: left; opacity: .85;
+  transform: scaleX(var(--thread, 1));
+}
+.partners__row:nth-child(3n+2)::after { background: var(--rani); transform-origin: right; }
+.partners__row:nth-child(3n)::after { background: var(--neem); }
+.partners__row > a, .partners__row > div { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 22px 0 20px; text-decoration: none; color: inherit; }
+.partners__logo { height: 44px; width: auto; max-width: 140px; object-fit: contain; background: var(--khadi); padding: 6px 10px; }
+.partners__name { font: 800 clamp(1.6rem, 1rem + 3.4vw, 3.6rem)/1 var(--display); letter-spacing: -0.03em; }
+.partners__what { color: #D9D2C3; font-size: .95rem; flex-basis: 100%; }
+.partners__row a:hover .partners__name { color: #F2B940; }
+
+.debug-box { position: fixed; left: 8px; right: 8px; bottom: 8px; z-index: 9999; margin: 0; padding: 10px 12px; background: #000; color: #9f9; font: 12px/1.45 ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-word; opacity: .92; }

@@ -69,6 +69,18 @@ function reel(which, images) {
   return `<div class="reel__rows"><div class="reel__track" data-reel-track>${rowA.join('')}</div><div class="reel__track reel__track--b" data-reel-track>${rowB.join('')}</div></div>`;
 }
 
+// Partners and supporters, from src/data/partners.json. Renders nothing while
+// the list is empty: no placeholder names ever reach the page.
+function partnersBlock(list, variant) {
+  if (!list.length) return '';
+  const item = (p, i) => {
+    const logo = p.logo ? `<img class="partners__logo" src="/partners/${esc(p.logo)}" alt="" loading="lazy">` : '';
+    const inner = `${logo}<span class="partners__name">${esc(p.name)}</span>${p.what ? `<span class="partners__what">${esc(p.what)}</span>` : ''}`;
+    return `<li class="partners__row" style="--r:${i}">${p.url ? `<a href="${esc(p.url)}" rel="noopener" target="_blank">${inner}</a>` : `<div>${inner}</div>`}</li>`;
+  };
+  return `<section class="partners partners--${variant}" aria-labelledby="partners-${variant}"><div class="partners__inner"><p class="eyebrow">With thanks</p><h2 id="partners-${variant}" class="rv">Our partners &amp; supporters</h2><ol class="partners__list" data-partners>${list.map(item).join('')}</ol></div></section>`;
+}
+
 function bankBlock(site) {
   const b = site.bank;
   const phones = site.phones.map((p) => `<a href="${tel(p)}">${p}</a>`).join(' or ');
@@ -87,6 +99,7 @@ function templates() {
       handler(html, ctx) {
         const site = json('src/data/site.json');
         const images = json('src/data/images.json');
+        const partners = json('src/data/partners.json').partners || [];
         const year = new Date().getFullYear();
         const page = (ctx.path.match(/\/([\w-]+)\/index\.html$/)?.[1]) ?? (ctx.path === '/404.html' ? '404' : 'home');
         const vars = {
@@ -106,6 +119,8 @@ function templates() {
           tagline: esc(site.tagline),
           blurb: esc(site.blurb),
           bank: bankBlock(site),
+          partnersHome: partnersBlock(partners, 'home'),
+          partnersAbout: partnersBlock(partners, 'about'),
         };
         const fill = (s) => s
           .replace(/<!--@(\w+)-->/g, (_, p) => fill(read(`src/partials/${p}.html`)))

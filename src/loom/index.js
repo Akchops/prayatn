@@ -28,7 +28,9 @@ export async function start(section) {
   const stage = section.querySelector('.loom__stage');
   if (!stage) return;
   let atlas;
-  try { atlas = await loadAtlas(); await atlas.decode?.(); } catch { return; }
+  const fail = (why) => { document.documentElement.dataset.loomFail = why; };
+  try { atlas = await loadAtlas(); } catch { fail('the photo sheet did not load'); return; }
+  try { await atlas.decode?.(); } catch { /* decode() can reject on some browsers even when the image is usable */ }
 
   const force = new URLSearchParams(location.search).get('tier');
   // A canvas can hold only one kind of context: once WebGL has been tried on
@@ -43,7 +45,7 @@ export async function start(section) {
     }
   }
   if (!r) { canvas = fresh(); r = createCanvas(canvas, atlas, meta); }
-  if (!r) return;
+  if (!r) { fail('no WebGL and no Canvas 2D'); return; }
   // WebGL context lost (tab in the background on a phone): carry on in 2D.
   function demote() {
     const c = fresh();

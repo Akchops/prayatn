@@ -13,7 +13,7 @@ if (!reduce.matches) import('./motion.js').catch(() => {});
 
 if (!reduce.matches) {
   const loom = document.querySelector('[data-loom]');
-  if (loom) import('./loom/index.js').then((m) => m.start(loom)).catch(() => {});
+  if (loom) import('./loom/index.js').then((m) => m.start(loom)).catch((e) => { document.documentElement.dataset.loomFail = `script: ${e?.message || e}`; });
 
   const reel = document.querySelector('[data-reel]');
   if (reel) import('./reel.js').then((m) => m.start(reel)).catch(() => {});
@@ -32,4 +32,36 @@ if (!reduce.matches) {
     }, { rootMargin: '50% 0px' });
     io.observe(work);
   }
+}
+
+// ?debug: after five seconds, show what each animated part is doing on this
+// device, so a problem on someone's phone can be reported with a screenshot.
+if (/[?&]debug\b/.test(location.search)) {
+  setTimeout(() => {
+    const d = document.documentElement.dataset;
+    const loom = document.querySelector('[data-loom]');
+    let gl = 'none', frag = '-';
+    try {
+      const c = document.createElement('canvas').getContext('webgl');
+      if (c) {
+        gl = c.getParameter(c.VERSION);
+        frag = c.getParameter(c.MAX_FRAGMENT_UNIFORM_VECTORS);
+        const x = c.getExtension('WEBGL_debug_renderer_info');
+        if (x) gl += ' / ' + c.getParameter(x.UNMASKED_RENDERER_WEBGL);
+        c.getExtension('WEBGL_lose_context')?.loseContext();
+      }
+    } catch (e) { gl = 'error: ' + e.message; }
+    const box = document.createElement('pre');
+    box.className = 'debug-box';
+    box.textContent = [
+      `hero: ${d.weaveTier || '-'}`,
+      `gallery: ${loom ? (loom.dataset.tier || 'not started') + (d.loomFail ? ` (${d.loomFail})` : '') : '-'}`,
+      `reduced motion: ${reduce.matches}`,
+      `webgl: ${gl}`,
+      `fragment uniform vectors: ${frag}`,
+      `screen: ${innerWidth}x${innerHeight} @${devicePixelRatio}`,
+      navigator.userAgent,
+    ].join('\n');
+    document.body.appendChild(box);
+  }, 5000);
 }

@@ -196,3 +196,27 @@ if (scrubbed.length) {
   window.addEventListener('resize', kick);
   kick();
 }
+
+// Partners: each name slides in along its thread, alternately from the left
+// and the right, scrubbed by the section's position on screen.
+const plist2 = document.querySelector('[data-partners]');
+if (plist2) {
+  const rows = [...plist2.children];
+  let raf = 0;
+  const place = () => {
+    raf = 0;
+    const vh = window.innerHeight;
+    rows.forEach((row, i) => {
+      const r = row.getBoundingClientRect();
+      // 0 when the row is at the bottom of the screen, 1 by the time it is 35% up.
+      const k = Math.max(0, Math.min(1, (vh - r.top) / (vh * 0.35)));
+      const e = 1 - Math.pow(1 - k, 3);
+      const dir = i % 2 ? 1 : -1;
+      row.style.translate = `${(dir * (1 - e) * 40).toFixed(2)}vw 0`;
+      row.style.opacity = (0.15 + 0.85 * e).toFixed(3);
+      row.style.setProperty('--thread', e.toFixed(3));
+    });
+  };
+  window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(place); }, { passive: true });
+  place();
+}

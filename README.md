@@ -46,6 +46,24 @@ viewers block scripts; there you will only see the still version.
 | `src/ui.js`, `src/motion.js` | gallery filter, lightbox, map, project previews; reveals and the photo strip |
 | pages | `/`, `/about/`, `/healthcare/`, `/education/`, `/women-development/`, `/gallery/`, `/get-involved/`, `/404.html` |
 
+## Adding the partners
+
+Put each confirmed partner in `src/data/partners.json`:
+
+```json
+"partners": [ { "name": "…", "what": "optional line, e.g. what they support", "url": "optional", "logo": "optional-file.png" } ]
+```
+
+Logos go in `public/partners/`. While the list is empty the section does not
+appear. Once filled it shows on the home page (above "Three ways in") and on About.
+
+## If something doesn't animate on a phone
+
+Open the page with `?debug` on the end, for example
+`https://akchops.github.io/prayatn/gallery/?debug`, wait five seconds, and
+screenshot the black box at the bottom. It shows which version of each
+animation is running and why the gallery didn't start, if it didn't.
+
 ## Adding the bank details
 
 Fill in `bank` in `src/data/site.json`:

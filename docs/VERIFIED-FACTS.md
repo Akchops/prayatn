@@ -31,8 +31,8 @@ confirmed, plus two screenshots the owner supplied.
 | Fact | Wording | Status |
 |---|---|---|
 | Mission | "to empower the marginalized by building their capabilities through education and skill development for a decent, dignified and independent life" | CONFIRMED |
-| Purpose | "to enable people to respond to and change their situation of inequality and injustice", with "education and awareness, community involvement and collective action as the driving force of social and economic change" | CONFIRMED |
-| Approach | "Model Development Approach": a mix of strategies to analyse problems, understand root causes, and develop and demonstrate solutions by addressing all dimensions of a problem at once | CONFIRMED |
+| ~~Purpose~~ | ~~"to enable people to respond to and change their situation of inequality and injustice…"~~ | **EXCLUDED 2026-09-24. Belongs to a different NGO:** this is Prayatn Sanstha, Jaipur (prayatn.org), also founded 1992. It came in through a Phase 1 search snippet, was never in the list the owner confirmed, and was wrongly marked CONFIRMED. Removed from the home, About and Women development pages. |
+| ~~Approach~~ | ~~"Model Development Approach"~~ | **EXCLUDED 2026-09-24.** Same source (Prayatn Sanstha, Jaipur). Removed from About. |
 
 ## Programmes (all currently running, per owner)
 
@@ -122,7 +122,11 @@ and strength." (OLD SITE)
 underprivileged sections of society continue their Education. You can connect
 with us, contribute financially & get involved." (OLD SITE)
 
-## Organisations visible in photos (NOT to be named as partners without confirmation)
+## Partners and supporters
+
+The owner (2026-09-24) says there are **five companies** that should appear as partners/supporters. Their names are not in any material supplied so far, and the old site cannot be read from this environment. **PENDING:** the five names, logos if wanted, and confirmation that each is happy to be named (the owner's own condition from 2026-09-23). The section is built and stays hidden until `src/data/partners.json` is filled.
+
+### Organisations visible in photos (NOT to be named as partners without confirmation)
 
 | Organisation | Where seen | Status |
 |---|---|---|
@@ -143,7 +147,8 @@ Footer: "Made by Aarav Chopra". CONFIRMED.
 
 - An old-site line "Families who came as children now send their own children". It is unverifiable narrative and is not used.
 - A search tool's guess that the trust "typically qualifies for 80G". It was speculation; the verbatim old-site sentence above is used instead.
-- Similar-named organisations that are **not** Prayatn: Prayatn Sanstha Jaipur, Prayatna (several), Prayas.
+- Similar-named organisations that are **not** Prayatn: Prayatn Sanstha Jaipur (prayatn.org, *also founded 1992*: its wording must never be used), Prayatna (prayatnaworld.org and others; its corporate partners, such as ITC, HCL Foundation, Sugar Exim and HDB Financial Services, are **not** Prayatn's), Prayas.
+- Rule from 2026-09-24: text from a search snippet is used only if it came from a search restricted to prayatnonline.org **and** the owner has seen it.
 
 ## Launch blockers
 
@@ -158,4 +163,5 @@ Status on 2026-09-23. The site is not going live yet; the owner asked for everyt
 | 5 | Spelling: Swaasthya / Swasthya | **Resolved by the old site:** its footer lists "Swaasthya Kendra". |
 | 7 | Phone number | **Open.** Old-site footer shows 011-45688954; the site uses the confirmed 011-26415831 / 26415832. |
 | 8 | Logo | Stopgap crop from a screenshot; send the original file. |
+| 9 | Partners (five companies) | **Open.** Names, optional logos, and confirmation each is happy to be named. Section built, hidden until `src/data/partners.json` is filled. |
 | 6 | School figures | Waiting for the yearly report. No numbers until then. |
