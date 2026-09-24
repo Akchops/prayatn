@@ -794,3 +794,10 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .gfilter { position: sticky; }
 .g-group[hidden] { display: none; }
 @media (max-width: 600px) { .loom__hint span:last-child { display: none; } }
+
+/* Scroll-scrubbed photos (src/motion.js): the picture is its own window. */
+.scrub picture { display: block; overflow: hidden; will-change: clip-path; }
+.scrub picture img { will-change: transform; }
+.sp { margin: 20px 0 0; max-width: min(100%, 640px); }
+.sp img { width: 100%; }
+@media (min-width: 1000px) { .pblock .sp { grid-column: 2; } }

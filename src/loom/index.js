@@ -10,6 +10,7 @@ import { tileSize, cellAt, tileIndex } from './layout.js';
 import meta from '../data/atlas.json';
 
 const CAT = { health: 0, school: 1, women: 2, events: 3 };
+const BASE = import.meta.env.BASE_URL;
 
 function loadAtlas() {
   return new Promise((resolve, reject) => {
@@ -17,8 +18,9 @@ function loadAtlas() {
     img.decoding = 'async';
     img.onload = () => resolve(img);
     // AVIF where supported, JPEG otherwise.
-    img.onerror = () => { if (!img.src.endsWith('.jpg')) img.src = '/img/atlas.jpg'; else reject(); };
-    img.src = '/img/atlas.avif';
+    // BASE_URL: '/' on the real domain, '/prayatn/' on the GitHub preview.
+    img.onerror = () => { if (!img.src.endsWith('.jpg')) img.src = `${BASE}img/atlas.jpg`; else reject(); };
+    img.src = `${BASE}img/atlas.avif`;
   });
 }
 
@@ -127,9 +129,9 @@ export async function start(section) {
   const box = document.querySelector('[data-lightbox]');
   function open(idx) {
     const t = meta.tiles[idx];
-    if (!box || typeof box.showModal !== 'function') { location.href = t.src; return; }
+    if (!box || typeof box.showModal !== 'function') { location.href = BASE + t.src.replace(/^\//, ''); return; }
     const img = box.querySelector('img'), cap = box.querySelector('.lightbox__cap');
-    img.src = t.src; img.alt = t.alt; cap.textContent = t.alt;
+    img.src = BASE + t.src.replace(/^\//, ''); img.alt = t.alt; cap.textContent = t.alt;
     box.showModal();
   }
 

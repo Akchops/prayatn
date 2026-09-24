@@ -7,33 +7,16 @@ const below = (el) => el.getBoundingClientRect().top > window.innerHeight;
 
 // Headings: the line rises out of a mask.
 const heads = [...document.querySelectorAll('.rv')].filter(below);
-// Photos: the weft slats withdraw.
-const photos = [...document.querySelectorAll('.m')].filter(below);
-photos.forEach((f) => {
-  const pic = f.querySelector('picture') || f.querySelector('img');
-  if (!pic) return;
-  const wrap = document.createElement('div');
-  wrap.className = 'slats';
-  pic.replaceWith(wrap);
-  wrap.appendChild(pic);
-  const cover = document.createElement('div');
-  cover.className = 'slats__cover';
-  cover.setAttribute('aria-hidden', 'true');
-  cover.innerHTML = '<i></i><i></i><i></i><i></i><i></i><i></i>';
-  wrap.appendChild(cover);
-});
 heads.forEach((h) => h.classList.add('rv-on'));
 
 const io = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
     if (!e.isIntersecting) return;
-    const t = e.target.classList.contains('rv-on') ? e.target : e.target.querySelector('.slats');
-    t?.classList.add('is-in');
+    e.target.classList.add('is-in');
     io.unobserve(e.target);
   });
 }, { rootMargin: '0px' });
 heads.forEach((h) => io.observe(h));
-photos.forEach((f) => io.observe(f));
 
 // Days at Prayatn: the strip drifts sideways as the section crosses the screen.
 const strip = document.querySelector('.moments');
@@ -169,3 +152,47 @@ groups.forEach((sel) => document.querySelectorAll(sel).forEach((g) => {
     kids.forEach((k) => k.classList.add('is-in'));
   }, { rootMargin: '0px 0px -10% 0px' }).observe(g);
 }));
+
+// Photos move with the scroll, not with a timer. For each photo on screen,
+// k runs from 1 (just entering at the bottom) through 0 (centre of the
+// screen) to -1 (leaving at the top). Its frame opens as it rises towards the
+// centre and closes again as it leaves, alternately from the middle and from
+// the sides; the picture drifts and zooms inside the frame. Nothing is hidden
+// without JS: these are inline styles written only while scrolling.
+const scrubbed = [...document.querySelectorAll('.m, .g-item, .sp')];
+if (scrubbed.length) {
+  const on = new Set();
+  const vis = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? on.add(e.target) : on.delete(e.target))), { rootMargin: '10% 0px' });
+  scrubbed.forEach((f, i) => {
+    f.classList.add('scrub');
+    f.dataset.scrub = i % 2 ? 'side' : 'mid';
+    vis.observe(f);
+  });
+  let raf = 0;
+  const place = () => {
+    raf = 0;
+    const vh = window.innerHeight;
+    on.forEach((f) => {
+      const pic = f.querySelector('picture');
+      if (!pic) return;
+      const r = pic.getBoundingClientRect();
+      const k = Math.max(-1, Math.min(1, ((r.top + r.height / 2) - vh / 2) / (vh / 2 + r.height / 2)));
+      // Open fully over the lower 60% of the journey; close over the last 30%.
+      const shut = k > 0 ? Math.min(1, k / 0.6) : Math.max(0, (-k - 0.7) / 0.3);
+      const e = shut * shut;
+      const cut = (e * 48).toFixed(2);
+      pic.style.clipPath = f.dataset.scrub === 'side'
+        ? `inset(0 ${cut}% 0 ${cut}%)`
+        : `inset(${cut}% 0 ${cut}% 0)`;
+      const img = pic.querySelector('img');
+      if (img) {
+        img.style.scale = (1 + 0.22 * Math.abs(k)).toFixed(4);
+        img.style.translate = `0 ${(k * 9).toFixed(2)}%`;
+      }
+    });
+  };
+  const kick = () => { if (!raf) raf = requestAnimationFrame(place); };
+  window.addEventListener('scroll', kick, { passive: true });
+  window.addEventListener('resize', kick);
+  kick();
+}
