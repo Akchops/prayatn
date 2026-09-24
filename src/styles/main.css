@@ -997,3 +997,69 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 }
 .loom__chip.is-on { opacity: 1; }
 @media (hover: none) { .loom__chip { display: none; } }
+/* How to use it: a swipe gesture at the foot of the cloth until the first
+   drag, and on a PC a "Drag" badge that follows the mouse. */
+.loom__drag {
+  position: absolute; z-index: 2; left: 50%; bottom: 22px; translate: -50% 0; display: flex; align-items: center; gap: 14px;
+  background: var(--marigold); color: var(--indigo); padding: 10px 20px 10px 14px; border-radius: 999px; pointer-events: none;
+  font: 700 .95rem/1 var(--body); box-shadow: 0 12px 30px rgba(0,0,0,.35); transition: opacity .5s, translate .5s;
+  animation: drag-bob 2.4s ease-in-out infinite;
+}
+.loom__drag.is-gone { opacity: 0; translate: -50% 20px; animation: none; }
+.loom__gesture { flex: none; position: relative; display: flex; align-items: center; justify-content: space-between; width: 74px; height: 30px; }
+.loom__arrow { font: 800 1.4rem/1 var(--display); font-style: normal; opacity: .55; }
+.loom__dot { position: absolute; left: 50%; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--indigo); box-shadow: 0 0 0 5px rgba(30,36,64,.25); animation: drag-dot 1.6s cubic-bezier(.5,0,.5,1) infinite; }
+.loom__coarse { display: none; }
+.loom__draglabel { white-space: nowrap; }
+@media (hover: none) { .loom__fine { display: none; } .loom__coarse { display: inline; } }
+@keyframes drag-dot { 0%, 100% { transform: translateX(-22px); } 50% { transform: translateX(22px); } }
+@keyframes drag-bob { 0%, 100% { margin-bottom: 0; } 50% { margin-bottom: 6px; } }
+.loom__cursor { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .loom__stage.has-cursor { cursor: none; }
+  .loom__cursor {
+    display: grid; place-items: center; position: absolute; z-index: 3; left: 0; top: 0; width: 78px; height: 78px; margin: -39px 0 0 -39px;
+    border-radius: 50%; background: var(--marigold); color: var(--indigo); font: 800 .95rem/1 var(--display); letter-spacing: .02em;
+    pointer-events: none; opacity: 0; scale: .4; transition: opacity .25s, scale .3s cubic-bezier(.3,1.6,.5,1);
+  }
+  .loom__cursor::before, .loom__cursor::after { content: '‹'; position: absolute; left: -16px; top: 50%; translate: 0 -52%; font: 800 1.6rem/1 var(--display); color: var(--marigold); }
+  .loom__cursor::after { content: '›'; left: auto; right: -16px; }
+  .loom__cursor.is-on { opacity: 1; scale: 1; }
+  .is-dragging .loom__cursor { scale: .78; }
+}
+@media (prefers-reduced-motion: reduce) { .loom__drag, .loom__dot { animation: none; } }
+
+/* ---------- Page openings (src/opening.js) ----------
+   html.opening is set before first paint by the inline script in <head>: a
+   woven cover hides the page until the opening is built. The cover also
+   removes itself after 4.5 s, so a failed script never leaves it up. */
+html.opening { overflow: hidden; }
+html.opening body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t));
+  animation: cover-out .4s 4.5s forwards;
+}
+html.opening--on body::before { animation: none; background: var(--indigo); }
+@keyframes cover-out { to { opacity: 0; visibility: hidden; } }
+/* While the opening plays, the header's own animations wait; after it, the
+   photo card is already in place, so only the title animates. */
+html.opening [data-band], html.opening [data-band] *, html.opening [data-band] *::before, html.opening [data-band] *::after { animation-play-state: paused !important; }
+html.opened [data-band] .band__card, html.opened [data-band] .band__card img, html.opened [data-band] .band__card::before, html.opened [data-band] .band__card::after { animation: none !important; }
+html.opened [data-intro="deal"] .band__card::before, html.opened [data-intro="deal"] .band__card::after { display: none; }
+.opening { position: fixed; inset: 0; z-index: 9999; pointer-events: none; background: var(--indigo); transition: background-color var(--land, .8s); }
+.opening.is-landing { background-color: transparent; }
+.opening__field { position: absolute; inset: 0; }
+.opening__field i { position: absolute; background-repeat: no-repeat; will-change: transform, opacity; box-shadow: inset 0 0 0 .5px rgba(30,36,64,.35); backface-visibility: hidden; }
+.opening__title {
+  position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; margin: 0; padding: 0 var(--gutter); text-align: center; z-index: 2;
+  font: 800 clamp(3rem, 1rem + 9vw, 9.5rem)/.95 var(--display); letter-spacing: -0.04em; color: var(--khadi);
+  text-shadow: 0 6px 40px rgba(20,24,44,.75), 0 2px 0 rgba(20,24,44,.5); transition: opacity .35s;
+}
+.opening__title span { display: inline-block; white-space: nowrap; }
+.opening__title b { display: inline-block; font-weight: inherit; animation: open-letter .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 45ms + 250ms); }
+.opening.is-landing .opening__title { opacity: 0; }
+@keyframes open-letter { from { opacity: 0; transform: translateY(.5em) rotate(8deg); } to { opacity: 1; transform: none; } }
+.opening__pulse { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; overflow: visible; transition: opacity .5s .9s; }
+.opening__pulse path { fill: none; stroke: var(--rani); stroke-width: 5; stroke-linejoin: round; stroke-linecap: round; filter: drop-shadow(0 0 10px rgba(194,47,102,.9)); stroke-dasharray: 1; stroke-dashoffset: 1; animation: pulse-draw .9s cubic-bezier(.5,0,.3,1) forwards; }
+@keyframes pulse-draw { to { stroke-dashoffset: 0; } }
+.opening--on .opening__pulse { opacity: 0; transition-delay: 1.1s; }

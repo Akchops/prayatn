@@ -59,9 +59,13 @@ export async function start(section) {
   const chip = stage.querySelector('.loom__chip');
   const count = stage.querySelector('[data-loom-count]');
   if (count) count.textContent = String(meta.count);
-  // The title card goes as soon as someone touches the cloth, or after 6 s.
+  // The title card goes as soon as someone touches the cloth, or after 4.5 s.
+  // The swipe hint stays until the cloth has actually been dragged.
+  const dragHint = stage.querySelector('.loom__drag');
+  const cursor = stage.querySelector('.loom__cursor');
+  let dragged = false;
   const dismiss = () => title?.classList.add('is-gone');
-  setTimeout(dismiss, 6000);
+  setTimeout(dismiss, 4500);
   document.documentElement.classList.add('has-loom');
   section.dataset.tier = r.kind;
 
@@ -100,10 +104,12 @@ export async function start(section) {
   stage.addEventListener('pointermove', (e) => {
     const b = stage.getBoundingClientRect();
     s.px = e.clientX - b.left; s.py = e.clientY - b.top;
+    if (cursor && e.pointerType === 'mouse') { cursor.style.translate = `${s.px}px ${s.py}px`; cursor.classList.add('is-on'); stage.classList.add('has-cursor'); }
     if (drag && e.pointerId === drag.id) {
       const dx = e.clientX - drag.x, dy = e.pointerType === 'touch' ? 0 : e.clientY - drag.y;
       drag.x = e.clientX; drag.y = e.clientY;
       moved += Math.abs(dx) + Math.abs(dy);
+      if (!dragged && moved > 30) { dragged = true; dragHint?.classList.add('is-gone'); }
       s.ox -= dx; s.oy -= dy;
       s.vx = s.vx * 0.5 + -dx * 0.5; s.vy = s.vy * 0.5 + -dy * 0.5;
     } else if (e.pointerType === 'mouse') {
@@ -131,7 +137,7 @@ export async function start(section) {
   };
   stage.addEventListener('pointerup', end);
   stage.addEventListener('pointercancel', end);
-  stage.addEventListener('pointerleave', () => { targetHover = 0; chip?.classList.remove('is-on'); wake(); });
+  stage.addEventListener('pointerleave', () => { targetHover = 0; chip?.classList.remove('is-on'); cursor?.classList.remove('is-on'); wake(); });
 
   // Keyboard: arrows pan a tile at a time, Enter opens the photo in the middle.
   stage.addEventListener('keydown', (e) => {
@@ -183,5 +189,14 @@ export async function start(section) {
     if (visible) raf = requestAnimationFrame(frame);
   }
   function wake() { if (visible && !raf) raf = requestAnimationFrame(frame); }
-  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) { if (!t0) t0 = 0; wake(); } }).observe(stage);
+  // Show that it moves: once the cloth is on screen it glides one way and then
+  // back, in time with the swipe hint, unless someone has already dragged it.
+  let nudged = false;
+  const nudge = () => {
+    if (nudged) return;
+    nudged = true;
+    const push = (v, at) => setTimeout(() => { if (!dragged) { s.vx = v; wake(); } }, at);
+    push(26, 1500); push(-26, 2700); push(18, 3900);
+  };
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) { if (!t0) t0 = 0; nudge(); wake(); } }).observe(stage);
 }

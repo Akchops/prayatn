@@ -10,6 +10,11 @@ const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 import('./ui.js').catch(() => {});
 
+// The page's full-screen opening, if the inline script in <head> chose to play it.
+if (document.documentElement.classList.contains('opening')) {
+  import('./opening.js').then((m) => m.start()).catch(() => document.documentElement.classList.remove('opening'));
+}
+
 const story = document.querySelector('[data-story]');
 if (story) import('./story.js').then((m) => m.start(story)).catch(() => {});
 if (!reduce.matches) import('./motion.js').catch(() => {});

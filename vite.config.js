@@ -145,6 +145,8 @@ function templates() {
           credit: esc(site.credit),
           tagline: esc(site.tagline),
           blurb: esc(site.blurb),
+          // Pages with a header band get the full-screen opening (src/opening.js).
+          opening: String(!['home', '404'].includes(page)),
           bank: bankBlock(site),
           give: giveBlock(site),
           receiptLine: esc(site.receiptLine),
