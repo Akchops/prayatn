@@ -117,7 +117,7 @@ Trustee portraits are **not** in `uploads/`, so the site shows names and roles o
 | Fact | Wording | Status |
 |---|---|---|
 | Address | E-103, G.F., Kalkaji, New Delhi – 110019 | CONFIRMED; "G.F." (ground floor) from the old-site footer. |
-| Phone | 011-26415831, 011-26415832 | CONFIRMED (owner, facts 1–6). |
+| Phone | 011-45688954 (+91 11 4568 8954) | CONFIRMED (owner, 2026-09-24: "there's a new phone number"). Replaces 011-26415831 / 26415832, which are no longer shown. |
 | Phone (old-site footer) | "Tel.: 011- 45688954" | **CONFLICT, NOT USED.** The old-site footer shows a different number from the two confirmed ones. The owner must say which number(s) are current. |
 | Email | prayatn_1994@yahoo.co.in | CONFIRMED |
 | Domain | prayatnonline.org (likely) | CONFIRMED |
@@ -201,7 +201,7 @@ Status on 2026-09-23. The site is not going live yet; the owner asked for everyt
 | 3 | Photo consent | **Done.** Owner confirmed consent for all photos (2026-09-23). |
 | 4 | Programme names | **Done.** Seth Vidyalaya, Legal Help Desk, Mahila Panchayat (Badarpur) are named in copy. |
 | 5 | Spelling: Swaasthya / Swasthya | **Resolved by the old site:** its footer lists "Swaasthya Kendra". |
-| 7 | Phone number | **Open.** Old-site footer shows 011-45688954; the site uses the confirmed 011-26415831 / 26415832. |
+| 7 | Phone number | **Resolved 2026-09-24.** The owner gave 011-45688954 as the new number; the site now shows only that. |
 | 8 | Logo | Stopgap crop from a screenshot; send the original file. |
 | 9 | Partners | **Done** (2026-09-24): the old site's five partners, with logos from the owner's screenshots. |
 | 6 | School figures | Waiting for the yearly report. No numbers until then. |

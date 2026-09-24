@@ -421,8 +421,8 @@ a.reach__way:hover { background: #474F79; }
 .reach__k { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: #F2B940; font-weight: 600; }  /* marigold lifted to 5.5:1 on the tile */
 .reach__v { font: 700 1.35rem/1.2 var(--display); overflow-wrap: anywhere; }
 .reach__v--mail { font-size: 1.1rem; }
-@media (min-width: 700px) { .reach__ways { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1100px) { .reach__ways { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 700px) { .reach__ways { grid-template-columns: 1fr 1fr; } .reach__way--static { grid-column: 1 / -1; } }
+@media (min-width: 1100px) { .reach__ways { grid-template-columns: repeat(3, 1fr); } .reach__way--static { grid-column: auto; } }
 
 /* ---------- Our work ---------- */
 .work { position: relative; padding: 24px 0 40px; }
@@ -492,16 +492,13 @@ a.reach__way:hover { background: #474F79; }
 .since__list b { font-family: var(--display); font-size: 1.2rem; }
 /* The drawn thread (src/motion.js): the list moves right to make room. */
 .since__track { position: relative; }
+.since__mover { position: relative; }
 .since__thread { position: absolute; left: 0; top: 0; width: 28px; overflow: visible; pointer-events: none; }
 .since__thread path { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
 .since__thread-under { stroke: rgba(30,36,64,.14); stroke-dasharray: 3 7; }
 .since__thread path:last-child { stroke: var(--rani); }
 .since__list.is-threaded { padding-left: 44px; border-top: 0; }
-.since__list.is-threaded li { position: relative; opacity: .45; transition: opacity .5s; padding: 22px 0;
-  /* The scroll settles with each milestone's knot in the middle of the screen
-     (less the scroll-padding the page keeps for the fixed header). */
-  scroll-snap-align: start; scroll-margin-top: calc(50vh - 35px - var(--head) - 12px); }
-html.snap-timeline { scroll-snap-type: y proximity; }
+.since__list.is-threaded li { position: relative; opacity: .45; transition: opacity .5s; padding: 22px 0; }
 .since__list.is-threaded li::before {
   content: ''; position: absolute; left: -39px; top: 26px; width: 18px; height: 18px; border-radius: 50%;
   background: var(--khadi); border: 3px solid rgba(30,36,64,.3); transform: scale(.55);
@@ -515,8 +512,32 @@ html.snap-timeline { scroll-snap-type: y proximity; }
 .since__year { font-variant-numeric: tabular-nums; }
 /* With the thread running, the big year stays in view while the milestones
    pass: pinned under the header on phones, at mid-height beside them on PCs. */
-.since__yearwrap { position: sticky; z-index: 2; top: var(--head); margin: 0 calc(-1 * var(--gutter)); padding: 8px var(--gutter) 12px; background: var(--khadi-deep); box-shadow: 0 12px 16px -4px var(--khadi-deep); }
-@media (min-width: 900px) { .since__yearwrap { top: calc(50vh - 110px); margin: 0; padding: 0; background: none; box-shadow: none; } }
+/* Home: the timeline is pinned while it plays. The section is made taller by
+   JS (a runway); the panel stays put, the thread travels to each milestone
+   and holds there for a stretch of scroll before moving on. On a small
+   screen the list slides up inside its window to keep the knot in view. */
+.since.is-pinned .since__inner {
+  position: sticky; top: var(--head); box-sizing: border-box;
+  height: calc(100vh - var(--head)); height: calc(100svh - var(--head));
+  padding-top: 20px; padding-bottom: 20px; display: flex; flex-direction: column; gap: 10px;
+}
+.since.is-pinned .since__year { font-size: clamp(4.4rem, 1.6rem + 15vw, 16rem); flex: none; }
+.since.is-pinned .since__text { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.since.is-pinned .since__text h2 { flex: none; }
+.since.is-pinned .since__track { flex: 1; min-height: 0; overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 48px), transparent); mask-image: linear-gradient(#000 calc(100% - 48px), transparent); }
+.since.is-pinned .since__mover { position: relative; will-change: transform; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.since.is-pinned .since__text > p { flex: none; margin: 8px 0 0; }
+/* Short screens: a smaller year and heading leave the milestones more room. */
+@media (max-height: 700px) and (max-width: 899px) {
+  .since.is-pinned .since__year { font-size: clamp(3.4rem, 1rem + 13vw, 5rem); }
+  .since.is-pinned .since__text h2 { font-size: 1.35rem; }
+}
+@media (min-width: 900px) {
+  .since.is-pinned .since__inner { display: grid; grid-template-columns: 5fr 6fr; align-items: center; gap: 56px; }
+  .since.is-pinned .since__text { height: 100%; justify-content: center; }
+  .since.is-pinned .since__track { flex: 0 1 auto; }
+}
 @media (min-width: 900px) { .since__inner { grid-template-columns: 5fr 6fr; align-items: center; gap: 56px; } }
 
 /* ---------- Three ways in ---------- */
@@ -559,6 +580,17 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 .give__qr img { display: block; width: 180px; height: 180px; }
 .give__qr figcaption { font-size: .85rem; color: var(--muted); padding-top: 6px; text-align: center; }
 .give__reg { font-size: .95rem; margin-top: 8px; }
+/* With JS the line between the steps fills as you scroll, and each number
+   lights up when the line reaches it. */
+.give.is-drawn::before { background: rgba(30,36,64,.14); }
+.give.is-drawn::after { content: ''; position: absolute; left: 23px; top: 24px; bottom: 24px; width: 4px; background: linear-gradient(var(--marigold), var(--rani), var(--neem)); clip-path: inset(0 0 calc((1 - var(--fill, 0)) * 100%) 0); }
+.give.is-drawn .give__n { z-index: 1; background: var(--khadi); color: var(--indigo); box-shadow: 0 0 0 5px var(--khadi), inset 0 0 0 3px rgba(30,36,64,.35); transition: background-color .35s, color .35s, box-shadow .35s, transform .45s cubic-bezier(.3,1.6,.5,1); transform: scale(.86); }
+.give.is-drawn .give__step.is-reached .give__n { background: var(--indigo); color: var(--khadi); transform: none; box-shadow: 0 0 0 5px var(--khadi), 0 0 0 9px var(--marigold); }
+.give.is-drawn .give__step:nth-child(2).is-reached .give__n { box-shadow: 0 0 0 5px var(--khadi), 0 0 0 9px var(--rani); }
+.give.is-drawn .give__step:nth-child(3).is-reached .give__n { box-shadow: 0 0 0 5px var(--khadi), 0 0 0 9px var(--neem); }
+.give.is-drawn .give__step > :not(.give__n) { opacity: .6; transition: opacity .5s; }
+.give.is-drawn .give__step.is-reached > :not(.give__n) { opacity: 1; }
+@media (max-width: 480px) { .give.is-drawn::after { left: 19px; } }
 @media (max-width: 520px) { dl.bank div { grid-template-columns: 1fr; gap: 2px; } dl.bank dt { font-size: .85rem; } }
 @media (max-width: 480px) { .give__step { padding-left: 62px; } .give::before { left: 19px; } .give__n { width: 42px; height: 42px; font-size: 1.2rem; } }
 
