@@ -32,6 +32,23 @@ The programme pages each have a pinned photo reel, 1 px of travel per px of scro
 
 The phone menu is a full-screen woven panel with staggered links, and its three-thread icon folds into an ✕.
 
+**The Loom (Gallery)** is a second signature, immersive-motion-qa category 3 (shader-based pointer interaction). Every photo is woven into one endless tapestry, rendered from a single 61-tile atlas in one fragment shader:
+- Drag in any direction: it carries on with momentum, and the field bends like cloth. Near the pointer it follows the hand; further away it lags (a Gaussian falloff with no ring).
+- Fast motion pulls the camera back.
+- Hover lifts a photo in a khadi frame and dims the rest. The programme filters grey out the other programmes.
+- On arrival the tiles weave in from the centre outwards.
+
+Fallbacks:
+- Tier 2: Canvas 2D, the same field and interactions without the bend.
+- Tier 3 (no JS, reduced motion): the grouped photo list, which also stays available under The Loom as "Show every photo as a list".
+- Keyboard: arrow keys pan, Enter opens a photo.
+
+Tested on WebGL at 1440px and Canvas 2D at 390px: drag, hover, filter and open, with the console clean.
+
+The programme page reels hold every photo of the programme in two rows. While pinned, the page stops moving: scrolling slides the top row left and the bottom row right, 1 px of travel per px of scroll. Both rows fit on screen from 320 × 568 up.
+
+On tablets and PCs each page header now fills the screen, so its opening is the only thing in view, as on a phone. It exits with scroll: the photo lifts, shrinks and turns, the title drifts and fades, and the background darkens.
+
 Motion beyond the signature:
 - The PRAYATN letters rise in on load.
 - Headings rise out of a mask.

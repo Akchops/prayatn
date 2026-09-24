@@ -12,6 +12,9 @@ import('./ui.js').catch(() => {});
 if (!reduce.matches) import('./motion.js').catch(() => {});
 
 if (!reduce.matches) {
+  const loom = document.querySelector('[data-loom]');
+  if (loom) import('./loom/index.js').then((m) => m.start(loom)).catch(() => {});
+
   const reel = document.querySelector('[data-reel]');
   if (reel) import('./reel.js').then((m) => m.start(reel)).catch(() => {});
 

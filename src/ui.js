@@ -93,3 +93,13 @@ if (menu) {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.open) { menu.open = false; menu.querySelector('summary').focus(); } });
   matchMedia('(min-width: 1080px)').addEventListener('change', (m) => { if (m.matches) menu.open = false; });
 }
+
+// Gallery: show the plain list under The Loom on request.
+const listToggle = document.querySelector('[data-list-toggle]');
+if (listToggle) listToggle.addEventListener('click', () => {
+  const list = document.getElementById('photo-list');
+  const open = list.classList.toggle('is-open');
+  listToggle.setAttribute('aria-expanded', String(open));
+  listToggle.textContent = open ? 'Hide the list' : 'Show every photo as a list';
+  if (open) list.scrollIntoView({ behavior: 'smooth' });
+});

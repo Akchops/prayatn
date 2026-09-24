@@ -353,7 +353,7 @@ html.menu-open { overflow: hidden; }
   [data-intro="circle"] .band__title .u { animation: unblur 1.1s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 140ms + 100ms); }
 
   /* Gallery, deal: three prints are dealt onto the table, the last face up. Letters scatter in. */
-  .js [data-intro="deal"] .band__card { z-index: 0; animation: deal 1s .45s cubic-bezier(.2,.9,.25,1.1) both; }
+  .js [data-intro="deal"] .band__card { z-index: 1; animation: deal 1s .45s cubic-bezier(.2,.9,.25,1.1) both; }
   .js [data-intro="deal"] .band__card::before, .js [data-intro="deal"] .band__card::after {
     content: ''; position: absolute; inset: 0; z-index: -1; background: var(--khadi) url('/rug.svg') 0 0 / 96px 120px;
     box-shadow: 0 0 0 4px var(--khadi), 0 18px 40px rgba(0,0,0,.35);
@@ -613,9 +613,16 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 
 /* ---------- Programme pages ---------- */
 .band { position: relative; color: var(--khadi); display: grid; align-items: center; column-gap: 56px; padding: 0 var(--gutter); overflow: hidden; }
-.band__inner { padding: clamp(64px, 11vw, 120px) 0 28px; }
+.band__inner { padding: clamp(64px, 11vw, 120px) 0 28px; position: relative; z-index: 1; }
+/* As the header scrolls away it darkens (--k set by src/motion.js). */
+.band::after { content: ''; position: absolute; inset: 0; background: var(--indigo); opacity: var(--k, 0); pointer-events: none; z-index: 0; }
+/* From tablet up the header fills the screen, as it does on a phone, so its
+   opening and its exit are the only thing in view. */
+@media (min-width: 768px) {
+  .band { min-height: calc(100svh - var(--head)); align-content: center; }
+}
 @media (min-width: 1000px) {
-  .band { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); padding: 0 max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))); }
+  .band { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); padding: 0 clamp(48px, 5vw, 110px); }
   .band__inner { padding: clamp(80px, 9vw, 130px) 0; }
   /* desktop title size: see the rule after .band__title below */
 }
@@ -627,10 +634,13 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
   position: relative; justify-self: start; width: min(100%, var(--native)); aspect-ratio: var(--ar); margin: 0 0 48px;
   background: var(--indigo) url('/rug.svg') 0 0 / 96px 120px;
   box-shadow: 0 0 0 4px var(--khadi), 0 18px 50px rgba(0,0,0,.4);
-  max-height: 62vh;
+  max-height: 62vh; z-index: 1;
 }
 .band__card picture, .band__card img { width: 100%; height: 100%; object-fit: cover; image-rendering: auto; }
-@media (min-width: 1000px) { .band__card { justify-self: end; margin: 48px 0; } }
+@media (min-width: 1000px) {
+  /* As large as the screen allows, never above the photo's native width. */
+  .band__card { justify-self: end; margin: 40px 0; max-height: none; width: min(100%, var(--native), calc((100svh - var(--head) - 120px) * var(--ar))); }
+}
 .band__kicker { font: 600 .8rem/1.2 var(--body); letter-spacing: .2em; text-transform: uppercase; color: #F2B940; margin-bottom: 12px; }
 .band__title { font: 800 clamp(3rem, 1rem + 10vw, 9rem)/.85 var(--display); letter-spacing: -0.04em; color: var(--khadi); margin-bottom: .2em; text-shadow: 0 4px 30px rgba(0,0,0,.35); }
 .band__title--m { font-size: clamp(2.2rem, 1rem + 5vw, 5rem); line-height: .95; }
@@ -649,20 +659,11 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .g-grid { columns: 1; column-gap: 16px; }
 @media (min-width: 640px) { .g-grid { columns: 2; } }
 @media (min-width: 1100px) { .g-grid { columns: 3; } }
-.g-item { break-inside: avoid; margin: 0 0 18px; cursor: zoom-in; }
+.g-item { break-inside: avoid; margin: 0 0 18px; }
 .g-item img { width: 100%; max-width: min(100%, var(--native)); }
 .g-item figcaption { font-size: .88rem; line-height: 1.4; color: var(--muted); padding-top: 6px; }
 .g-group { margin-bottom: 40px; }
 .g-group__title { font-size: clamp(1.6rem, 1.1rem + 2vw, 2.4rem); padding-top: 16px; border-top: 2px solid var(--indigo); }
-.g-group[hidden], .g-item[hidden] { display: none; }
-.gfilter { position: sticky; top: var(--head); z-index: 20; display: flex; gap: 8px; overflow-x: auto; padding: 12px var(--gutter); background: var(--khadi); box-shadow: 0 1px 0 rgba(30,36,64,.12); }
-.gfilter button { flex: none; font: 600 .95rem/1 var(--body); padding: 10px 14px; border: 2px solid var(--indigo); background: transparent; color: var(--indigo); cursor: pointer; min-height: 40px; }
-.gfilter button[aria-pressed="true"] { background: var(--indigo); color: var(--khadi); }
-.lightbox { border: 0; padding: 0; max-width: min(96vw, 1300px); background: transparent; color: var(--khadi); }
-.lightbox::backdrop { background: rgba(20,24,44,.92); }
-.lightbox img { max-width: 100%; max-height: 82vh; width: auto; margin: 0 auto; box-shadow: 0 0 0 4px var(--khadi); }
-.lightbox__cap { text-align: center; margin: 12px auto 0; max-width: 70ch; }
-.lightbox__close { position: fixed; top: 12px; right: 16px; width: 48px; height: 48px; font-size: 2rem; line-height: 1; background: var(--khadi); color: var(--indigo); border: 0; cursor: pointer; }
 .nextprog { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter) 72px; display: grid; gap: 12px; }
 .nextprog a { display: block; padding: 22px 20px; background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); color: var(--khadi); text-decoration: none; font: 700 clamp(1.4rem, 1rem + 1.6vw, 2.2rem)/1.1 var(--display); position: relative; isolation: isolate; }
 .nextprog a::before { content: ''; position: absolute; inset: 0; background: rgba(30,36,64,.82); z-index: -1; transition: background .3s; }
@@ -704,25 +705,33 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .preview-bar { background: var(--rani); color: #fff; font: 600 13px/1.4 var(--body); padding: 6px 16px; text-align: center; }
 
 /* ---------- Photo reel (programme pages) ----------
-   Base: a swipeable row. With motion (src/reel.js) the section pins and
-   vertical scroll moves the row sideways. */
-.reel { background: var(--indigo); color: var(--khadi); padding: 56px 0 40px; overflow: hidden; }
-.reel__head { max-width: var(--max); margin: 0 auto 24px; padding: 0 var(--gutter); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 32px; }
-.reel__head h2 { color: var(--khadi); margin: 0; font-size: clamp(1.9rem, 1.2rem + 3vw, 3.6rem); }
+   Every photo of the programme, in two rows. Base (no JS, reduced motion):
+   two swipeable rows. With motion (src/reel.js) the section pins and the page
+   stops moving: scrolling slides the top row left and the bottom row right. */
+.reel { background: var(--indigo); color: var(--khadi); padding: 48px 0 40px; overflow: hidden; }
+.reel__head { max-width: var(--max); margin: 0 auto 20px; padding: 0 var(--gutter); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 32px; }
+.reel__head h2 { color: var(--khadi); margin: 0; font-size: clamp(1.8rem, 1.2rem + 2.6vw, 3.4rem); }
 .reel__head p { margin: 0; color: #D9D2C3; max-width: 44ch; }
-.reel__track { display: flex; gap: 24px; padding: 0 var(--gutter) 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
-.reel__card { flex: none; margin: 0; scroll-snap-align: start; width: min(80vw, 520px, calc((100svh - var(--head) - 260px) * 4 / 3)); }
-.reel__card:nth-child(even) { margin-top: 28px; }
-.reel__img { overflow: hidden; aspect-ratio: 4 / 3; box-shadow: 0 0 0 4px var(--khadi); background: #2A3152; }
-.reel__img picture, .reel__img img { width: 100%; height: 100%; object-fit: cover; }
-.reel__card figcaption { font-size: .9rem; line-height: 1.4; color: #E4DDCE; padding-top: 12px; }
-.reel__n { display: inline-block; font: 700 .85rem/1 var(--display); color: #F2B940; margin-right: 8px; }
+.reel__rows { display: grid; gap: 16px; }
+.reel__track { display: flex; gap: 16px; padding: 0 var(--gutter); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+/* Card size follows the screen height, so both rows always fit when pinned. */
+.reel { --rowh: clamp(150px, calc((100svh - var(--head) - 230px) / 2), 330px); }
+.reel__card { position: relative; flex: none; margin: 0; scroll-snap-align: start; height: var(--rowh); width: calc(var(--rowh) * 4 / 3); overflow: hidden; box-shadow: 0 0 0 3px var(--khadi); background: #2A3152; }
+.reel__img, .reel__img picture, .reel__img img { width: 100%; height: 100%; }
+.reel__img img { object-fit: cover; max-width: none; }
+.reel__card figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 12px 9px;
+  background: linear-gradient(to bottom, transparent, rgba(20,24,44,.85));
+  font-size: .8rem; line-height: 1.3; color: var(--khadi);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.reel__n { display: inline-block; font: 700 .78rem/1 var(--display); color: #F2B940; margin-right: 6px; }
 .reel__bar { display: none; }
-.reel.is-pinned { height: calc(100svh - var(--head)); display: flex; flex-direction: column; justify-content: center; padding: 24px 0; }
+.reel.is-pinned { height: calc(100svh - var(--head)); display: flex; flex-direction: column; justify-content: center; padding: 20px 0; }
 .reel.is-pinned .reel__track { overflow: visible; scroll-snap-type: none; will-change: transform; }
-.reel.is-pinned[data-reel="pan"] .reel__img img { transform: scale(1.18); will-change: transform; }
+.reel.is-pinned[data-reel="pan"] .reel__img img { scale: 1.2; }
 .reel.is-pinned .reel__card { will-change: transform; }
-.reel.is-pinned .reel__bar { display: block; max-width: var(--max); width: calc(100% - 2 * var(--gutter)); margin: 24px auto 0; height: 3px; background: rgba(243,236,223,.18); }
+.reel.is-pinned .reel__bar { display: block; max-width: var(--max); width: calc(100% - 2 * var(--gutter)); margin: 20px auto 0; height: 3px; background: rgba(243,236,223,.18); }
 .reel__bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--marigold) 0 33%, var(--rani) 0 66%, var(--neem) 0); transform: scaleX(0); transform-origin: left; }
 
 /* ---------- Ticker (above every footer) ---------- */
@@ -747,3 +756,41 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
   .rise { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--d, 0) * 70ms); }
   .rise.is-in { opacity: 1; transform: none; }
 }
+
+/* ---------- The Loom (gallery) ----------
+   Hidden until JS has mounted it; without it the grouped list is the gallery. */
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.loom { display: none; }
+.has-loom .loom { display: block; background: var(--indigo); }
+.has-loom .pgallery--all:not(.is-open) { display: none; }
+.loom__stage {
+  position: relative; height: calc(100svh - var(--head) - 64px); min-height: 360px; overflow: hidden;
+  cursor: grab; touch-action: pan-y; outline-offset: -4px; user-select: none; -webkit-user-select: none;
+}
+.loom__stage.is-dragging { cursor: grabbing; }
+.loom__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.loom__hint {
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 1; margin: 0;
+  display: flex; gap: 10px; pointer-events: none;
+}
+.loom__hint span { background: rgba(30,36,64,.85); color: var(--khadi); font: 600 .8rem/1 var(--body); letter-spacing: .06em; padding: 9px 12px; border: 1px solid rgba(243,236,223,.25); white-space: nowrap; }
+@media (prefers-reduced-motion: no-preference) {
+  .loom__hint { animation: hint-out 1s 5s both; }
+}
+@keyframes hint-out { to { opacity: 0; transform: translate(-50%, 10px); } }
+.loom__list-toggle { display: block; margin: 0 auto; padding: 18px var(--gutter); width: 100%; background: var(--indigo); color: var(--khadi); border: 0; border-top: 1px solid rgba(243,236,223,.15); font: 600 .95rem/1 var(--body); cursor: pointer; }
+.loom__list-toggle:hover { color: #F2B940; }
+.has-loom .gfilter { position: sticky; }
+.lightbox { border: 0; padding: 0; max-width: min(96vw, 1300px); background: transparent; color: var(--khadi); }
+.lightbox::backdrop { background: rgba(20,24,44,.92); }
+.lightbox img { max-width: 100%; max-height: 82vh; width: auto; margin: 0 auto; box-shadow: 0 0 0 4px var(--khadi); }
+.lightbox__cap { text-align: center; margin: 12px auto 0; max-width: 70ch; }
+.lightbox__close { position: fixed; top: 12px; right: 16px; width: 48px; height: 48px; font-size: 2rem; line-height: 1; background: var(--khadi); color: var(--indigo); border: 0; cursor: pointer; }
+@media (prefers-reduced-motion: no-preference) { .lightbox[open] img { animation: card-in .5s cubic-bezier(.2,.8,.2,1) both; } }
+.gfilter { top: var(--head); z-index: 20; display: flex; gap: 8px; overflow-x: auto; padding: 12px var(--gutter); background: var(--khadi); box-shadow: 0 1px 0 rgba(30,36,64,.12); scrollbar-width: none; }
+.gfilter::-webkit-scrollbar { display: none; }
+.gfilter button { flex: none; font: 600 .95rem/1 var(--body); padding: 10px 14px; border: 2px solid var(--indigo); background: transparent; color: var(--indigo); cursor: pointer; min-height: 40px; transition: background-color .2s, color .2s; }
+.gfilter button[aria-pressed="true"] { background: var(--indigo); color: var(--khadi); }
+.gfilter { position: sticky; }
+.g-group[hidden] { display: none; }
+@media (max-width: 600px) { .loom__hint span:last-child { display: none; } }

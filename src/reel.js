@@ -1,54 +1,81 @@
-// Pinned photo reel on the programme pages: vertical scroll moves the row of
-// photos sideways, each photo drifting inside its frame. Loaded lazily from
-// main.js, never under reduced motion. Without it the row is swipeable.
+// Pinned photo reel on the programme pages. While it is pinned the page stops
+// moving and scrolling slides the photos instead: the top row to the left,
+// the bottom row to the right. Loaded lazily from main.js, never under reduced
+// motion; without it the two rows are simply swipeable.
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function start(section) {
-  const track = section.querySelector('[data-reel-track]');
+  const [rowA, rowB] = section.querySelectorAll('[data-reel-track]');
   const bar = section.querySelector('.reel__bar i');
-  if (!track) return;
+  if (!rowA) return;
+  const cards = [...section.querySelectorAll('.reel__card')];
+  const imgs = cards.map((c) => c.querySelector('.reel__img img'));
+  const mode = section.dataset.reel || 'pan';
+
   const mm = gsap.matchMedia();
   mm.add('(prefers-reduced-motion: no-preference)', () => {
     section.classList.add('is-pinned');
-    // Distance: exactly the row's overflow, 1 px of scroll per px of travel,
-    // so the reel moves at the speed of the reader's scroll (no false inertia).
-    const travel = () => Math.max(0, track.scrollWidth - document.documentElement.clientWidth);
+    const vw = () => document.documentElement.clientWidth;
+    const over = (row) => (row ? Math.max(0, row.scrollWidth - vw()) : 0);
+    // Scroll distance: the longer row's overflow, 1 px of scroll per px of
+    // travel, so the photos move at the reader's own scroll speed.
+    const travel = () => Math.max(over(rowA), over(rowB));
     const head = () => document.querySelector('.site-head')?.offsetHeight ?? 0;
-    const tween = gsap.to(track, {
-      x: () => -travel(),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: () => `top ${head()}px`,
-        end: () => '+=' + travel(),
-        pin: true,
-        scrub: 0.6,
-        invalidateOnRefresh: true,
-        onUpdate: (st) => { if (bar) bar.style.transform = `scaleX(${st.progress.toFixed(4)})`; },
+
+    // Each programme page moves its photos differently (data-reel), from each
+    // card's position across the screen (-1 at the left edge, 1 at the right):
+    //   pan   – the photo pans inside its frame
+    //   tilt  – the card leans back on the right and forward on the left
+    //   scale – the card is largest at the centre of the screen
+    function shape() {
+      const w = vw();
+      cards.forEach((card, i) => {
+        const r = card.getBoundingClientRect();
+        if (r.right < -50 || r.left > w + 50) return;
+        const x = Math.max(-1, Math.min(1, ((r.left + r.width / 2) / w) * 2 - 1));
+        if (mode === 'tilt') {
+          card.style.rotate = `${(x * 6).toFixed(2)}deg`;
+          card.style.translate = `0 ${(x * x * 14).toFixed(1)}px`;
+        } else if (mode === 'scale') {
+          const k = 1 - Math.abs(x);
+          card.style.scale = (0.8 + 0.2 * k).toFixed(3);
+          card.style.opacity = (0.5 + 0.5 * k).toFixed(3);
+        } else if (imgs[i]) {
+          imgs[i].style.translate = `${(-x * 7).toFixed(2)}% 0`;
+        }
+      });
+    }
+
+    const st = ScrollTrigger.create({
+      trigger: section,
+      start: () => `top ${head()}px`,
+      end: () => '+=' + travel(),
+      pin: true,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        const p = self.progress;
+        gsap.to(rowA, { x: -over(rowA) * p, duration: 0.5, ease: 'power2.out', overwrite: true, onUpdate: shape });
+        if (rowB) gsap.to(rowB, { x: -over(rowB) * (1 - p), duration: 0.5, ease: 'power2.out', overwrite: true });
+        if (bar) bar.style.transform = `scaleX(${p.toFixed(4)})`;
+      },
+      onRefresh: (self) => {
+        gsap.set(rowA, { x: -over(rowA) * self.progress });
+        if (rowB) gsap.set(rowB, { x: -over(rowB) * (1 - self.progress) });
+        shape();
       },
     });
-    // Each programme page moves its cards differently (data-reel):
-    //   pan   – each photo pans inside its frame against the direction of travel
-    //   tilt  – cards swing from leaning back to leaning forward as they pass
-    //   scale – cards grow as they reach the middle of the screen, then shrink
-    const mode = section.dataset.reel || 'pan';
-    track.querySelectorAll('.reel__card').forEach((card) => {
-      const st = { trigger: card, containerAnimation: tween, start: 'left right', end: 'right left', scrub: true };
-      if (mode === 'tilt') {
-        gsap.fromTo(card, { rotate: 7, y: 30 }, { rotate: -7, y: -30, ease: 'none', scrollTrigger: st });
-      } else if (mode === 'scale') {
-        gsap.timeline({ scrollTrigger: st })
-          .fromTo(card, { scale: 0.78, opacity: 0.55 }, { scale: 1, opacity: 1, ease: 'power1.out', duration: 1 })
-          .to(card, { scale: 0.78, opacity: 0.55, ease: 'power1.in', duration: 1 });
-      } else {
-        const img = card.querySelector('.reel__img img');
-        if (img) gsap.fromTo(img, { xPercent: 7 }, { xPercent: -7, ease: 'none', scrollTrigger: st });
-      }
-    });
-    return () => section.classList.remove('is-pinned');
+    shape();
+
+    return () => {
+      st.kill();
+      section.classList.remove('is-pinned');
+      gsap.set([rowA, rowB].filter(Boolean), { clearProps: 'transform' });
+      cards.forEach((c) => { c.style.rotate = c.style.translate = c.style.scale = c.style.opacity = ''; });
+      imgs.forEach((i) => { if (i) i.style.translate = ''; });
+    };
   });
   ScrollTrigger.refresh();
 }

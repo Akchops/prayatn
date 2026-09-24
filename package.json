@@ -6,7 +6,7 @@
   "scripts": {
     "images": "node scripts/build-images.mjs",
     "dev": "vite",
-    "build": "node scripts/build-rug.mjs && node scripts/build-images.mjs && vite build",
+    "build": "node scripts/build-rug.mjs && node scripts/build-images.mjs && node scripts/build-atlas.mjs && vite build",
     "preview": "vite preview --port 4173 --strictPort",
     "budget": "node scripts/first-load-budget.mjs dist/",
     "preview-files": "node scripts/build-preview.mjs"

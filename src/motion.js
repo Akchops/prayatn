@@ -8,7 +8,7 @@ const below = (el) => el.getBoundingClientRect().top > window.innerHeight;
 // Headings: the line rises out of a mask.
 const heads = [...document.querySelectorAll('.rv')].filter(below);
 // Photos: the weft slats withdraw.
-const photos = [...document.querySelectorAll('.m, .g-item')].filter(below);
+const photos = [...document.querySelectorAll('.m')].filter(below);
 photos.forEach((f) => {
   const pic = f.querySelector('picture') || f.querySelector('img');
   if (!pic) return;
@@ -101,42 +101,29 @@ if (band) {
   const card = band.querySelector('.band__card');
   const inner = band.querySelector('.band__inner');
   let raf = 0;
+  // The header's exit, scrubbed by scroll (k: 0 at the top, 1 when it has
+  // scrolled away): the photo lifts off, shrinks and turns slightly; the title
+  // drifts down and fades; the woven background darkens. Separate translate /
+  // scale / rotate properties, so the page's opening animation (transform)
+  // is never overwritten.
   const place = () => {
     raf = 0;
-    const y = Math.min(window.scrollY, band.offsetHeight);
-    if (card) card.style.translate = `0 ${(-y * 0.18).toFixed(1)}px`;
-    if (inner) inner.style.translate = `0 ${(y * 0.12).toFixed(1)}px`;
+    const h = band.offsetHeight || 1;
+    const y = Math.min(window.scrollY, h);
+    const k = y / h;
+    const amp = window.innerWidth < 768 ? 0.6 : 1;
+    if (card) {
+      card.style.translate = `0 ${(-y * 0.35 * amp).toFixed(1)}px`;
+      card.style.scale = (1 - 0.14 * k * amp).toFixed(4);
+      card.style.rotate = `${(-3 * k * amp).toFixed(2)}deg`;
+    }
+    if (inner) {
+      inner.style.translate = `0 ${(y * 0.25 * amp).toFixed(1)}px`;
+      inner.style.opacity = Math.max(0, 1 - 1.3 * k).toFixed(3);
+    }
+    band.style.setProperty('--k', (0.75 * k).toFixed(3));
   };
   window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(place); }, { passive: true });
-}
-
-// Galleries: columns drift at different speeds as you scroll.
-const items = [...document.querySelectorAll('.g-item')];
-if (items.length) {
-  const SPEED = [-0.07, 0.05, -0.03];
-  let cols = [];
-  const measure = () => {
-    const lefts = [...new Set(items.map((i) => i.offsetLeft))].sort((a, b) => a - b);
-    cols = items.map((i) => (lefts.length > 1 ? SPEED[lefts.indexOf(i.offsetLeft) % 3] : 0));
-  };
-  const visible = new Set();
-  const vio = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target))), { rootMargin: '20% 0px' });
-  items.forEach((i) => vio.observe(i));
-  let raf = 0;
-  const place = () => {
-    raf = 0;
-    const mid = window.innerHeight / 2;
-    visible.forEach((el) => {
-      const k = cols[items.indexOf(el)] || 0;
-      if (!k) { el.style.translate = ''; return; }
-      const r = el.getBoundingClientRect();
-      el.style.translate = `0 ${((r.top + r.height / 2 - mid) * k).toFixed(1)}px`;
-    });
-  };
-  measure();
-  window.addEventListener('resize', () => { measure(); place(); });
-  window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(place); }, { passive: true });
-  document.querySelector('[data-gfilter]')?.addEventListener('click', () => requestAnimationFrame(() => { measure(); place(); }));
 }
 
 // Ticker: runs by itself, and speeds up (and reverses) with the reader's scroll.
