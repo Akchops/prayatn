@@ -85,6 +85,21 @@ function partnersBlock(list, variant) {
   return `<section class="partners partners--${variant}" aria-labelledby="partners-${variant}"><div class="partners__inner"><p class="eyebrow">With thanks</p><h2 id="partners-${variant}" class="rv">Our partners &amp; supporters</h2><ul class="pcards" data-partners>${list.map(card).join('')}</ul></div></section>`;
 }
 
+// A large link to another programme page: its header photo, first as the
+// woven thread picture, resolving into the photograph on hover (or, on a
+// phone, as it comes into view: src/motion.js).
+const PROGRAMMES = {
+  healthcare: { href: '/healthcare/', title: 'Healthcare', img: 'school-health-clinic-09', line: 'Swaasthya Kendra and the School Health Program.' },
+  education: { href: '/education/', title: 'Education', img: 'gallery-53', line: 'Seth Vidyalaya and the Scholarship Scheme for Students.' },
+  women: { href: '/women-development/', title: 'Women development', img: 'women-development-33', line: 'The Mahila Panchayat, the Legal Help Desk, and Addressing GBV in Communities.' },
+};
+function nextCard(key, label, images) {
+  const p = PROGRAMMES[key];
+  const im = p && images[p.img];
+  if (!p || !im) throw new Error(`{{nextcard ${key}}}: unknown`);
+  return `<a class="ncard" href="${p.href}" style="--weave-img:url('/img/${p.img}-weave.png');--weave-rows:${im.rows}"><span class="ncard__weave woven" aria-hidden="true"></span><span class="ncard__photo">${picture(p.img, 'sizes="(min-width: 800px) 50vw, 100vw" alt=""', images)}</span><span class="ncard__body"><span class="ncard__k">${esc(label)}</span><span class="ncard__t">${esc(p.title)}</span><span class="ncard__d">${esc(p.line)}</span><span class="ncard__go" aria-hidden="true">→</span></span></a>`;
+}
+
 function bankBlock(site) {
   const b = site.bank;
   const phones = site.phones.map((p) => `<a href="${tel(p)}">${p}</a>`).join(' or ');
@@ -162,6 +177,7 @@ function templates() {
           .replace(/\{\{img ([\w-]+)([^}]*)\}\}/g, (_, n, a) => picture(n, a, images))
           .replace(/\{\{gallery ([\w-]+)\}\}/g, (_, w) => gallery(w, images))
           .replace(/\{\{reel ([\w-]+)\}\}/g, (_, w) => reel(w, images))
+          .replace(/\{\{nextcard ([\w-]+) ([\w-]+)\}\}/g, (_, k, l) => nextCard(k, l, images))
           .replace(/\{\{bandimg ([\w-]+)\}\}/g, (_, n) => bandImg(n, images))
           .replace(/\{\{weave ([\w-]+)\}\}/g, (_, n) => { if (!images[n]) throw new Error(`{{weave ${n}}}: unknown photo`); return `--weave-img:url('/img/${n}-weave.png');--weave-rows:${images[n].rows}`; })
           .replace(/\{\{(\w+)\}\}/g, (m, k) => {

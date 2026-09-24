@@ -1,6 +1,8 @@
 // Programme pages on a PC: a two-column scroll story. The photo panel stays
 // pinned while the steps scroll past; each step that reaches the middle of the
-// screen draws its own photo down over the last one behind a woven band, with
+// screen brings in its own photo over the last one, each page in its own way
+// (data-story-style: a heartbeat for Healthcare, a turning page for Education,
+// an opening circle for Women development), with
 // a running count and a thread that fills as you read. On phones, and with
 // reduced motion, the steps stay as text followed by their photo.
 
@@ -9,6 +11,8 @@ export function start(section) {
   const steps = [...section.querySelectorAll('.story__step')];
   if (!panel || !steps.length) return;
   const mq = matchMedia('(min-width: 760px) and (prefers-reduced-motion: no-preference)');
+  const style = section.dataset.storyStyle || 'band';
+  section.classList.add(`story--${style}`);
   let io = null, shots = [], active = -1, onScroll = null;
 
   function build() {
@@ -29,10 +33,18 @@ export function start(section) {
         // A step without a photo gets its title, set on the rug.
         shot.innerHTML = `<div class="shot__type"><span>${step.dataset.title}</span></div>`;
       }
-      // The shuttle: a woven band that carries the new photo down over the old one.
-      const band = document.createElement('div');
-      band.className = 'shot__band';
-      shot.appendChild(band);
+      // The page's own transition piece: a woven shuttle band (default), a
+      // heartbeat trace (Healthcare) or a ring (Women development). The page
+      // turn (Education) needs none.
+      if (style === 'pulse') {
+        shot.insertAdjacentHTML('beforeend', '<svg class="shot__ecg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M0 60 L120 60 L140 52 L155 60 L170 60 L182 72 L198 12 L214 84 L228 60 L262 60 L276 50 L292 60 L400 60"/></svg>');
+      } else if (style === 'iris') {
+        shot.insertAdjacentHTML('beforeend', '<span class="shot__ring" aria-hidden="true"></span>');
+      } else if (style !== 'page') {
+        const band = document.createElement('div');
+        band.className = 'shot__band';
+        shot.appendChild(band);
+      }
       panel.appendChild(shot);
       return shot;
     });

@@ -394,3 +394,13 @@ document.querySelectorAll('.give').forEach((g) => {
   addEventListener('scroll', kick, { passive: true });
   addEventListener('resize', kick);
 });
+
+// Programme cards: on a touch screen (no hover) the woven picture resolves
+// into the photograph as the card comes into view.
+if (!matchMedia('(hover: hover)').matches) {
+  const cards = document.querySelectorAll('.ncard');
+  if (cards.length) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle('is-on', e.isIntersecting)), { threshold: 0.55 });
+    cards.forEach((c) => io.observe(c));
+  }
+}
