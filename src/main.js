@@ -23,6 +23,9 @@ if (!reduce.matches) {
   const loom = document.querySelector('[data-loom]');
   if (loom) import('./loom/index.js').then((m) => m.start(loom)).catch((e) => { document.documentElement.dataset.loomFail = `script: ${e?.message || e}`; });
 
+  // About: project photos that follow the mouse, the mission, the loom, the ring.
+  if (document.querySelector('.pindex')) import('./about.js').then((m) => m.start()).catch(() => {});
+
   // The brushable woven header on the inner pages.
   const bandEl = document.querySelector('[data-band]');
   if (bandEl) import('./bandfx.js').then((m) => m.start(bandEl)).catch(() => {});

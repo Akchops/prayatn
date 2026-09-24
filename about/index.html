@@ -16,33 +16,55 @@
         </div>
         {{bandimg gallery-67}}
       </header>
-      <div class="inner">
 
-      <section class="block" aria-labelledby="projects">
-        <h2 id="projects" class="rv">Our projects</h2>
-        <ul class="projgrid">
-          <li><a href="/healthcare/#swaasthya-kendra"><b>Swaasthya Kendra</b><span>Healthcare</span></a></li>
-          <li><a href="/healthcare/#school-health"><b>School Health Program</b><span>Healthcare</span></a></li>
-          <li><a href="/education/#seth-vidyalaya"><b>Seth Vidyalaya</b><span>Education</span></a></li>
-          <li><a href="/education/#scholarship"><b>Scholarship Scheme for Students</b><span>Education</span></a></li>
-          <li><a href="/women-development/#mahila-panchayat"><b>Mahila Panchayat</b><span>Women development</span></a></li>
-          <li><a href="/women-development/#legal-help-desk"><b>Legal Help Desk</b><span>Women development</span></a></li>
-          <li><a href="/women-development/#gbv"><b>Addressing GBV in Communities</b><span>Women development</span></a></li>
-        </ul>
+      <!-- Our projects: an index. On a PC the project's photo follows the
+           mouse; on a phone each row carries a small photo. -->
+      <section class="pindex" aria-labelledby="projects">
+        <div class="wrap">
+          <p class="eyebrow">Seven projects · three areas of work</p>
+          <h2 id="projects" class="pindex__title rv">Our projects</h2>
+          <ol class="pindex__list">
+            <li class="pindex__row" data-cat="health"><a href="/healthcare/#swaasthya-kendra"><span class="pindex__n">01</span><span class="pindex__name">Swaasthya Kendra</span><span class="pindex__cat">Healthcare</span><span class="pindex__pic">{{img swasthya-kendra-03 sizes="(min-width: 900px) 360px, 96px" alt=""}}</span></a></li>
+            <li class="pindex__row" data-cat="health"><a href="/healthcare/#school-health"><span class="pindex__n">02</span><span class="pindex__name">School Health Program</span><span class="pindex__cat">Healthcare</span><span class="pindex__pic">{{img school-health-clinic-09 sizes="(min-width: 900px) 360px, 96px" alt=""}}</span></a></li>
+            <li class="pindex__row" data-cat="school"><a href="/education/#seth-vidyalaya"><span class="pindex__n">03</span><span class="pindex__name">Seth Vidyalaya</span><span class="pindex__cat">Education</span><span class="pindex__pic">{{img gallery-53 sizes="(min-width: 900px) 360px, 96px" alt=""}}</span></a></li>
+            <li class="pindex__row" data-cat="school"><a href="/education/#scholarship"><span class="pindex__n">04</span><span class="pindex__name">Scholarship Scheme for Students</span><span class="pindex__cat">Education</span><span class="pindex__pic pindex__pic--type" aria-hidden="true"><span>Scholarship Scheme</span></span></a></li>
+            <li class="pindex__row" data-cat="women"><a href="/women-development/#mahila-panchayat"><span class="pindex__n">05</span><span class="pindex__name">Mahila Panchayat</span><span class="pindex__cat">Women development</span><span class="pindex__pic">{{img gallery-79 sizes="(min-width: 900px) 360px, 96px" alt=""}}</span></a></li>
+            <li class="pindex__row" data-cat="women"><a href="/women-development/#legal-help-desk"><span class="pindex__n">06</span><span class="pindex__name">Legal Help Desk</span><span class="pindex__cat">Women development</span><span class="pindex__pic">{{img gallery-74 sizes="(min-width: 900px) 360px, 96px" alt=""}}</span></a></li>
+            <li class="pindex__row" data-cat="women"><a href="/women-development/#gbv"><span class="pindex__n">07</span><span class="pindex__name">Addressing GBV in Communities</span><span class="pindex__cat">Women development</span><span class="pindex__pic pindex__pic--type" aria-hidden="true"><span>Addressing GBV</span></span></a></li>
+          </ol>
+        </div>
       </section>
 
-      <section class="block" aria-labelledby="mission">
-        <h2 id="mission" class="rv">Mission</h2>
-        <p class="big">To empower the marginalized by building their capabilities through education and skill development for a decent, dignified and independent life.</p>
+      <!-- Mission: one sentence, held on screen while its words light up. -->
+      <section class="mission" data-mission aria-labelledby="mission">
+        <div class="mission__stick">
+          <div class="wrap">
+            <h2 id="mission" class="eyebrow">Our mission</h2>
+            <p class="mission__text">To empower the marginalized by building their capabilities through education and skill development for a decent, dignified and independent life.</p>
+          </div>
+        </div>
       </section>
 
-      <section class="block" aria-labelledby="approach">
-        <h2 id="approach" class="rv">How we work</h2>
-        <p>Our direct interventions are in the field of Education, Healthcare Services, Youth &amp; Women Development.</p>
-        <p>Over <span data-years>{{years}}</span> years we have planned, designed, implemented and managed development projects through a participatory approach.</p>
+      <!-- How we work: three threads woven into one cloth as you scroll. -->
+      <section class="threads" data-threads aria-labelledby="approach">
+        <div class="threads__stick">
+          <div class="wrap threads__wrap">
+            <div class="threads__text">
+              <h2 id="approach" class="rv">How we work</h2>
+              <p class="threads__lede">Our direct interventions are in the field of Education, Healthcare Services, Youth &amp; Women Development.</p>
+              <ul class="threads__legend" aria-hidden="true">
+                <li style="--c: var(--marigold)">Education</li>
+                <li style="--c: var(--rani)">Healthcare Services</li>
+                <li style="--c: var(--neem)">Youth &amp; Women Development</li>
+              </ul>
+              <p>Over <span data-years>{{years}}</span> years we have planned, designed, implemented and managed development projects through a participatory approach.</p>
+            </div>
+            <div class="threads__loom" aria-hidden="true"></div>
+          </div>
+        </div>
       </section>
 
-      <section class="block since since--about" aria-labelledby="history">
+      <section class="since since--about" aria-labelledby="history">
         <div class="since__inner">
           <p class="since__year" aria-hidden="true">{{founded}}</p>
           <div class="since__text">
@@ -57,27 +79,37 @@
         </div>
       </section>
 
-      <section class="block" aria-labelledby="trustees">
-        <h2 id="trustees" class="rv">Board of Trustees</h2>
-        <p>A Board of Trustees of seven members manages the affairs of Prayatn, reviewing performance and monitoring the progress of each project against its plan of action.</p>
-        <ul class="trustees">
-          <li><span class="trustees__name">Mr S.K. Sarkar</span><span class="trustees__role">Chairman</span></li>
-          <li><span class="trustees__name">Mrs Rashmi Dhariwal</span><span class="trustees__role">Treasurer</span></li>
-          <li><span class="trustees__name">Dr. (Mrs.) Renu Chopra</span><span class="trustees__role">Managing Trustee</span></li>
-          <li><span class="trustees__name">Mr S.N Aggarwal</span><span class="trustees__role">Trustee</span></li>
-          <li><span class="trustees__name">Mrs Namita Gautam</span><span class="trustees__role">Trustee</span></li>
-          <li><span class="trustees__name">Mr Rajan Malhotra</span><span class="trustees__role">Trustee</span></li>
-          <li><span class="trustees__name">Mrs Smita Singh</span><span class="trustees__role">Trustee</span></li>
-        </ul>
+      <!-- Trustees: with motion, the seven cards stand in a ring that turns
+           with the scroll and can be spun by hand. -->
+      <section class="board" aria-labelledby="trustees">
+        <div class="wrap board__wrap">
+          <div class="board__text">
+            <h2 id="trustees" class="rv">Board of Trustees</h2>
+            <p>A Board of Trustees of seven members manages the affairs of Prayatn, reviewing performance and monitoring the progress of each project against its plan of action.</p>
+          </div>
+          <div class="board__stage">
+            <ul class="trustees">
+              <li><span class="trustees__name">Mr S.K. Sarkar</span><span class="trustees__role">Chairman</span></li>
+              <li><span class="trustees__name">Mrs Rashmi Dhariwal</span><span class="trustees__role">Treasurer</span></li>
+              <li><span class="trustees__name">Dr. (Mrs.) Renu Chopra</span><span class="trustees__role">Managing Trustee</span></li>
+              <li><span class="trustees__name">Mr S.N Aggarwal</span><span class="trustees__role">Trustee</span></li>
+              <li><span class="trustees__name">Mrs Namita Gautam</span><span class="trustees__role">Trustee</span></li>
+              <li><span class="trustees__name">Mr Rajan Malhotra</span><span class="trustees__role">Trustee</span></li>
+              <li><span class="trustees__name">Mrs Smita Singh</span><span class="trustees__role">Trustee</span></li>
+            </ul>
+          </div>
+        </div>
       </section>
 
-      <section class="block" aria-labelledby="credits">
-        <h2 id="credits" class="rv">Credits</h2>
-        <p>The difference Prayatn has made and the milestones accomplished have been possible only because of the whole hearted involvement and full support of the community, dedicated &amp; hardworking staff and our partners, to them we shall remain forever indebted. Our donors have been our steadfast supporters ever egging and cheering us to the uncharted. Their financial contribution and confidence to stay invested in us over the years has given us immense courage and strength.</p>
-        <p><a class="btn btn--donate" href="/get-involved/">Get involved</a></p>
+      <section class="credits" aria-labelledby="credits">
+        <div class="wrap credits__wrap">
+          <h2 id="credits" class="eyebrow">Credits</h2>
+          <p class="credits__big">The difference Prayatn has made and the milestones accomplished have been possible only because of the whole hearted involvement and full support of the community, dedicated &amp; hardworking staff and our partners, to them we shall remain forever indebted.</p>
+          <p class="credits__rest">Our donors have been our steadfast supporters ever egging and cheering us to the uncharted. Their financial contribution and confidence to stay invested in us over the years has given us immense courage and strength.</p>
+          <p><a class="btn btn--donate" href="/get-involved/">Get involved</a></p>
+        </div>
       </section>
       {{partnersAbout}}
-      </div>
     </main>
     <!--@footer-->
   </body>
