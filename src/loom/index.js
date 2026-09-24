@@ -31,17 +31,27 @@ export async function start(section) {
   try { atlas = await loadAtlas(); await atlas.decode?.(); } catch { return; }
 
   const force = new URLSearchParams(location.search).get('tier');
-  const canvas = document.createElement('canvas');
-  canvas.className = 'loom__canvas';
-  canvas.setAttribute('aria-hidden', 'true');
+  // A canvas can hold only one kind of context: once WebGL has been tried on
+  // it, Canvas 2D cannot use it. So every attempt gets a fresh canvas.
+  const fresh = () => { const c = document.createElement('canvas'); c.className = 'loom__canvas'; c.setAttribute('aria-hidden', 'true'); return c; };
+  let canvas = fresh();
   let r = null;
   if (force !== '2') {
     const caps = probeWebGL({ allowSoftware: force === '1' });
-    if (caps && caps.tier !== 'low') r = createGL(canvas, atlas, meta, { allowSoftware: force === '1', onLost: () => { r = createCanvas(swap(), atlas, meta); size(); } });
+    if (caps && caps.tier !== 'low') {
+      try { r = createGL(canvas, atlas, meta, { allowSoftware: force === '1', onLost: demote }); } catch { r = null; }
+    }
   }
-  if (!r) r = createCanvas(canvas, atlas, meta);
+  if (!r) { canvas = fresh(); r = createCanvas(canvas, atlas, meta); }
   if (!r) return;
-  function swap() { const c = canvas.cloneNode(); canvas.replaceWith(c); return c; }
+  // WebGL context lost (tab in the background on a phone): carry on in 2D.
+  function demote() {
+    const c = fresh();
+    const next = createCanvas(c, atlas, meta);
+    if (!next) return;
+    canvas.replaceWith(c); canvas = c; r = next;
+    section.dataset.tier = r.kind; size(); wake();
+  }
   stage.prepend(canvas);
   document.documentElement.classList.add('has-loom');
   section.dataset.tier = r.kind;

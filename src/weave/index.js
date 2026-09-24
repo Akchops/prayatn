@@ -34,10 +34,17 @@ export async function start(section) {
   let renderer = null;
   if (force !== '2') {
     const caps = probeWebGL({ allowSoftware });
-    if (caps && caps.tier !== 'low') renderer = createGL(canvas, img, { allowSoftware, onLost: demote });
+    if (caps && caps.tier !== 'low') { try { renderer = createGL(canvas, img, { allowSoftware, onLost: demote }); } catch { renderer = null; } }
   }
   let target = canvas;
-  if (!renderer) renderer = createCanvas(canvas, img);
+  // A canvas that WebGL was tried on cannot give a 2D context: fall back on a
+  // fresh one.
+  if (!renderer) {
+    target = document.createElement('canvas');
+    target.className = 'weave__canvas';
+    target.setAttribute('aria-hidden', 'true');
+    renderer = createCanvas(target, img);
+  }
   if (!renderer) return;                          // tier 3 stands
   document.documentElement.dataset.weaveTier = renderer.kind;
 

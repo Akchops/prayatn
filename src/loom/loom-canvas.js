@@ -47,7 +47,7 @@ export function create(canvas, atlas, meta) {
           const lift = s.hover && s.hover.cx === cx && s.hover.cy === cy ? s.hoverAmt : 0;
           const other = s.sel >= 0 && meta.tiles[idx].cat !== s.sel ? s.selAmt : 0;
           const inset = (1 - a) * t.w * 0.06;
-          ctx.globalAlpha = a * (1 - 0.8 * other) * (1 - 0.18 * s.hoverAmt * (1 - lift));
+          ctx.globalAlpha = a * (1 - 0.9 * other) * (1 - 0.18 * s.hoverAmt * (1 - lift));
           ctx.drawImage(atlas, (idx % meta.cols) * meta.tw, Math.floor(idx / meta.cols) * meta.th, meta.tw, meta.th,
             x + inset, y + inset * 0.75, t.w - 2 * inset, t.h - 1.5 * inset);
           ctx.globalAlpha = 1;

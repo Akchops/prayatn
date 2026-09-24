@@ -202,7 +202,7 @@ export function create(canvas, img, { allowSoftware = false, onLost } = {}) {
   const prog = gl.createProgram();
   gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
   gl.deleteShader(vs); gl.deleteShader(fs);
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { try { gl.getExtension('WEBGL_lose_context')?.loseContext(); } catch { /* ignore */ } return null; }
   gl.useProgram(prog);
 
   const buf = gl.createBuffer();

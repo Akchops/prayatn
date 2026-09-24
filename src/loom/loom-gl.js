@@ -28,7 +28,8 @@ uniform float uCount;     // number of photos
 uniform sampler2D uAtlas; // every photo as a 4:3 tile, uploaded with FLIP_Y
 uniform vec2 uHover;      // cell under the pointer (cx, cy)
 uniform float uHoverAmt;  // 0..1 how lifted that cell is
-uniform float uCat[64];   // programme of each photo (0 health .. 3 events)
+uniform vec4 uCat[16];    // programme of each photo (0 health .. 3 events), 4 per vec4:
+                          // 16 vectors, not 64 - iPhones allow only 64 in total
 uniform float uSel;       // selected programme, or -1 for all
 uniform float uSelAmt;    // 0..1 how far the filter has faded in
 uniform float uIntro;     // 0..1 weave-in on arrival
@@ -45,11 +46,13 @@ const vec3 KHADI    = vec3(0.953, 0.925, 0.875);  // #F3ECDF frame of a lifted t
 float hash(vec2 c) { return fract(sin(dot(c, vec2(12.9898, 78.233))) * 43758.5453); }
 
 // The programme of photo i. WebGL1 cannot index a uniform array with a
-// non-constant, so walk it; the loop bound is constant.
+// non-constant, so walk the 16 vectors (constant bound) and pick the one
+// holding photo i, then the component i mod 4 within it.
 float catOf(float i) {
-  float c = 0.0;
-  for (int k = 0; k < 64; k++) { if (float(k) == i) c = uCat[k]; }
-  return c;
+  float slot = floor(i / 4.0), lane = i - slot * 4.0;
+  vec4 v = vec4(0.0);
+  for (int k = 0; k < 16; k++) { if (float(k) == slot) v = uCat[k]; }
+  return lane < 0.5 ? v.x : (lane < 1.5 ? v.y : (lane < 2.5 ? v.z : v.w));
 }
 
 // Weft colour for the gap under row cy: marigold, rani, neem in turn.
@@ -132,7 +135,7 @@ void main() {
     // Filter: photos from other programmes fade to dim indigo-grey.
     float other = (uSel >= 0.0 && abs(catOf(idx) - uSel) > 0.5) ? uSelAmt : 0.0;
     float grey = dot(photo, vec3(0.299, 0.587, 0.114));
-    photo = mix(photo, mix(INDIGO, vec3(grey), 0.35), other * 0.8);
+    photo = mix(photo, mix(INDIGO, vec3(grey), 0.22), other * 0.92);
 
     // While something is hovered, everything else dims slightly.
     photo *= 1.0 - 0.18 * uHoverAmt * (1.0 - lift);
@@ -171,7 +174,11 @@ export function create(canvas, atlasImg, meta, { allowSoftware = false, onLost }
   const prog = gl.createProgram();
   gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
   gl.deleteShader(vs); gl.deleteShader(fs);
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    // Release this canvas's context so the caller can fall back cleanly.
+    try { gl.getExtension('WEBGL_lose_context')?.loseContext(); } catch { /* ignore */ }
+    return null;
+  }
   gl.useProgram(prog);
 
   const buf = gl.createBuffer();
@@ -199,7 +206,7 @@ export function create(canvas, atlasImg, meta, { allowSoftware = false, onLost }
   gl.uniform1f(L.uCount, meta.count);
   const cats = new Float32Array(64);
   meta.tiles.forEach((t, i) => { cats[i] = t.cat; });
-  gl.uniform1fv(L.uCat, cats);
+  gl.uniform4fv(L.uCat, cats);
 
   let lost = false;
   canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); lost = true; onLost?.(); });
