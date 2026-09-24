@@ -18,16 +18,13 @@
       </header>
       <div class="inner">
 
+      <section class="give-wrap" id="donate" aria-labelledby="donate-h">
+        <p class="eyebrow">Donate</p>
+        <h2 id="donate-h" class="rv">Give in three steps</h2>
+        {{give}}
+      </section>
+
       <div class="act__grid act__grid--page">
-        <section class="act__card" id="donate" aria-labelledby="donate-h">
-          <h2 id="donate-h" class="rv">Donate</h2>
-          <h3>By cheque</h3>
-          <p>{{cheque}}</p>
-          <p class="small">Post it to Prayatn, {{addressLine}}.</p>
-          <h3>By bank transfer</h3>
-          {{bank}}
-          <p class="tax">* {{taxLine}}</p>
-        </section>
         <section class="act__card" id="volunteer" aria-labelledby="volunteer-h">
           <h2 id="volunteer-h" class="rv">Volunteer</h2>
           <p>Write to us with a little about yourself and the time you can give.</p>

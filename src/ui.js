@@ -103,3 +103,12 @@ if (listToggle) listToggle.addEventListener('click', () => {
   listToggle.textContent = open ? 'Hide the list' : 'Show every photo as a list';
   if (open) list.scrollIntoView({ behavior: 'smooth' });
 });
+
+// Donate: copy buttons beside each bank detail (hidden without JS).
+document.querySelectorAll('[data-copy]').forEach((b) => {
+  if (!navigator.clipboard) return;
+  b.hidden = false;
+  b.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'Copied'; setTimeout(() => { b.textContent = 'Copy'; }, 1600); } catch { /* leave the text to select by hand */ }
+  });
+});

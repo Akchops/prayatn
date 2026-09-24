@@ -490,6 +490,25 @@ a.reach__way:hover { background: #474F79; }
 .since__list { list-style: none; margin: 0 0 24px; padding: 0; border-top: 2px solid var(--indigo); }
 .since__list li { display: grid; grid-template-columns: 5.5rem 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(30,36,64,.2); }
 .since__list b { font-family: var(--display); font-size: 1.2rem; }
+/* The drawn thread (src/motion.js): the list moves right to make room. */
+.since__track { position: relative; }
+.since__thread { position: absolute; left: 0; top: 0; width: 28px; overflow: visible; pointer-events: none; }
+.since__thread path { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.since__thread-under { stroke: rgba(30,36,64,.14); stroke-dasharray: 3 7; }
+.since__thread path:last-child { stroke: var(--rani); }
+.since__list.is-threaded { padding-left: 44px; border-top: 0; }
+.since__list.is-threaded li { position: relative; opacity: .45; transition: opacity .5s; }
+.since__list.is-threaded li::before {
+  content: ''; position: absolute; left: -39px; top: 17px; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--khadi); border: 3px solid rgba(30,36,64,.3); transform: scale(.55);
+  transition: transform .45s cubic-bezier(.3,1.6,.5,1), background-color .3s, border-color .3s;
+}
+.since__list.is-threaded li.is-tied { opacity: 1; }
+.since__list.is-threaded li.is-tied::before { transform: scale(1); background: var(--marigold); border-color: var(--indigo); }
+.since__list.is-threaded li.is-tied:nth-child(2)::before { background: var(--rani); }
+.since__list.is-threaded li.is-tied:nth-child(3)::before { background: var(--neem); }
+.since__list.is-threaded li.is-tied:last-child::before { background: var(--indigo); box-shadow: 0 0 0 5px rgba(226,160,25,.5); }
+.since__year { font-variant-numeric: tabular-nums; }
 @media (min-width: 900px) { .since__inner { grid-template-columns: 5fr 6fr; align-items: center; gap: 56px; } }
 
 /* ---------- Three ways in ---------- */
@@ -511,7 +530,29 @@ a.reach__way:hover { background: #474F79; }
 dl.bank div { display: grid; grid-template-columns: 9rem 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(30,36,64,.15); }
 dl.bank dt { color: var(--muted); }
 dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
-@media (min-width: 900px) { .act__grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 900px) { .act__grid { grid-template-columns: repeat(3, 1fr); } .act__grid--page { grid-template-columns: repeat(2, 1fr); } }
+
+/* Donate panel (Get involved): three numbered steps joined by a thread. */
+.give-wrap { margin: 0 0 56px; }
+.give-wrap h2 { font-size: clamp(2rem, 1.3rem + 3vw, 3.4rem); margin-bottom: 28px; }
+.give { list-style: none; margin: 0; padding: 0; position: relative; }
+.give::before { content: ''; position: absolute; left: 23px; top: 24px; bottom: 24px; width: 4px; background: linear-gradient(var(--marigold), var(--rani), var(--neem)); }
+.give__step { position: relative; padding: 0 0 36px 76px; }
+.give__step:last-child { padding-bottom: 0; }
+.give__n { position: absolute; left: 0; top: 0; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: var(--indigo); color: var(--khadi); font: 800 1.4rem/1 var(--display); box-shadow: 0 0 0 5px var(--khadi); }
+.give__step h3 { font-size: 1.7rem; margin: 6px 0 12px; }
+.give__step h4 { font: 700 .8rem/1.2 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--rani); margin: 18px 0 8px; }
+.give__step > p, .give__step .bank { max-width: 58ch; }
+.give__step .bank--pending { background: #FBF7EF; border-left: 6px solid var(--marigold); padding: 14px 16px; }
+dl.bank dd { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.give__copy { font: 600 .8rem/1 var(--body); padding: 7px 10px; border: 1.5px solid var(--indigo); background: transparent; color: var(--indigo); cursor: pointer; flex: none; }
+.give__copy:hover, .give__copy:focus-visible { background: var(--indigo); color: var(--khadi); }
+.give__qr { margin: 16px 0 0; display: inline-block; background: #fff; padding: 12px; box-shadow: 0 1px 0 rgba(30,36,64,.15); }
+.give__qr img { display: block; width: 180px; height: 180px; }
+.give__qr figcaption { font-size: .85rem; color: var(--muted); padding-top: 6px; text-align: center; }
+.give__reg { font-size: .95rem; margin-top: 8px; }
+@media (max-width: 520px) { dl.bank div { grid-template-columns: 1fr; gap: 2px; } dl.bank dt { font-size: .85rem; } }
+@media (max-width: 480px) { .give__step { padding-left: 62px; } .give::before { left: 19px; } .give__n { width: 42px; height: 42px; font-size: 1.2rem; } }
 
 /* ---------- Inner pages ---------- */
 .inner { max-width: 880px; margin: 0 auto; padding: 48px var(--gutter) 80px; }
@@ -833,8 +874,8 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
    Base, and on phones: each step is text followed by its photo.
    On PCs with motion (src/story.js adds .story--live): a two-column scroll
    story. The photo panel stays pinned on the left while the steps scroll
-   past on the right; each new step lowers its photo into the panel on
-   strips of thread, with a running count. */
+   past on the right; each new step draws its photo down over the last behind a
+   woven band, with a running count. */
 .story { max-width: var(--max); margin: 0 auto; padding: 24px var(--gutter) 40px; }
 .story__step { padding: 36px 0 28px; border-top: 2px solid var(--indigo); }
 .story__step:first-child { border-top: 0; }
@@ -842,11 +883,13 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .story__h { font-size: clamp(2rem, 1.2rem + 3.4vw, 4rem); max-width: 16ch; }
 .story__step .big { max-width: 38ch; }
 .story__step p:not(.big):not(.story__kicker):not(.pblock__ask) { max-width: 62ch; font-size: 1.08rem; }
-.story__fig { margin: 22px 0 0; max-width: 720px; }
+.story__fig { margin: 22px 0 0; }
+.story__fig img { width: 100%; max-width: var(--native); height: auto; }
 .story__fig figcaption { font-size: .88rem; color: var(--muted); padding-top: 8px; }
 .story__media { display: none; }
 
-.story--live { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 64px; padding-top: 48px; }
+.story--live { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); padding-top: 48px; }
+.story--live .rv-on { clip-path: none; transform: none; }
 .story--live .story__media {
   display: block; position: sticky; top: calc(var(--head) + 24px);
   height: calc(100svh - var(--head) - 48px); align-self: start;
@@ -854,16 +897,17 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
   box-shadow: 0 0 0 4px var(--khadi), 0 24px 60px rgba(30,36,64,.3);
 }
 .story--live .story__steps { padding-bottom: 20vh; }
-.story--live .story__step { min-height: 88svh; display: flex; flex-direction: column; justify-content: center; border-top: 0; padding: 0; opacity: .28; transition: opacity .5s; }
+.story--live .story__step { min-height: 72svh; display: flex; flex-direction: column; justify-content: center; border-top: 0; padding: 0; opacity: .5; transition: opacity .5s; }
 .story--live .story__step.is-active { opacity: 1; }
 .story--live .story__fig { display: none; }
 .shot { position: absolute; inset: 0; z-index: 0; }
 .shot picture, .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .shot.is-on { z-index: 2; }
 .shot.was-on { z-index: 1; }
-.shot__strips { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(7, 1fr); pointer-events: none; }
-.shot__strips i { background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); transform-origin: top; transform: scaleY(1); }
-.shot.is-on .shot__strips i { animation: strip-up .9s cubic-bezier(.7,0,.2,1) both; animation-delay: calc(var(--s) * 55ms); }
+.shot.is-on picture { animation: shot-wipe .95s cubic-bezier(.7,0,.2,1) both; }
+.shot__band { position: absolute; left: 0; right: 0; top: 0; height: 22px; z-index: 2; pointer-events: none; opacity: 0;
+  background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); box-shadow: 0 2px 0 var(--marigold), 0 -2px 0 var(--rani); }
+.shot.is-on .shot__band { animation: shot-band .95s cubic-bezier(.7,0,.2,1) both; }
 .shot.is-on img { animation: shot-settle 1.6s cubic-bezier(.2,.8,.2,1) both; }
 .shot__type { position: absolute; inset: 0; display: grid; place-items: center; padding: 10%; background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); }
 .shot__type span { background: var(--khadi); color: var(--indigo); font: 800 clamp(1.8rem, 1rem + 2.6vw, 3.4rem)/1 var(--display); letter-spacing: -0.03em; padding: 18px 22px; text-align: center; outline: 2px dashed rgba(30,36,64,.45); outline-offset: -8px; }
@@ -872,7 +916,8 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .story__count small { font-size: .9rem; color: #F2B940; letter-spacing: .02em; }
 .story__thread { position: absolute; z-index: 3; left: 0; top: 0; bottom: 0; width: 5px; background: rgba(243,236,223,.15); }
 .story__thread i { display: block; height: 100%; background: linear-gradient(var(--marigold), var(--rani), var(--neem)); transform-origin: top; transform: scaleY(var(--p, 0)); }
-@keyframes strip-up { from { transform: scaleY(1); } to { transform: scaleY(0); } }
+@keyframes shot-wipe { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+@keyframes shot-band { 0% { opacity: 1; transform: translateY(-22px); } 92% { opacity: 1; } 100% { opacity: 0; transform: translateY(calc(100svh - var(--head) - 48px)); } }
 @keyframes shot-settle { from { transform: scale(1.14); } to { transform: none; } }
 
 /* The Loom: title card on arrival, and the caption chip that follows the mouse. */

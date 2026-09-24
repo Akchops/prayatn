@@ -73,4 +73,11 @@ Fill in `bank` in `src/data/site.json`:
 ```
 
 Then run `npm run build`. The donate sections on the home page and on
-Get involved switch from "call or email us for bank details" to the details.
+Get involved switch from "call or email us for bank details" to the details,
+each with a Copy button.
+
+Also in `site.json`, all hidden until filled:
+
+- `bankQr`: a QR image **issued by the bank for this account**, put in `public/` (e.g. `"bank-qr.png"`). There is no UPI, so this is only for a bank-issued code.
+- `eightyG`: `{ "number": "…", "validity": "…" }` shows the 80G registration under the tax line.
+- `receiptLine`: the sentence about receipts in step 3.

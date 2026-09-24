@@ -87,6 +87,15 @@ The old site's Education and Women development pages are not in any search index
 
 **Alt text corrected:** four photo descriptions said "lawyer"; nothing states that, so they now describe the Legal Help Desk without naming a profession.
 
+## Donate panel (2026-09-24, owner asked for it)
+
+| Item | Status |
+|---|---|
+| "After you give, tell us and we will send you a receipt." | **OWNER REQUESTED** a receipt line. Confirm the trust does send receipts this way. |
+| Asking donors for PAN | General requirement for 80G receipts; shown as a field to send, not as a claim. |
+| UPI | None. The owner says there is no UPI. |
+| Bank details, bank QR, 80G number and validity | PENDING. Slots exist in `site.json`, hidden while empty. |
+
 ## Governance: Board of Trustees (seven members)
 
 Verbatim from the old-site screenshot:

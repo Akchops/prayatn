@@ -141,7 +141,7 @@ if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
 }
 
 // Lists rise in one item after another.
-const groups = ['.trustees', '.since__list', '.projgrid', '.act__grid', '.foot-col ul'];
+const groups = ['.trustees', '.projgrid', '.act__grid', '.foot-col ul'];
 groups.forEach((sel) => document.querySelectorAll(sel).forEach((g) => {
   const kids = [...g.children].filter(below);
   kids.forEach((k, i) => { k.classList.add('rise'); k.style.setProperty('--d', i); });
@@ -220,3 +220,57 @@ if (plist2) {
   window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(place); }, { passive: true });
   place();
 }
+
+// The timeline draws itself. A thread runs down the milestones with the
+// scroll and ties a knot at each year as it reaches it; on the home page the
+// big year beside it counts from 1992 to this year in step. Scrubbed, so
+// scrolling back unpicks it. Without JS: the plain list with its years.
+document.querySelectorAll('.since__list').forEach((list) => {
+  const ns = 'http://www.w3.org/2000/svg';
+  const track = document.createElement('div');
+  track.className = 'since__track';
+  list.before(track);
+  track.appendChild(list);
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('class', 'since__thread');
+  svg.setAttribute('aria-hidden', 'true');
+  const under = document.createElementNS(ns, 'path');
+  const path = document.createElementNS(ns, 'path');
+  under.setAttribute('class', 'since__thread-under');
+  svg.append(under, path);
+  track.prepend(svg);
+  list.classList.add('is-threaded');
+  const items = [...list.children];
+  const year = list.closest('.since')?.querySelector('.since__year');
+  const from = 1992, to = new Date().getFullYear();
+  let len = 0, H = 0;
+  const shape = () => {
+    H = list.offsetHeight;
+    svg.setAttribute('viewBox', `0 0 28 ${H}`);
+    svg.style.height = `${H}px`;
+    // A loose thread: a slow sine down the list, pulled straight at each knot.
+    let d = 'M14 0';
+    for (let y = 4; y <= H; y += 4) {
+      const knot = items.some((li) => Math.abs(li.offsetTop + 26 - y) < 14);
+      d += ` L${(14 + (knot ? 0 : 7 * Math.sin(y / 19))).toFixed(1)} ${y}`;
+    }
+    under.setAttribute('d', d);
+    path.setAttribute('d', d);
+    len = path.getTotalLength();
+    path.style.strokeDasharray = `${len}`;
+  };
+  let raf = 0;
+  const place = () => {
+    raf = 0;
+    const r = list.getBoundingClientRect(), vh = innerHeight;
+    const p = Math.max(0, Math.min(1, (vh * 0.78 - r.top) / (r.height + vh * 0.2)));
+    path.style.strokeDashoffset = `${(len * (1 - p)).toFixed(1)}`;
+    items.forEach((li) => li.classList.toggle('is-tied', p * H >= li.offsetTop + 20));
+    if (year) year.textContent = String(Math.round(from + (to - from) * p));
+  };
+  const kick = () => { if (!raf) raf = requestAnimationFrame(place); };
+  shape(); place();
+  addEventListener('scroll', kick, { passive: true });
+  addEventListener('resize', () => { shape(); kick(); });
+  document.fonts?.ready.then(() => { shape(); kick(); });
+});

@@ -1,6 +1,6 @@
 // Programme pages on a PC: a two-column scroll story. The photo panel stays
 // pinned while the steps scroll past; each step that reaches the middle of the
-// screen lowers its own photo into the panel on seven strips of thread, with
+// screen draws its own photo down over the last one behind a woven band, with
 // a running count and a thread that fills as you read. On phones, and with
 // reduced motion, the steps stay as text followed by their photo.
 
@@ -8,7 +8,7 @@ export function start(section) {
   const panel = section.querySelector('.story__media');
   const steps = [...section.querySelectorAll('.story__step')];
   if (!panel || !steps.length) return;
-  const mq = matchMedia('(min-width: 1000px) and (prefers-reduced-motion: no-preference)');
+  const mq = matchMedia('(min-width: 760px) and (prefers-reduced-motion: no-preference)');
   let io = null, shots = [], active = -1, onScroll = null;
 
   function build() {
@@ -23,16 +23,16 @@ export function start(section) {
         img.loading = 'eager';
         img.style.cssText = '';           // drop the phone scroll effect's inline styles
         clone.style.cssText = '';
-        img.sizes = '(min-width: 1000px) 50vw, 92vw';
+        img.sizes = '(min-width: 760px) 50vw, 92vw';
         shot.appendChild(clone);
       } else {
         // A step without a photo gets its title, set on the rug.
         shot.innerHTML = `<div class="shot__type"><span>${step.dataset.title}</span></div>`;
       }
-      const strips = document.createElement('div');
-      strips.className = 'shot__strips';
-      strips.innerHTML = Array.from({ length: 7 }, (_, i) => `<i style="--s:${i % 2 ? 6 - i : i}"></i>`).join('');
-      shot.appendChild(strips);
+      // The shuttle: a woven band that carries the new photo down over the old one.
+      const band = document.createElement('div');
+      band.className = 'shot__band';
+      shot.appendChild(band);
       panel.appendChild(shot);
       return shot;
     });
@@ -48,7 +48,7 @@ export function start(section) {
   function show(i) {
     if (i === active || !shots[i]) return;
     shots.forEach((s, k) => { s.classList.toggle('was-on', k === active); s.classList.remove('is-on'); });
-    void shots[i].offsetWidth;               // restart the strip animation
+    void shots[i].offsetWidth;               // restart the wipe
     shots[i].classList.add('is-on');
     steps.forEach((s, k) => s.classList.toggle('is-active', k === i));
     const fig = steps[i].querySelector('.story__fig figcaption');

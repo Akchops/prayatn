@@ -91,6 +91,35 @@ function bankBlock(site) {
   return `<dl class="bank">${row('Account name', b.accountName)}${row('Account number', b.accountNumber)}${row('IFSC', b.ifsc)}${row('Bank', b.bank)}${row('Branch', b.branch)}</dl>`;
 }
 
+// The full donate panel (Get involved): three steps, send, tell us, receipt.
+// Bank details, the bank's QR and the 80G number appear only once they are
+// filled in src/data/site.json; nothing is shown in their place until then.
+function giveBlock(site) {
+  const phones = site.phones.map((p) => `<a href="${tel(p)}">${p}</a>`).join(' or ');
+  const b = site.bank;
+  const copy = (v) => `<button type="button" class="give__copy" data-copy="${esc(v)}" hidden>Copy</button>`;
+  const row = (k, v) => `<div><dt>${k}</dt><dd><span>${esc(v)}</span>${copy(v)}</dd></div>`;
+  const bank = b
+    ? `<dl class="bank">${row('Account name', b.accountName)}${row('Account number', b.accountNumber)}${row('IFSC', b.ifsc)}${row('Bank', b.bank)}${row('Branch', b.branch)}</dl>`
+    : `<p class="bank bank--pending">Call ${phones}, or email <a href="mailto:${site.email}?subject=Bank%20transfer%20details">${site.email}</a>, and we will send you the account details.</p>`;
+  const qr = site.bankQr ? `<figure class="give__qr"><img src="/${esc(site.bankQr)}" alt="QR code for Prayatn's bank account" width="200" height="200" loading="lazy"><figcaption>Scan with your bank's app</figcaption></figure>` : '';
+  const body = encodeURIComponent('Name:\nPostal address:\nPAN (for the 80G receipt):\nAmount:\nDate:\nTransaction reference or cheque number:\n');
+  const g = site.eightyG || {};
+  const reg = g.number ? `<p class="give__reg">80G registration: <b>${esc(g.number)}</b>${g.validity ? `, valid ${esc(g.validity)}` : ''}</p>` : '';
+  return `<ol class="give">
+  <li class="give__step"><span class="give__n" aria-hidden="true">1</span><h3>Send your gift</h3>
+    <h4>By bank transfer</h4>${bank}${qr}
+    <h4>By cheque</h4><p>${esc(site.chequePayee)}</p><p class="small">Post it to Prayatn, ${site.address.map(esc).join(', ')}.</p></li>
+  <li class="give__step"><span class="give__n" aria-hidden="true">2</span><h3>Tell us</h3>
+    <p>Email us your name, postal address, PAN, the amount, the date and the transaction reference or cheque number.</p>
+    <p><a class="btn btn--donate" href="mailto:${site.email}?subject=Donation%20receipt&amp;body=${body}">Email us the details</a></p>
+    <p class="small">Or call ${phones}.</p></li>
+  <li class="give__step"><span class="give__n" aria-hidden="true">3</span><h3>Get your receipt</h3>
+    <p>${esc(site.receiptLine)}</p>
+    <p class="tax">* ${esc(site.taxLine)}</p>${reg}</li>
+</ol>`;
+}
+
 function templates() {
   return {
     name: 'prayatn-templates',
@@ -119,6 +148,8 @@ function templates() {
           tagline: esc(site.tagline),
           blurb: esc(site.blurb),
           bank: bankBlock(site),
+          give: giveBlock(site),
+          receiptLine: esc(site.receiptLine),
           partnersHome: partnersBlock(partners, 'home'),
           partnersAbout: partnersBlock(partners, 'about'),
         };

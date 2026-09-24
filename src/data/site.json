@@ -23,5 +23,12 @@
   },
   "credit": "Aarav Chopra",
   "tagline": "A Developmental Effort",
-  "blurb": "A registered Public Charitable Trust working for the disadvantaged sections of the society since 1992. Empowering communities through education, healthcare, and women development."
+  "blurb": "A registered Public Charitable Trust working for the disadvantaged sections of the society since 1992. Empowering communities through education, healthcare, and women development.",
+  "bankQr": null,
+  "_bankQr_note": "Filename in public/ of a QR image issued by the bank for this account (not UPI). Leave null to hide the QR.",
+  "eightyG": {
+    "number": null,
+    "validity": null
+  },
+  "receiptLine": "After you give, tell us and we will send you a receipt."
 }
