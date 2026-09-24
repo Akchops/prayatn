@@ -1169,3 +1169,52 @@ html.opened [data-intro="deal"] .band__card::before, html.opened [data-intro="de
 .credits { padding: clamp(64px, 8vw, 110px) 0; }
 .credits__big { font: 700 clamp(1.4rem, 1rem + 1.8vw, 2.5rem)/1.25 var(--display); letter-spacing: -0.02em; max-width: 34ch; margin: 12px 0 18px; }
 .credits__rest { max-width: 62ch; font-size: 1.1rem; }
+
+/* ---------- Get involved ---------- */
+/* Three ways in: photo panels. On a PC the one under the mouse opens wide. */
+.ways { display: grid; gap: 4px; background: var(--indigo); padding: 4px; }
+.way { position: relative; display: block; min-height: 34vh; overflow: hidden; color: var(--khadi); text-decoration: none; background: var(--indigo); }
+.way picture, .way img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.way img { transition: transform 1.2s cubic-bezier(.2,.8,.2,1), filter .6s; filter: saturate(.85) brightness(.8); }
+.way::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,24,44,.15) 20%, rgba(20,24,44,.88)); }
+.way__body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; display: grid; gap: 6px; padding: 22px var(--gutter) 24px; border-bottom: 6px solid var(--c); }
+.way__n { font: 700 .8rem/1 var(--body); letter-spacing: .16em; color: #F2B940; }
+.way__t { font: 800 clamp(2.2rem, 1.4rem + 3.4vw, 4.6rem)/.95 var(--display); letter-spacing: -0.04em; }
+.way__d { max-width: 34ch; color: #EFE8DA; font-size: 1.02rem; }
+.way__go { position: absolute; right: var(--gutter); bottom: 22px; font: 800 2rem/1 var(--display); color: var(--c); transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+.way:hover img, .way:focus-visible img { transform: scale(1.06); filter: saturate(1.05) brightness(.95); }
+.way:hover .way__go, .way:focus-visible .way__go { transform: translateX(8px); }
+@media (min-width: 900px) {
+  .ways { display: flex; height: min(76vh, 720px); }
+  .way { flex: 1 1 0; min-height: 0; transition: flex-grow .7s cubic-bezier(.2,.8,.2,1); }
+  .ways:hover .way { flex-grow: .75; }
+  .ways .way:hover, .ways .way:focus-visible { flex-grow: 2.2; }
+  .way__d { opacity: .85; }
+  .way__body { padding: 28px 32px 30px; }
+  .way__go { right: 32px; bottom: 30px; }
+}
+
+/* Donate: the heading held beside the three steps on a PC. */
+.give-wrap { margin: 0; padding: clamp(64px, 8vw, 110px) 0; }
+.give-wrap__grid { display: grid; gap: 28px; }
+.give-wrap__note { max-width: 36ch; color: var(--muted); }
+@media (min-width: 1000px) {
+  .give-wrap__grid { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 64px; align-items: start; }
+  .give-wrap__head { position: sticky; top: calc(var(--head) + 32px); }
+  .give-wrap h2 { font-size: clamp(2.6rem, 1.2rem + 3.4vw, 4.6rem); line-height: .95; letter-spacing: -0.04em; }
+}
+
+/* Volunteer and contact. */
+.helpers { padding: 0 0 clamp(64px, 8vw, 110px); }
+.helpers__grid { display: grid; gap: 20px; }
+@media (min-width: 900px) { .helpers__grid { grid-template-columns: 1fr 1fr; gap: 28px; } }
+.helper { position: relative; padding: clamp(28px, 4vw, 48px); overflow: hidden; }
+.helper h2 { font-size: clamp(2rem, 1.2rem + 2.6vw, 3.4rem); letter-spacing: -0.035em; line-height: .95; margin: 6px 0 14px; }
+.helper--vol { background: var(--indigo); color: var(--khadi); background-image: linear-gradient(rgba(30,36,64,.86), rgba(30,36,64,.94)), url('/rug.svg'); background-size: auto, 96px 120px; }
+.helper--vol h2 { color: var(--khadi); }
+.helper--vol .eyebrow { color: #F2B940; }
+.helper--vol a:not(.btn) { color: var(--khadi); }
+.helper--card { background: #FBF7EF; box-shadow: 0 1px 0 rgba(30,36,64,.1), 0 24px 50px rgba(30,36,64,.12); border-top: 8px solid var(--neem); }
+.helper--card address { font: 700 clamp(1.2rem, 1rem + .8vw, 1.6rem)/1.3 var(--display); font-style: normal; margin-bottom: 12px; }
+.helper__stamp { position: absolute; right: 22px; top: 22px; width: 76px; height: 76px; display: grid; place-items: center; border: 2px dashed rgba(30,36,64,.35); border-radius: 50%; transform: rotate(-12deg); opacity: .8; }
+.helper__stamp img { width: 40px; height: auto; }

@@ -16,29 +16,44 @@
         </div>
         {{bandimg gallery-77}}
       </header>
-      <div class="inner">
+
+      <!-- Three ways in. On a PC the panel under the mouse opens wide. -->
+      <nav class="ways" aria-label="Ways to get involved">
+        <a class="way" href="#donate" style="--c: var(--marigold)">{{img gallery-62 sizes="(min-width: 900px) 50vw, 100vw" alt=""}}<span class="way__body"><span class="way__n">01</span><span class="way__t">Donate</span><span class="way__d">By bank transfer or by cheque. We send you a receipt.</span><span class="way__go" aria-hidden="true">→</span></span></a>
+        <a class="way" href="#volunteer" style="--c: var(--rani)">{{img gallery-61 sizes="(min-width: 900px) 50vw, 100vw" alt=""}}<span class="way__body"><span class="way__n">02</span><span class="way__t">Volunteer</span><span class="way__d">Write to us with a little about yourself and the time you can give.</span><span class="way__go" aria-hidden="true">→</span></span></a>
+        <a class="way" href="#contact" style="--c: var(--neem)">{{img gallery-41 sizes="(min-width: 900px) 50vw, 100vw" alt=""}}<span class="way__body"><span class="way__n">03</span><span class="way__t">Visit or call</span><span class="way__d">E-103, G.F., Kalkaji, New Delhi. {{phone1}}.</span><span class="way__go" aria-hidden="true">→</span></span></a>
+      </nav>
 
       <section class="give-wrap" id="donate" aria-labelledby="donate-h">
-        <p class="eyebrow">Donate</p>
-        <h2 id="donate-h" class="rv">Give in three steps</h2>
-        {{give}}
+        <div class="wrap give-wrap__grid">
+          <div class="give-wrap__head">
+            <p class="eyebrow">Donate</p>
+            <h2 id="donate-h" class="rv">Give in three steps</h2>
+            <p class="give-wrap__note">Bank transfer or cheque. Tell us when you have given, and we will send you a receipt.</p>
+          </div>
+          {{give}}
+        </div>
       </section>
 
-      <div class="act__grid act__grid--page">
-        <section class="act__card" id="volunteer" aria-labelledby="volunteer-h">
-          <h2 id="volunteer-h" class="rv">Volunteer</h2>
-          <p>Write to us with a little about yourself and the time you can give.</p>
-          <p><a class="btn btn--line" href="mailto:{{email}}?subject=Volunteering%20with%20Prayatn">Email us to volunteer</a></p>
-          <p class="small">Or call <a href="{{tel1}}">{{phone1}}</a>.</p>
-        </section>
-        <section class="act__card" id="contact" aria-labelledby="contact-h">
-          <h2 id="contact-h" class="rv">Contact</h2>
-          <address>Prayatn<br>{{address}}</address>
-          <p>Phone: <a href="{{tel1}}">{{phone1}}</a></p>
-          <p>Email: <a href="mailto:{{email}}">{{email}}</a></p>
-        </section>
-      </div>
-      </div>
+      <section class="helpers" aria-label="Volunteer and contact">
+        <div class="wrap helpers__grid">
+          <section class="helper helper--vol" id="volunteer" aria-labelledby="volunteer-h">
+            <p class="eyebrow">Volunteer</p>
+            <h2 id="volunteer-h" class="rv">Give your time</h2>
+            <p>Write to us with a little about yourself and the time you can give.</p>
+            <p><a class="btn btn--donate" href="mailto:{{email}}?subject=Volunteering%20with%20Prayatn">Email us to volunteer</a></p>
+            <p class="small">Or call <a href="{{tel1}}">{{phone1}}</a>.</p>
+          </section>
+          <section class="helper helper--card" id="contact" aria-labelledby="contact-h">
+            <p class="eyebrow">Contact</p>
+            <h2 id="contact-h" class="rv">Find us</h2>
+            <address>Prayatn<br>{{address}}</address>
+            <p>Phone: <a href="{{tel1}}">{{phone1}}</a><br>Email: <a href="mailto:{{email}}">{{email}}</a></p>
+            <p><a class="btn btn--line" href="https://www.google.com/maps/search/?api=1&amp;query=E-103%2C%20Kalkaji%2C%20New%20Delhi%20110019" target="_blank" rel="noopener">Open in Google Maps ↗</a></p>
+            <span class="helper__stamp" aria-hidden="true"><img src="/logo-ink.png" alt="" width="219" height="231"></span>
+          </section>
+        </div>
+      </section>
     </main>
     <!--@footer-->
   </body>
