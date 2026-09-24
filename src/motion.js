@@ -153,72 +153,135 @@ groups.forEach((sel) => document.querySelectorAll(sel).forEach((g) => {
   }, { rootMargin: '0px 0px -10% 0px' }).observe(g);
 }));
 
-// Photos move with the scroll, not with a timer. For each photo on screen,
-// k runs from 1 (just entering at the bottom) through 0 (centre of the
-// screen) to -1 (leaving at the top). Its frame opens as it rises towards the
-// centre and closes again as it leaves, alternately from the middle and from
-// the sides; the picture drifts and zooms inside the frame. Nothing is hidden
-// without JS: these are inline styles written only while scrolling.
-const scrubbed = [...document.querySelectorAll('.m, .g-item, .sp')];
-if (scrubbed.length) {
-  const on = new Set();
-  const vis = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? on.add(e.target) : on.delete(e.target))), { rootMargin: '10% 0px' });
-  scrubbed.forEach((f, i) => {
-    f.classList.add('scrub');
-    f.dataset.scrub = i % 2 ? 'side' : 'mid';
-    vis.observe(f);
+// Photos are woven open. Each photo starts behind six strips of the durrie,
+// which pull away alternately to the left and the right, like weft threads
+// drawn out of the loom, as soon as the photo comes on screen. It happens
+// once and the photo stays fully open (it no longer closes as it rises).
+// While on screen the picture drifts a little with the scroll. Without JS
+// there are no strips: the photos are simply there.
+const woven = [...document.querySelectorAll('.m, .g-item')].filter((f) => f.querySelector('picture'));
+if (woven.length) {
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting) return;
+    io.unobserve(e.target);
+    e.target.classList.add('is-in');
+  }), { threshold: 0.12 });
+  woven.forEach((f, i) => {
+    const weft = document.createElement('span');
+    weft.className = 'weft';
+    weft.setAttribute('aria-hidden', 'true');
+    weft.innerHTML = Array.from({ length: 6 }, (_, k) => `<i style="--k:${i % 2 ? 5 - k : k}"></i>`).join('');
+    f.querySelector('picture').appendChild(weft);
+    f.classList.add('weave-in');
+    io.observe(f);
   });
+  // The drift, for photos on screen.
+  const on = new Set();
+  const vis = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? on.add(e.target) : on.delete(e.target))));
+  woven.forEach((f) => vis.observe(f));
   let raf = 0;
-  const place = () => {
+  const drift = () => {
     raf = 0;
-    const vh = window.innerHeight;
+    const vh = innerHeight;
     on.forEach((f) => {
-      const pic = f.querySelector('picture');
-      if (!pic) return;
-      const r = pic.getBoundingClientRect();
+      const img = f.querySelector('picture img');
+      const r = f.getBoundingClientRect();
       const k = Math.max(-1, Math.min(1, ((r.top + r.height / 2) - vh / 2) / (vh / 2 + r.height / 2)));
-      // Open fully over the lower 60% of the journey; close over the last 30%.
-      const shut = k > 0 ? Math.min(1, k / 0.6) : Math.max(0, (-k - 0.7) / 0.3);
-      const e = shut * shut;
-      const cut = (e * 48).toFixed(2);
-      pic.style.clipPath = f.dataset.scrub === 'side'
-        ? `inset(0 ${cut}% 0 ${cut}%)`
-        : `inset(${cut}% 0 ${cut}% 0)`;
-      const img = pic.querySelector('img');
-      if (img) {
-        img.style.scale = (1 + 0.22 * Math.abs(k)).toFixed(4);
-        img.style.translate = `0 ${(k * 9).toFixed(2)}%`;
-      }
+      if (img) img.style.translate = `0 ${(k * 4).toFixed(2)}%`;
     });
   };
-  const kick = () => { if (!raf) raf = requestAnimationFrame(place); };
-  window.addEventListener('scroll', kick, { passive: true });
-  window.addEventListener('resize', kick);
-  kick();
+  addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(drift); }, { passive: true });
+  drift();
 }
 
-// Partners: each name slides in along its thread, alternately from the left
-// and the right, scrubbed by the section's position on screen.
-const plist2 = document.querySelector('[data-partners]');
-if (plist2) {
-  const rows = [...plist2.children];
-  let raf = 0;
-  const place = () => {
-    raf = 0;
-    const vh = window.innerHeight;
-    rows.forEach((row, i) => {
-      const r = row.getBoundingClientRect();
-      // 0 when the row is at the bottom of the screen, 1 by the time it is 35% up.
-      const k = Math.max(0, Math.min(1, (vh - r.top) / (vh * 0.35)));
-      const e = 1 - Math.pow(1 - k, 3);
-      const dir = i % 2 ? 1 : -1;
-      row.style.translate = `${(dir * (1 - e) * 40).toFixed(2)}vw 0`;
-      row.style.opacity = (0.15 + 0.85 * e).toFixed(3);
-      row.style.setProperty('--thread', e.toFixed(3));
-    });
+// Partners: every name hangs on its own thread, and the threads are strings
+// you can play. Move the mouse onto a thread and it bends with you; move off
+// and it springs back and rings. On a phone, tap a row to pluck it, and the
+// threads sway when you scroll past. The rows weave in once, all together,
+// as the section arrives, so every partner is in place as soon as it is seen.
+const plist = document.querySelector('[data-partners]');
+if (plist) {
+  const sec = plist.closest('.partners');
+  const ns = 'http://www.w3.org/2000/svg';
+  sec.classList.add('is-strung');
+  const strings = [...plist.children].map((row) => {
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('class', 'partners__string');
+    svg.setAttribute('aria-hidden', 'true');
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('pathLength', '1');
+    svg.appendChild(path);
+    row.appendChild(svg);
+    return { row, svg, path, W: 0, x: 0, d: 0, v: 0, held: false };
+  });
+  const HOLD = 30;   // px either side of a thread where the mouse holds it
+  const draw = (s) => {
+    const W = s.W, x = Math.max(W * 0.08, Math.min(W * 0.92, s.x)), d = s.d;
+    // A rounded peak at the plucked point, fixed at both ends.
+    s.path.setAttribute('d', `M0 0 Q${(x * 0.55).toFixed(1)} ${d.toFixed(2)} ${x.toFixed(1)} ${d.toFixed(2)} Q${(x + (W - x) * 0.45).toFixed(1)} ${d.toFixed(2)} ${W} 0`);
+    s.row.style.setProperty('--pluck', `${(d * 0.22).toFixed(2)}px`);
+    s.row.style.setProperty('--tilt', `${(d * 0.12).toFixed(2)}deg`);
   };
-  window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(place); }, { passive: true });
-  place();
+  const size = () => strings.forEach((s) => {
+    s.W = s.row.offsetWidth;
+    s.svg.setAttribute('viewBox', `0 -40 ${s.W} 80`);
+    if (!s.x) s.x = s.W / 2;
+    draw(s);
+  });
+  let raf = 0;
+  const step = () => {
+    raf = 0;
+    let busy = false;
+    strings.forEach((s) => {
+      if (!s.held) {
+        // A damped spring: pulled back to straight, losing a little each frame.
+        s.v += -0.11 * s.d - 0.045 * s.v;
+        s.d += s.v;
+        if (Math.abs(s.d) < 0.05 && Math.abs(s.v) < 0.05) { s.d = 0; s.v = 0; } else busy = true;
+      } else busy = true;
+      draw(s);
+    });
+    if (busy) raf = requestAnimationFrame(step);
+  };
+  const wake = () => { if (!raf) raf = requestAnimationFrame(step); };
+  const pluck = (s, x, amount) => { s.x = x; s.v += amount; wake(); };
+
+  plist.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    strings.forEach((s) => {
+      const r = s.row.getBoundingClientRect();
+      const rel = e.clientY - r.bottom;
+      if (Math.abs(rel) < HOLD) { s.held = true; s.x = e.clientX - r.left; s.d = rel * 0.9; s.v = 0; wake(); }
+      else if (s.held) { s.held = false; wake(); }   // let go: it rings
+    });
+  });
+  plist.addEventListener('pointerleave', () => { strings.forEach((s) => { s.held = false; }); wake(); });
+  plist.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse') return;
+    const s = strings.find((q) => q.row.contains(e.target));
+    if (s) pluck(s, e.clientX - s.row.getBoundingClientRect().left, 9);
+  });
+  // Scrolling past sways the threads, a little more the faster you go.
+  let lastY = scrollY, seen = false;
+  addEventListener('scroll', () => {
+    const dy = scrollY - lastY; lastY = scrollY;
+    if (!seen) return;
+    const push = Math.max(-5, Math.min(5, dy * 0.05));
+    strings.forEach((s, i) => { s.v += push * (i % 2 ? -1 : 1); });
+    wake();
+  }, { passive: true });
+
+  new IntersectionObserver((es) => es.forEach((e) => { seen = e.isIntersecting; })).observe(sec);
+  const enter = new IntersectionObserver((es, obs) => {
+    if (!es.some((e) => e.isIntersecting)) return;
+    obs.disconnect();
+    sec.classList.add('is-in');
+    // Once the rows are in, give each thread a small pluck, one after another.
+    strings.forEach((s, i) => setTimeout(() => pluck(s, s.W * (0.3 + 0.4 * (i % 2)), 7), 700 + i * 110));
+  }, { threshold: 0.12 });
+  enter.observe(plist);
+  size();
+  addEventListener('resize', size);
 }
 
 // The timeline draws itself. A thread runs down the milestones and ties a
@@ -305,8 +368,21 @@ document.querySelectorAll('.since__list').forEach((list) => {
       since.style.height = `${inner.offsetHeight + L}px`;
     };
     const ease = (k) => k * k * (3 - 2 * k);
+    // If this browser does not hold the panel in place (position: sticky
+    // failing), drop the pin at once rather than leave a runway of empty page.
+    let pinned = true;
+    const unpin = () => {
+      pinned = false;
+      since.classList.remove('is-pinned');
+      since.style.height = '';
+      mover.style.transform = '';
+      shape();
+    };
     place = () => {
-      let d = Math.max(0, Math.min(L, head() - since.getBoundingClientRect().top));
+      if (!pinned) { draw(Math.max(0, Math.min(H, innerHeight / 2 - list.getBoundingClientRect().top))); return; }
+      const top = since.getBoundingClientRect().top;
+      let d = Math.max(0, Math.min(L, head() - top));
+      if (d > 40 && d < L - 40 && Math.abs(inner.getBoundingClientRect().top - head()) > 30) { unpin(); place(); return; }
       const tr = travel(), hd = hold();
       let y = knots[knots.length - 1], prev = 0;
       for (let i = 0; i < knots.length; i++) {
@@ -330,8 +406,10 @@ document.querySelectorAll('.since__list').forEach((list) => {
       mover.style.transform = `translateY(${(-shift).toFixed(1)}px)`;
     };
     layout();
-    addEventListener('resize', () => { layout(); kick(); });
-    document.fonts?.ready.then(() => { layout(); kick(); });
+    const relayout = () => { if (pinned) layout(); else shape(); kick(); };
+    addEventListener('resize', relayout);
+    addEventListener('load', relayout);
+    document.fonts?.ready.then(relayout);
   } else {
     // Unpinned: the thread reaches whatever is at the middle of the screen.
     place = () => draw(Math.max(0, Math.min(H, innerHeight / 2 - list.getBoundingClientRect().top)));

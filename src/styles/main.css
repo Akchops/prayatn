@@ -876,9 +876,16 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 .g-group[hidden] { display: none; }
 @media (max-width: 600px) { .loom__hint span:last-child { display: none; } }
 
-/* Scroll-scrubbed photos (src/motion.js): the picture is its own window. */
-.scrub picture { display: block; overflow: hidden; will-change: clip-path; }
-.scrub picture img { will-change: transform; }
+/* Photos woven open (src/motion.js): six strips of the durrie cover the
+   photo and pull away alternately left and right when it comes on screen. */
+.weave-in picture { position: relative; display: block; overflow: hidden; }
+.weave-in picture img { display: block; scale: 1.14; transition: scale 1.5s cubic-bezier(.2,.8,.2,1) .15s; }
+.weave-in.is-in picture img { scale: 1.06; }
+.weft { position: absolute; inset: 0; display: grid; grid-template-rows: repeat(6, 1fr); pointer-events: none; }
+.weft i { background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); box-shadow: inset 0 -2px 0 rgba(226,160,25,.9); transition: transform .85s cubic-bezier(.7,0,.2,1); transition-delay: calc(var(--k) * 65ms); }
+.weft i:nth-child(even) { box-shadow: inset 0 -2px 0 rgba(194,47,102,.9); }
+.weave-in.is-in .weft i { transform: translateX(102%); }
+.weave-in.is-in .weft i:nth-child(even) { transform: translateX(-102%); }
 .sp { margin: 20px 0 0; max-width: min(100%, 640px); }
 .sp img { width: 100%; }
 @media (min-width: 1000px) { .pblock .sp { grid-column: 2; } }
@@ -907,6 +914,18 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 .partners__name { font: 800 clamp(1.6rem, 1rem + 3.4vw, 3.6rem)/1 var(--display); letter-spacing: -0.03em; }
 .partners__what { color: #D9D2C3; font-size: .95rem; flex-basis: 100%; }
 .partners__row a:hover .partners__name { color: #F2B940; }
+/* With JS: the threads are strings you can play (src/motion.js). */
+.is-strung .partners__row::after { display: none; }
+.partners__string { position: absolute; left: 0; bottom: -2px; width: 100%; height: 80px; margin-bottom: -40px; overflow: visible; pointer-events: none; }
+.partners__string path { fill: none; stroke: var(--marigold); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s cubic-bezier(.6,0,.2,1); transition-delay: calc(var(--r) * 90ms + .1s); }
+.partners__row:nth-child(3n+2) .partners__string path { stroke: var(--rani); }
+.partners__row:nth-child(3n) .partners__string path { stroke: var(--neem); }
+.is-strung.is-in .partners__string path { stroke-dashoffset: 0; }
+.is-strung .partners__row > a, .is-strung .partners__row > div { translate: 0 var(--pluck, 0px); }
+.is-strung .partners__logo { rotate: var(--tilt, 0deg); }
+.is-strung .partners__row { opacity: 0; translate: -24vw 0; transition: opacity .6s, translate .9s cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--r) * 90ms); cursor: default; }
+.is-strung .partners__row:nth-child(even) { translate: 24vw 0; }
+.is-strung.is-in .partners__row { opacity: 1; translate: 0 0; }
 
 .debug-box { position: fixed; left: 8px; right: 8px; bottom: 8px; z-index: 9999; margin: 0; padding: 10px 12px; background: #000; color: #9f9; font: 12px/1.45 ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-word; opacity: .92; }
 

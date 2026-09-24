@@ -78,4 +78,12 @@ export function start(section) {
     };
   });
   ScrollTrigger.refresh();
+  // The page above the reel can change height after this runs (photos and
+  // fonts arriving, the story layout switching on), which would leave the pin
+  // at the wrong place. Re-measure whenever the page's height changes.
+  let t = 0, lastH = document.body.offsetHeight;
+  const again = () => { clearTimeout(t); t = setTimeout(() => ScrollTrigger.refresh(), 150); };
+  new ResizeObserver(() => { const h = document.body.offsetHeight; if (Math.abs(h - lastH) > 4) { lastH = h; again(); } }).observe(document.body);
+  addEventListener('load', again);
+  document.fonts?.ready.then(again);
 }
