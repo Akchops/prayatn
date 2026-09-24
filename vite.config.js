@@ -69,16 +69,20 @@ function reel(which, images) {
   return `<div class="reel__rows"><div class="reel__track" data-reel-track>${rowA.join('')}</div><div class="reel__track reel__track--b" data-reel-track>${rowB.join('')}</div></div>`;
 }
 
-// Partners and supporters, from src/data/partners.json. Renders nothing while
-// the list is empty: no placeholder names ever reach the page.
+// Partners and supporters, from src/data/partners.json: one card each, the
+// logo on a white panel (or the name set as a wordmark when there is no logo)
+// and the name below. Renders nothing while the list is empty: no
+// placeholder names ever reach the page.
 function partnersBlock(list, variant) {
   if (!list.length) return '';
-  const item = (p, i) => {
-    const logo = p.logo ? `<img class="partners__logo" src="/partners/${esc(p.logo)}" alt="" loading="lazy">` : '';
-    const inner = `${logo}<span class="partners__name">${esc(p.name)}</span>${p.what ? `<span class="partners__what">${esc(p.what)}</span>` : ''}`;
-    return `<li class="partners__row" style="--r:${i}">${p.url ? `<a href="${esc(p.url)}" rel="noopener" target="_blank">${inner}</a>` : `<div>${inner}</div>`}</li>`;
+  const card = (p, i) => {
+    const mark = p.logo
+      ? `<img src="/partners/${esc(p.logo)}" alt="" loading="lazy">`
+      : `<span class="pcard__word">${esc(p.name)}</span>`;
+    const inner = `<span class="pcard__panel">${mark}</span><span class="pcard__name">${esc(p.name)}</span>${p.what ? `<span class="pcard__what">${esc(p.what)}</span>` : ''}`;
+    return `<li class="pcard" style="--r:${i}">${p.url ? `<a class="pcard__face" href="${esc(p.url)}" rel="noopener" target="_blank">${inner}</a>` : `<div class="pcard__face">${inner}</div>`}</li>`;
   };
-  return `<section class="partners partners--${variant}" aria-labelledby="partners-${variant}"><div class="partners__inner"><p class="eyebrow">With thanks</p><h2 id="partners-${variant}" class="rv">Our partners &amp; supporters</h2><ol class="partners__list" data-partners>${list.map(item).join('')}</ol></div></section>`;
+  return `<section class="partners partners--${variant}" aria-labelledby="partners-${variant}"><div class="partners__inner"><p class="eyebrow">With thanks</p><h2 id="partners-${variant}" class="rv">Our partners &amp; supporters</h2><ul class="pcards" data-partners>${list.map(card).join('')}</ul></div></section>`;
 }
 
 function bankBlock(site) {

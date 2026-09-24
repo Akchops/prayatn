@@ -59,12 +59,11 @@ appear. Once filled it shows on the home page (above "Three ways in") and on Abo
 
 ## Page openings
 
-The first time a visitor opens About, Healthcare, Education, Women development,
-Get involved or the Gallery in a visit, the header photo is built full-screen
+Each time a visitor opens About, Healthcare, Education, Women development,
+Get involved or the Gallery, the header photo is built full-screen
 out of tiles, each page in its own way (`src/opening.js`), and then flies into
 the header. A tap, a key or a scroll skips it. It does not play with reduced
-motion, without JavaScript, or again on the same page in the same visit. To
-see it again, add `?opening` to the address, e.g. `/healthcare/?opening`.
+motion or without JavaScript.
 
 ## If something doesn't animate on a phone
 

@@ -528,6 +528,11 @@ a.reach__way:hover { background: #474F79; }
   -webkit-mask-image: linear-gradient(#000 calc(100% - 48px), transparent); mask-image: linear-gradient(#000 calc(100% - 48px), transparent); }
 .since.is-pinned .since__mover { position: relative; will-change: transform; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
 .since.is-pinned .since__text > p { flex: none; margin: 8px 0 0; }
+/* About: the same timeline inside the page column, with a smaller year. */
+.since--about { margin-left: calc(-1 * var(--gutter)); margin-right: calc(-1 * var(--gutter)); }
+.since--about .since__inner { padding-top: 40px; padding-bottom: 40px; }
+.since--about .since__year, .since--about.is-pinned .since__year { font-size: clamp(4rem, 2rem + 9vw, 8.5rem); }
+@media (min-width: 900px) { .since--about .since__inner, .since--about.is-pinned .since__inner { grid-template-columns: 4fr 6fr; gap: 32px; } }
 /* Short screens: a smaller year and heading leave the milestones more room. */
 @media (max-height: 700px) and (max-width: 899px) {
   .since.is-pinned .since__year { font-size: clamp(3.4rem, 1rem + 13vw, 5rem); }
@@ -876,16 +881,20 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 .g-group[hidden] { display: none; }
 @media (max-width: 600px) { .loom__hint span:last-child { display: none; } }
 
-/* Photos woven open (src/motion.js): six strips of the durrie cover the
-   photo and pull away alternately left and right when it comes on screen. */
+/* Photos woven open (src/motion.js): the photo sits behind one piece of the
+   durrie, which splits into six strips that pull away alternately left and
+   right each time the photo comes on screen. Each strip shows its own slice of
+   one continuous cloth, so until it moves it reads as a single piece. */
 .weave-in picture { position: relative; display: block; overflow: hidden; }
 .weave-in picture img { display: block; scale: 1.14; transition: scale 1.5s cubic-bezier(.2,.8,.2,1) .15s; }
 .weave-in.is-in picture img { scale: 1.06; }
 .weft { position: absolute; inset: 0; display: grid; grid-template-rows: repeat(6, 1fr); pointer-events: none; }
-.weft i { background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); box-shadow: inset 0 -2px 0 rgba(226,160,25,.9); transition: transform .85s cubic-bezier(.7,0,.2,1); transition-delay: calc(var(--k) * 65ms); }
-.weft i:nth-child(even) { box-shadow: inset 0 -2px 0 rgba(194,47,102,.9); }
+.weft i { position: relative; overflow: hidden; transition: transform .9s cubic-bezier(.7,0,.2,1); transition-delay: calc(var(--k) * 60ms); }
+.weft i::before { content: ''; position: absolute; left: 0; right: 0; top: calc(var(--row) * -100%); height: 600%; background: repeating-conic-gradient(#2A3152 0 25%, var(--indigo) 0 50%) 0 0 / 10px 10px; }
 .weave-in.is-in .weft i { transform: translateX(102%); }
 .weave-in.is-in .weft i:nth-child(even) { transform: translateX(-102%); }
+/* Closing again off screen happens instantly, out of sight. */
+.weave-in:not(.is-in) .weft i, .weave-in:not(.is-in) picture img { transition: none; }
 .sp { margin: 20px 0 0; max-width: min(100%, 640px); }
 .sp img { width: 100%; }
 @media (min-width: 1000px) { .pblock .sp { grid-column: 2; } }
@@ -894,38 +903,38 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
    Each name sits on its own weft thread; with motion the rows slide in from
    alternate sides as the section scrolls into view (src/motion.js). */
 .partners { background: var(--indigo); color: var(--khadi); overflow: hidden; }
-.partners--about { margin: 0 calc(-1 * var(--gutter)) 48px; }
+.partners--about { width: 100vw; margin: 0 0 48px calc(50% - 50vw); }
 .partners__inner { max-width: var(--max); margin: 0 auto; padding: 64px var(--gutter) 56px; }
 .partners h2 { color: var(--khadi); font-size: clamp(1.9rem, 1.2rem + 3vw, 3.4rem); }
 .partners .eyebrow { color: #F2B940; }
-.partners__list { list-style: none; margin: 24px 0 0; padding: 0; }
-.partners__row { position: relative; border-top: 1px solid rgba(243,236,223,.14); }
-.partners__row::after {
-  /* the weft thread under each name, in turn marigold, rani, neem */
-  content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 3px;
-  background: var(--marigold); transform-origin: left; opacity: .85;
-  transform: scaleX(var(--thread, 1));
+/* One card per partner: the logo on a white panel, the name below. */
+.pcards { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); perspective: 1200px; }
+@media (min-width: 700px) { .pcards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
+@media (min-width: 1100px) { .pcards { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.pcard { margin: 0; }
+.pcard__face {
+  position: relative; display: flex; flex-direction: column; height: 100%; color: var(--khadi); text-decoration: none;
+  background: #262D4D; box-shadow: 0 0 0 1px rgba(243,236,223,.12), 0 18px 40px rgba(0,0,0,.25);
+  border-bottom: 5px solid var(--marigold); transform-style: preserve-3d; overflow: hidden;
 }
-.partners__row:nth-child(3n+2)::after { background: var(--rani); transform-origin: right; }
-.partners__row:nth-child(3n)::after { background: var(--neem); }
-.partners__row > a, .partners__row > div { display: flex; align-items: center; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; padding: 22px 0 20px; text-decoration: none; color: inherit; }
-/* Logos sit on a white card, as they were designed to, at the right of the row. */
-.partners__logo { order: 2; height: clamp(44px, 3vw + 30px, 72px); width: auto; max-width: min(46vw, 260px); object-fit: contain; background: #fff; padding: 8px 12px; box-shadow: 0 0 0 3px rgba(243,236,223,.15); }
-.partners__name { font: 800 clamp(1.6rem, 1rem + 3.4vw, 3.6rem)/1 var(--display); letter-spacing: -0.03em; }
-.partners__what { color: #D9D2C3; font-size: .95rem; flex-basis: 100%; }
-.partners__row a:hover .partners__name { color: #F2B940; }
-/* With JS: the threads are strings you can play (src/motion.js). */
-.is-strung .partners__row::after { display: none; }
-.partners__string { position: absolute; left: 0; bottom: -2px; width: 100%; height: 80px; margin-bottom: -40px; overflow: visible; pointer-events: none; }
-.partners__string path { fill: none; stroke: var(--marigold); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s cubic-bezier(.6,0,.2,1); transition-delay: calc(var(--r) * 90ms + .1s); }
-.partners__row:nth-child(3n+2) .partners__string path { stroke: var(--rani); }
-.partners__row:nth-child(3n) .partners__string path { stroke: var(--neem); }
-.is-strung.is-in .partners__string path { stroke-dashoffset: 0; }
-.is-strung .partners__row > a, .is-strung .partners__row > div { translate: 0 var(--pluck, 0px); }
-.is-strung .partners__logo { rotate: var(--tilt, 0deg); }
-.is-strung .partners__row { opacity: 0; translate: -24vw 0; transition: opacity .6s, translate .9s cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--r) * 90ms); cursor: default; }
-.is-strung .partners__row:nth-child(even) { translate: 24vw 0; }
-.is-strung.is-in .partners__row { opacity: 1; translate: 0 0; }
+.pcard:nth-child(3n+2) .pcard__face { border-bottom-color: var(--rani); }
+.pcard:nth-child(3n) .pcard__face { border-bottom-color: var(--neem); }
+.pcard__panel { position: relative; display: grid; place-items: center; background: #fff; aspect-ratio: 16 / 10; container-type: inline-size; }
+.pcard__panel img { position: absolute; left: 12%; top: 14%; width: 76%; height: 72%; object-fit: contain; }
+.pcard__word { padding: 0 8%; color: var(--indigo); font: 800 1.2rem/1.05 var(--display); font-size: clamp(.9rem, 13cqi, 1.8rem); letter-spacing: -0.02em; text-align: center; }
+.pcard__name { padding: 12px 14px 14px; font: 700 clamp(.95rem, .85rem + .4vw, 1.12rem)/1.2 var(--display); letter-spacing: -0.01em; }
+.pcard__what { padding: 0 14px 14px; color: #D9D2C3; font-size: .88rem; }
+/* The light that follows the mouse across a card (src/motion.js). */
+.pcard__face::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 30%), rgba(255,255,255,.45), rgba(255,255,255,0) 55%); mix-blend-mode: soft-light; }
+.pcard.is-hot .pcard__face::after { opacity: 1; }
+/* With JS: the cards flip up into place, one after another, each time the
+   section comes on screen, and lean towards the mouse. */
+.is-dealt .pcard { transform-origin: 50% 100%; transform: rotateX(-88deg) translateY(30px); opacity: 0; transition: transform .8s cubic-bezier(.2,.9,.25,1.15), opacity .4s; transition-delay: calc(var(--r) * 110ms); }
+.is-dealt.is-in .pcard { transform: none; opacity: 1; }
+.is-dealt .pcard__face { transition: transform .35s cubic-bezier(.2,.8,.2,1); transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(var(--lift, 0px)); }
+.pcard.is-spun .pcard__face { animation: pcard-spin .8s cubic-bezier(.3,.7,.3,1); }
+@keyframes pcard-spin { to { transform: rotateY(360deg); } }
 
 .debug-box { position: fixed; left: 8px; right: 8px; bottom: 8px; z-index: 9999; margin: 0; padding: 10px 12px; background: #000; color: #9f9; font: 12px/1.45 ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-word; opacity: .92; }
 

@@ -1,4 +1,4 @@
-// Page openings. The first time a page is opened in a visit, its header photo
+// Page openings. Each time a page is opened, its header photo
 // is built full-screen out of tiles, each page in its own way, and then the
 // finished photo flies into its card in the header while the page's own title
 // animation plays:
@@ -21,7 +21,6 @@ export async function start() {
   const img = band?.querySelector('.band__card img');
   const end = () => root.classList.remove('opening');
   if (!band || !img) { end(); return; }
-  try { sessionStorage.setItem('opened:' + location.pathname, '1'); } catch { /* fine */ }
 
   // Wait (briefly) for the header photo.
   if (!img.complete || !img.naturalWidth) {
