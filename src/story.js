@@ -23,6 +23,7 @@ export function start(section) {
       const pic = step.querySelector('.story__fig picture');
       if (pic) {
         const clone = pic.cloneNode(true);
+        clone.querySelector('.weft')?.remove();   // the phone reveal's cover, if it was added first
         const img = clone.querySelector('img');
         img.loading = 'eager';
         img.style.cssText = '';           // drop the phone scroll effect's inline styles

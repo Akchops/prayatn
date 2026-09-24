@@ -159,7 +159,7 @@ groups.forEach((sel) => document.querySelectorAll(sel).forEach((g) => {
 // stays fully open while any of it is on screen.
 // While on screen the picture drifts a little with the scroll. Without JS
 // there are no strips: the photos are simply there.
-const woven = [...document.querySelectorAll('.m, .g-item')].filter((f) => f.querySelector('picture'));
+const woven = [...document.querySelectorAll('.m, .g-item, .story__fig')].filter((f) => f.querySelector('picture'));
 if (woven.length) {
   // Opens as it comes on screen; closes again (unseen) once it is fully off
   // screen, so it weaves open again every time you come back to it.
