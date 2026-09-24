@@ -404,3 +404,32 @@ if (!matchMedia('(hover: hover)').matches) {
     cards.forEach((c) => io.observe(c));
   }
 }
+
+// The reading thread: a three-colour thread along the foot of the header that
+// fills as you read down the page.
+{
+  const head = document.querySelector('.site-head');
+  if (head) {
+    head.classList.add('has-thread');
+    let raf = 0;
+    const set = () => {
+      raf = 0;
+      const max = document.documentElement.scrollHeight - innerHeight;
+      head.style.setProperty('--read', max > 0 ? Math.min(1, scrollY / max).toFixed(4) : '0');
+    };
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(set); }, { passive: true });
+    set();
+  }
+}
+
+// Donate buttons lean towards the mouse when it comes near (PC only).
+if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  document.querySelectorAll('.btn--donate').forEach((btn) => {
+    btn.classList.add('magnet');
+    btn.addEventListener('pointermove', (e) => {
+      const r = btn.getBoundingClientRect();
+      btn.style.translate = `${((e.clientX - r.left - r.width / 2) * 0.25).toFixed(1)}px ${((e.clientY - r.top - r.height / 2) * 0.3).toFixed(1)}px`;
+    });
+    btn.addEventListener('pointerleave', () => { btn.style.translate = ''; });
+  });
+}

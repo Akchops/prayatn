@@ -43,7 +43,12 @@ viewers block scripts; there you will only see the still version.
 | `src/data/photos.json` | which photos are used, alt text, crops |
 | `uploads/` | the owner's photos (the only image source) |
 | `src/weave/` | The Weave: probe, WebGL tier, Canvas 2D tier, scroll layer |
-| `src/ui.js`, `src/motion.js` | gallery filter, lightbox, map, project previews; reveals and the photo strip |
+| `src/ui.js`, `src/motion.js` | gallery filter, lightbox, map; photo reveals, timeline thread, partner cards, reading thread |
+| `src/opening.js` | the full-screen opening on each inner page |
+| `src/bandfx.js` | the brushable woven header (WebGL) on each inner page |
+| `src/story.js` | the pinned photo story on the programme pages, with each page's own transition |
+| `src/about.js` | About: project photos that follow the mouse, the mission, the loom, the trustee ring |
+| `src/loom/` | the Gallery's draggable tapestry |
 | pages | `/`, `/about/`, `/healthcare/`, `/education/`, `/women-development/`, `/gallery/`, `/get-involved/`, `/404.html` |
 
 ## Adding the partners

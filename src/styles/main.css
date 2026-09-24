@@ -1253,3 +1253,7 @@ html.opened [data-intro="deal"] .band__card::before, html.opened [data-intro="de
 .helper--card address { font: 700 clamp(1.2rem, 1rem + .8vw, 1.6rem)/1.3 var(--display); font-style: normal; margin-bottom: 12px; }
 .helper__stamp { position: absolute; right: 22px; top: 22px; width: 76px; height: 76px; display: grid; place-items: center; border: 2px dashed rgba(30,36,64,.35); border-radius: 50%; transform: rotate(-12deg); opacity: .8; }
 .helper__stamp img { width: 40px; height: auto; }
+
+/* The reading thread along the foot of the header (src/motion.js). */
+.site-head.has-thread::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; pointer-events: none; background: linear-gradient(90deg, var(--marigold), var(--rani) 50%, var(--neem)); transform-origin: left; transform: scaleX(var(--read, 0)); }
+.magnet { transition: translate .25s cubic-bezier(.2,.8,.2,1); }
