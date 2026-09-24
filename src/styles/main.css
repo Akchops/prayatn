@@ -723,6 +723,10 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
   max-height: 62vh; z-index: 1;
 }
 .band__card picture, .band__card img { width: 100%; height: 100%; object-fit: cover; image-rendering: auto; }
+.band__card picture { display: block; transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+/* The brushable weave (src/bandfx.js) replaces the CSS background when WebGL is there. */
+.band__gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+.band.band--gl { background-image: none; }
 @media (min-width: 1000px) {
   /* As large as the screen allows, never above the photo's native width. */
   .band__card { justify-self: end; margin: 40px 0; max-height: none; width: min(100%, var(--native), calc((100svh - var(--head) - 120px) * var(--ar))); }

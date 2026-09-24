@@ -23,6 +23,10 @@ if (!reduce.matches) {
   const loom = document.querySelector('[data-loom]');
   if (loom) import('./loom/index.js').then((m) => m.start(loom)).catch((e) => { document.documentElement.dataset.loomFail = `script: ${e?.message || e}`; });
 
+  // The brushable woven header on the inner pages.
+  const bandEl = document.querySelector('[data-band]');
+  if (bandEl) import('./bandfx.js').then((m) => m.start(bandEl)).catch(() => {});
+
   const reel = document.querySelector('[data-reel]');
   if (reel) import('./reel.js').then((m) => m.start(reel)).catch(() => {});
 
