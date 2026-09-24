@@ -9,6 +9,9 @@ document.querySelectorAll('[data-years]').forEach((el) => { el.textContent = Str
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 import('./ui.js').catch(() => {});
+
+const story = document.querySelector('[data-story]');
+if (story) import('./story.js').then((m) => m.start(story)).catch(() => {});
 if (!reduce.matches) import('./motion.js').catch(() => {});
 
 if (!reduce.matches) {

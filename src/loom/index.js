@@ -55,6 +55,13 @@ export async function start(section) {
     section.dataset.tier = r.kind; size(); wake();
   }
   stage.prepend(canvas);
+  const title = stage.querySelector('.loom__title');
+  const chip = stage.querySelector('.loom__chip');
+  const count = stage.querySelector('[data-loom-count]');
+  if (count) count.textContent = String(meta.count);
+  // The title card goes as soon as someone touches the cloth, or after 6 s.
+  const dismiss = () => title?.classList.add('is-gone');
+  setTimeout(dismiss, 6000);
   document.documentElement.classList.add('has-loom');
   section.dataset.tier = r.kind;
 
@@ -84,9 +91,11 @@ export async function start(section) {
   let drag = null, moved = 0, targetHover = 0;
   stage.addEventListener('pointerdown', (e) => {
     drag = { x: e.clientX, y: e.clientY, id: e.pointerId, t: performance.now() };
+    dismiss();
     moved = 0;
     stage.setPointerCapture?.(e.pointerId);
     stage.classList.add('is-dragging');
+    chip?.classList.remove('is-on');
   });
   stage.addEventListener('pointermove', (e) => {
     const b = stage.getBoundingClientRect();
@@ -99,6 +108,14 @@ export async function start(section) {
       s.vx = s.vx * 0.5 + -dx * 0.5; s.vy = s.vy * 0.5 + -dy * 0.5;
     } else if (e.pointerType === 'mouse') {
       s.hover = tileAt(s.px, s.py); targetHover = s.hover ? 1 : 0;
+      // The hovered photo's description follows the pointer.
+      if (chip) {
+        if (s.hover) {
+          chip.textContent = meta.tiles[s.hover.idx].alt;
+          chip.style.translate = `${Math.min(s.px + 18, W - 300)}px ${Math.min(s.py + 22, H - 90)}px`;
+          chip.classList.add('is-on');
+        } else chip.classList.remove('is-on');
+      }
     }
     wake();
   });
@@ -114,7 +131,7 @@ export async function start(section) {
   };
   stage.addEventListener('pointerup', end);
   stage.addEventListener('pointercancel', end);
-  stage.addEventListener('pointerleave', () => { targetHover = 0; wake(); });
+  stage.addEventListener('pointerleave', () => { targetHover = 0; chip?.classList.remove('is-on'); wake(); });
 
   // Keyboard: arrows pan a tile at a time, Enter opens the photo in the middle.
   stage.addEventListener('keydown', (e) => {

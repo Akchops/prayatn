@@ -1,4 +1,25 @@
 {
   "_comment": "Partners and supporters. Add only names the owner has confirmed AND that are happy to be named. The section stays hidden while the list is empty. logo: optional file placed in public/partners/ (e.g. \"acme.png\"), supplied by the owner; url: optional website; what: optional short line the owner supplies, such as what they support.",
-  "partners": []
+  "partners": [
+    {
+      "name": "Seth Foundation"
+    },
+    {
+      "name": "Azim Premji Foundation",
+      "logo": "azim-premji-foundation.png"
+    },
+    {
+      "name": "Samrat Offset Pvt Ltd",
+      "logo": "samrat-offset.png"
+    },
+    {
+      "name": "United Way of Delhi",
+      "logo": "united-way-of-delhi.png"
+    },
+    {
+      "name": "Sleepwell Foundation",
+      "logo": "sleepwell-foundation.png"
+    }
+  ],
+  "_source": "Old site \"Our Partner\" section, screenshots supplied by the owner on 2026-09-24. Logos cropped from those screenshots."
 }

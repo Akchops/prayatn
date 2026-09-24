@@ -32,13 +32,13 @@ export function create(canvas, atlas, meta) {
       for (let cy = cyA; cy <= cyB; cy++) {
         const shift = mod(cy, 2) * 0.5 * px;
         // Weft thread along this row's gap.
-        ctx.fillStyle = WEFT[mod(cy, 3)]; ctx.globalAlpha = 0.8;
-        ctx.fillRect(x0 - px, cy * py + t.h + t.gap * 0.3, (x1 - x0) + 2 * px, t.gap * 0.4);
+        ctx.fillStyle = WEFT[mod(cy, 3)]; ctx.globalAlpha = 0.45;
+        ctx.fillRect(x0 - px, cy * py + t.h + t.gap * 0.4, (x1 - x0) + 2 * px, t.gap * 0.2);
         ctx.globalAlpha = 1;
         const cxA = Math.floor((x0 + shift) / px) - 1, cxB = Math.floor((x1 + shift) / px) + 1;
         for (let cx = cxA; cx <= cxB; cx++) {
           const x = cx * px - shift, y = cy * py;
-          ctx.fillStyle = WARP; ctx.fillRect(x + t.w + t.gap * 0.3, y, t.gap * 0.4, t.h + t.gap);
+          ctx.fillStyle = WARP; ctx.fillRect(x + t.w + t.gap * 0.38, y, t.gap * 0.24, t.h + t.gap);
           const far = Math.hypot(x + px / 2 - cxc, y + py / 2 - cyc) / diag;
           let a = Math.min(1, Math.max(0, s.intro * 2.2 - far * 1.4 - hash(cx, cy) * 0.35));
           a = a * a * (3 - 2 * a);
@@ -55,6 +55,10 @@ export function create(canvas, atlas, meta) {
         }
       }
       ctx.setTransform(1, 0, 0, 1, 0, 0);
+      // Vignette, as in the shader.
+      const g = ctx.createRadialGradient(W * dpr / 2, H * dpr / 2, Math.min(W, H) * dpr * 0.35, W * dpr / 2, H * dpr / 2, Math.hypot(W, H) * dpr * 0.62);
+      g.addColorStop(0, 'rgba(20,24,44,0)'); g.addColorStop(1, 'rgba(20,24,44,.5)');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W * dpr, H * dpr);
     },
     destroy() {},
   };

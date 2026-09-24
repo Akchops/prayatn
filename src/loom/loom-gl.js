@@ -98,14 +98,14 @@ void main() {
   bool inX = f.x < uTile.x, inY = f.y < uTile.y;
   vec3 col = INDIGO;
   if (!inY) {
-    // A weft thread through the middle of the horizontal gap, its roundness a
-    // half-sine across its width (no plateau, no crease: traps #2 and #3).
-    float w = (f.y - uTile.y) / uTile.z;
-    col = mix(INDIGO, weft(cy), 0.85 * sin(3.14159 * clamp(w, 0.0, 1.0)));
+    // A thin weft thread along the middle of the horizontal gap. Gaussian
+    // across its width (sigma 14% of the gap): no plateau, no edge (trap #2).
+    float w = (f.y - uTile.y) / uTile.z - 0.5;
+    col = mix(INDIGO, weft(cy), 0.55 * exp(-(w * w) / (2.0 * 0.14 * 0.14)));
   }
   if (!inX) {
-    float w = (f.x - uTile.x) / uTile.z;
-    vec3 warp = mix(INDIGO, WARP * 1.4, sin(3.14159 * clamp(w, 0.0, 1.0)));
+    float w = (f.x - uTile.x) / uTile.z - 0.5;
+    vec3 warp = mix(INDIGO, WARP * 1.25, exp(-(w * w) / (2.0 * 0.16 * 0.16)));
     // At a crossing the warp is on top in alternate cells.
     if (inY || mod(cx + cy, 2.0) < 0.5) col = warp;
   }
@@ -147,6 +147,12 @@ void main() {
 
     col = mix(col, photo, open);
   }
+
+  // Vignette: the field darkens towards the edges of the stage, so the eye
+  // rests in the middle. Smooth power curve on the normalised distance.
+  vec2 e2 = (p - centre) / (stage * 0.5);
+  float v = clamp(length(e2) / 1.35, 0.0, 1.0);
+  col *= 1.0 - 0.5 * pow(v, 2.2);
 
   gl_FragColor = vec4(col, 1.0);
 }`;

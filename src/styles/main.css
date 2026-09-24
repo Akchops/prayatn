@@ -820,10 +820,76 @@ dl.bank dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 }
 .partners__row:nth-child(3n+2)::after { background: var(--rani); transform-origin: right; }
 .partners__row:nth-child(3n)::after { background: var(--neem); }
-.partners__row > a, .partners__row > div { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 22px 0 20px; text-decoration: none; color: inherit; }
-.partners__logo { height: 44px; width: auto; max-width: 140px; object-fit: contain; background: var(--khadi); padding: 6px 10px; }
+.partners__row > a, .partners__row > div { display: flex; align-items: center; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; padding: 22px 0 20px; text-decoration: none; color: inherit; }
+/* Logos sit on a white card, as they were designed to, at the right of the row. */
+.partners__logo { order: 2; height: clamp(44px, 3vw + 30px, 72px); width: auto; max-width: min(46vw, 260px); object-fit: contain; background: #fff; padding: 8px 12px; box-shadow: 0 0 0 3px rgba(243,236,223,.15); }
 .partners__name { font: 800 clamp(1.6rem, 1rem + 3.4vw, 3.6rem)/1 var(--display); letter-spacing: -0.03em; }
 .partners__what { color: #D9D2C3; font-size: .95rem; flex-basis: 100%; }
 .partners__row a:hover .partners__name { color: #F2B940; }
 
 .debug-box { position: fixed; left: 8px; right: 8px; bottom: 8px; z-index: 9999; margin: 0; padding: 10px 12px; background: #000; color: #9f9; font: 12px/1.45 ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-word; opacity: .92; }
+
+/* ---------- Story (programme pages) ----------
+   Base, and on phones: each step is text followed by its photo.
+   On PCs with motion (src/story.js adds .story--live): a two-column scroll
+   story. The photo panel stays pinned on the left while the steps scroll
+   past on the right; each new step lowers its photo into the panel on
+   strips of thread, with a running count. */
+.story { max-width: var(--max); margin: 0 auto; padding: 24px var(--gutter) 40px; }
+.story__step { padding: 36px 0 28px; border-top: 2px solid var(--indigo); }
+.story__step:first-child { border-top: 0; }
+.story__kicker { font: 600 .78rem/1.2 var(--body); letter-spacing: .16em; text-transform: uppercase; color: var(--rani); margin-bottom: 12px; }
+.story__h { font-size: clamp(2rem, 1.2rem + 3.4vw, 4rem); max-width: 16ch; }
+.story__step .big { max-width: 38ch; }
+.story__step p:not(.big):not(.story__kicker):not(.pblock__ask) { max-width: 62ch; font-size: 1.08rem; }
+.story__fig { margin: 22px 0 0; max-width: 720px; }
+.story__fig figcaption { font-size: .88rem; color: var(--muted); padding-top: 8px; }
+.story__media { display: none; }
+
+.story--live { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 64px; padding-top: 48px; }
+.story--live .story__media {
+  display: block; position: sticky; top: calc(var(--head) + 24px);
+  height: calc(100svh - var(--head) - 48px); align-self: start;
+  background: var(--indigo); overflow: hidden;
+  box-shadow: 0 0 0 4px var(--khadi), 0 24px 60px rgba(30,36,64,.3);
+}
+.story--live .story__steps { padding-bottom: 20vh; }
+.story--live .story__step { min-height: 88svh; display: flex; flex-direction: column; justify-content: center; border-top: 0; padding: 0; opacity: .28; transition: opacity .5s; }
+.story--live .story__step.is-active { opacity: 1; }
+.story--live .story__fig { display: none; }
+.shot { position: absolute; inset: 0; z-index: 0; }
+.shot picture, .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.shot.is-on { z-index: 2; }
+.shot.was-on { z-index: 1; }
+.shot__strips { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(7, 1fr); pointer-events: none; }
+.shot__strips i { background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); transform-origin: top; transform: scaleY(1); }
+.shot.is-on .shot__strips i { animation: strip-up .9s cubic-bezier(.7,0,.2,1) both; animation-delay: calc(var(--s) * 55ms); }
+.shot.is-on img { animation: shot-settle 1.6s cubic-bezier(.2,.8,.2,1) both; }
+.shot__type { position: absolute; inset: 0; display: grid; place-items: center; padding: 10%; background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); }
+.shot__type span { background: var(--khadi); color: var(--indigo); font: 800 clamp(1.8rem, 1rem + 2.6vw, 3.4rem)/1 var(--display); letter-spacing: -0.03em; padding: 18px 22px; text-align: center; outline: 2px dashed rgba(30,36,64,.45); outline-offset: -8px; }
+.story__cap { position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; padding: 40px 20px 16px; background: linear-gradient(transparent, rgba(20,24,44,.8)); color: var(--khadi); display: flex; justify-content: space-between; align-items: end; gap: 16px; font-size: .9rem; }
+.story__count { font: 800 2.4rem/1 var(--display); letter-spacing: -0.04em; color: var(--khadi); white-space: nowrap; }
+.story__count small { font-size: .9rem; color: #F2B940; letter-spacing: .02em; }
+.story__thread { position: absolute; z-index: 3; left: 0; top: 0; bottom: 0; width: 5px; background: rgba(243,236,223,.15); }
+.story__thread i { display: block; height: 100%; background: linear-gradient(var(--marigold), var(--rani), var(--neem)); transform-origin: top; transform: scaleY(var(--p, 0)); }
+@keyframes strip-up { from { transform: scaleY(1); } to { transform: scaleY(0); } }
+@keyframes shot-settle { from { transform: scale(1.14); } to { transform: none; } }
+
+/* The Loom: title card on arrival, and the caption chip that follows the mouse. */
+.loom__title {
+  position: absolute; z-index: 2; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none;
+  text-align: center; background: rgba(30,36,64,.82); color: var(--khadi); padding: 26px 34px 22px;
+  outline: 2px dashed rgba(243,236,223,.35); outline-offset: -9px; box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  transition: opacity .6s, transform .6s cubic-bezier(.2,.8,.2,1);
+}
+.loom__title.is-gone { opacity: 0; transform: translate(-50%, -40%) scale(.96); }
+.loom__count { margin: 0 0 6px; font: 800 clamp(2rem, 1.2rem + 3vw, 3.6rem)/1 var(--display); letter-spacing: -0.03em; }
+.loom__count span { color: #F2B940; }
+.loom__how { margin: 0; font: 600 .82rem/1.3 var(--body); letter-spacing: .12em; text-transform: uppercase; color: #D9D2C3; }
+.loom__chip {
+  position: absolute; z-index: 2; left: 0; top: 0; margin: 0; max-width: 280px; pointer-events: none;
+  background: var(--khadi); color: var(--indigo); font-size: .85rem; line-height: 1.35; padding: 8px 11px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.35); opacity: 0; transition: opacity .2s;
+}
+.loom__chip.is-on { opacity: 1; }
+@media (hover: none) { .loom__chip { display: none; } }
