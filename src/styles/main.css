@@ -497,9 +497,13 @@ a.reach__way:hover { background: #474F79; }
 .since__thread-under { stroke: rgba(30,36,64,.14); stroke-dasharray: 3 7; }
 .since__thread path:last-child { stroke: var(--rani); }
 .since__list.is-threaded { padding-left: 44px; border-top: 0; }
-.since__list.is-threaded li { position: relative; opacity: .45; transition: opacity .5s; }
+.since__list.is-threaded li { position: relative; opacity: .45; transition: opacity .5s; padding: 22px 0;
+  /* The scroll settles with each milestone's knot in the middle of the screen
+     (less the scroll-padding the page keeps for the fixed header). */
+  scroll-snap-align: start; scroll-margin-top: calc(50vh - 35px - var(--head) - 12px); }
+html.snap-timeline { scroll-snap-type: y proximity; }
 .since__list.is-threaded li::before {
-  content: ''; position: absolute; left: -39px; top: 17px; width: 18px; height: 18px; border-radius: 50%;
+  content: ''; position: absolute; left: -39px; top: 26px; width: 18px; height: 18px; border-radius: 50%;
   background: var(--khadi); border: 3px solid rgba(30,36,64,.3); transform: scale(.55);
   transition: transform .45s cubic-bezier(.3,1.6,.5,1), background-color .3s, border-color .3s;
 }
@@ -509,6 +513,10 @@ a.reach__way:hover { background: #474F79; }
 .since__list.is-threaded li.is-tied:nth-child(3)::before { background: var(--neem); }
 .since__list.is-threaded li.is-tied:last-child::before { background: var(--indigo); box-shadow: 0 0 0 5px rgba(226,160,25,.5); }
 .since__year { font-variant-numeric: tabular-nums; }
+/* With the thread running, the big year stays in view while the milestones
+   pass: pinned under the header on phones, at mid-height beside them on PCs. */
+.since__yearwrap { position: sticky; z-index: 2; top: var(--head); margin: 0 calc(-1 * var(--gutter)); padding: 8px var(--gutter) 12px; background: var(--khadi-deep); box-shadow: 0 12px 16px -4px var(--khadi-deep); }
+@media (min-width: 900px) { .since__yearwrap { top: calc(50vh - 110px); margin: 0; padding: 0; background: none; box-shadow: none; } }
 @media (min-width: 900px) { .since__inner { grid-template-columns: 5fr 6fr; align-items: center; gap: 56px; } }
 
 /* ---------- Three ways in ---------- */

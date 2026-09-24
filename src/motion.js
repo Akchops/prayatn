@@ -222,8 +222,10 @@ if (plist2) {
 }
 
 // The timeline draws itself. A thread runs down the milestones with the
-// scroll and ties a knot at each year as it reaches it; on the home page the
-// big year beside it counts from 1992 to this year in step. Scrubbed, so
+// scroll and ties a knot at each year as that year reaches the middle of the
+// screen, and the scroll settles there (scroll snapping on each milestone).
+// On the home page the big year beside it counts in step: exactly the
+// milestone's year at each knot, and counting between them. Scrubbed, so
 // scrolling back unpicks it. Without JS: the plain list with its years.
 document.querySelectorAll('.since__list').forEach((list) => {
   const ns = 'http://www.w3.org/2000/svg';
@@ -240,33 +242,58 @@ document.querySelectorAll('.since__list').forEach((list) => {
   svg.append(under, path);
   track.prepend(svg);
   list.classList.add('is-threaded');
+  document.documentElement.classList.add('snap-timeline');
   const items = [...list.children];
   const year = list.closest('.since')?.querySelector('.since__year');
-  const from = 1992, to = new Date().getFullYear();
-  let len = 0, H = 0;
+  // The big year is held in a sticky box so it stays in view while the
+  // milestones pass (under the header on phones, mid-height on PCs).
+  if (year) { const wrap = document.createElement('div'); wrap.className = 'since__yearwrap'; year.before(wrap); wrap.appendChild(year); }
+  const now = new Date().getFullYear();
+  // Each milestone's year from its label: "1998–99" counts as 1998, "Today" as this year.
+  const years = items.map((li) => Number(li.querySelector('b')?.textContent.match(/\d{4}/)?.[0]) || now);
+  const KNOT = 35;   // knot centre below the top of its item (CSS: top 26px + 9px)
+  const HOLD = 36;   // px either side of a knot where it counts as reached
+  let H = 0, knots = [], lens = [];
   const shape = () => {
     H = list.offsetHeight;
+    knots = items.map((li) => li.offsetTop + KNOT);
     svg.setAttribute('viewBox', `0 0 28 ${H}`);
     svg.style.height = `${H}px`;
     // A loose thread: a slow sine down the list, pulled straight at each knot.
-    let d = 'M14 0';
-    for (let y = 4; y <= H; y += 4) {
-      const knot = items.some((li) => Math.abs(li.offsetTop + 26 - y) < 14);
-      d += ` L${(14 + (knot ? 0 : 7 * Math.sin(y / 19))).toFixed(1)} ${y}`;
+    // lens[k] is the thread's length down to y = 4k, for drawing to any depth.
+    let d = 'M14 0', px = 14, py = 0, acc = 0;
+    lens = [0];
+    for (let y = 4; y <= H + 3; y += 4) {
+      const x = knots.some((k) => Math.abs(k - y) < 14) ? 14 : 14 + 7 * Math.sin(y / 19);
+      acc += Math.hypot(x - px, y - py); px = x; py = y;
+      lens.push(acc);
+      d += ` L${x.toFixed(1)} ${y}`;
     }
     under.setAttribute('d', d);
     path.setAttribute('d', d);
-    len = path.getTotalLength();
-    path.style.strokeDasharray = `${len}`;
+    path.style.strokeDasharray = `${acc}`;
+    path.dataset.len = acc;
   };
-  let raf = 0;
+  let raf = 0, shown = '';
   const place = () => {
     raf = 0;
-    const r = list.getBoundingClientRect(), vh = innerHeight;
-    const p = Math.max(0, Math.min(1, (vh * 0.78 - r.top) / (r.height + vh * 0.2)));
-    path.style.strokeDashoffset = `${(len * (1 - p)).toFixed(1)}`;
-    items.forEach((li) => li.classList.toggle('is-tied', p * H >= li.offsetTop + 20));
-    if (year) year.textContent = String(Math.round(from + (to - from) * p));
+    // How far down the list the middle of the screen is.
+    const y = Math.max(0, Math.min(H, innerHeight / 2 - list.getBoundingClientRect().top));
+    const drawn = lens[Math.min(lens.length - 1, Math.round(y / 4))] || 0;
+    path.style.strokeDashoffset = `${(Number(path.dataset.len) - drawn).toFixed(1)}`;
+    items.forEach((li, i) => li.classList.toggle('is-tied', y >= knots[i] - HOLD));
+    if (!year) return;
+    // Hold each milestone's year around its knot; count between knots.
+    let v = years[0];
+    for (let i = 0; i < knots.length; i++) {
+      if (y >= knots[i] - HOLD) v = years[i];
+      const next = knots[i + 1];
+      if (next !== undefined && y > knots[i] + HOLD && y < next - HOLD) {
+        v = Math.round(years[i] + (years[i + 1] - years[i]) * (y - knots[i] - HOLD) / (next - knots[i] - 2 * HOLD));
+      }
+    }
+    const t = String(v);
+    if (t !== shown) { year.textContent = t; shown = t; }
   };
   const kick = () => { if (!raf) raf = requestAnimationFrame(place); };
   shape(); place();
