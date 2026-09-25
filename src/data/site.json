@@ -35,6 +35,7 @@
   "features": {
     "pageWeave": true,
     "whereMap": true,
-    "giftSlider": true
+    "giftSlider": true,
+    "gallery3d": true
   }
 }
