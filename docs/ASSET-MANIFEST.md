@@ -85,7 +85,7 @@ background, never as a sharp enlargement.
 
 - **Not used, for dignity or medical privacy:** #02 (a woman lying down during an examination) and #11 (a young child lying on an examination bed).
 - **Not used:** #66 and #64 (a well-known public figure appears; could read as a political association); #32 (another organisation's banner, Jagori, unconfirmed as a partner); #71 (annual-function banner naming a supporter); #18 and #21 (clinic signboard naming a supporter at the edge); duplicates #35–40 and #80; #43 (a two-photo collage).
-- **Supporter names:** the owner asked for Samrat Offset and Deloitte / United Way of Delhi to stay unnamed. No used photo shows either name: #03 is cropped to remove the clinic signboard. Photos showing those names (#01, 03, 05–07, 10, 13, 45, 54, 56, plus others with the clinic sign) are **not used**.
+- **Supporter names:** the owner asked for Samrat Offset and Deloitte / United Way of Delhi to stay unnamed. No used photo shows either name: #03, 05, 06, 07, 10, 13, 18 and 21 are cropped to remove the clinic signboard (see the 2026-09-25 crops below). Photos showing those names that cannot be cropped cleanly (#01, 45, 54, 56) are **not used**.
 - **Programme names on banners** (Mahila Panchayat, Legal Help Desk): confirmed by the owner, and named in captions for #81, #79 and #74.
 
 ## 3. Full inventory (all 86 photos in `uploads/`)
@@ -96,23 +96,23 @@ background, never as a sharp enlargement.
 | 2 | `swasthya-kendra-02.jpg` | – | adults | woman lying on exam bed during a medical examination; DO NOT USE (dignity/medical privacy) |
 | 3 | `swasthya-kendra-03.jpg` | **yes** | adults | consultation; supporter signboard at top (site uses a crop without it) |
 | 4 | `swasthya-kendra-04.jpg` | **yes** | adults | woman on weighing scale |
-| 5 | `swasthya-kendra-05.jpg` | – | adults | consultation; supporter signboard visible |
-| 6 | `school-health-clinic-06.jpg` | – | 🧒 children | nurse examining a girl's mouth; supporter signboard visible |
-| 7 | `school-health-clinic-07.jpg` | – | 🧒 children | girl on scale; signboard visible |
+| 5 | `swasthya-kendra-05.jpg` | **yes** | adults | consultation; supporter signboard at top (site uses a crop without it) |
+| 6 | `school-health-clinic-06.jpg` | **yes** | 🧒 children | nurse examining a girl's mouth; signboard cropped off |
+| 7 | `school-health-clinic-07.jpg` | **yes** | 🧒 children | girl on scale; signboard cropped off |
 | 8 | `school-health-clinic-08.jpg` | **yes** | 🧒 children | boy's height measured |
 | 9 | `school-health-clinic-09.jpg` | **yes** | 🧒 children | children holding up yellow health cards |
-| 10 | `school-health-clinic-10.jpg` | – | 🧒 children | child at clinic desk; signboard visible |
+| 10 | `school-health-clinic-10.jpg` | **yes** | 🧒 children | child at clinic desk; signboard cropped off |
 | 11 | `school-health-clinic-11.jpg` | – | 🧒 children | young child lying on exam bed; DO NOT USE (medical privacy) |
 | 12 | `school-health-clinic-12.jpg` | **yes** | 🧒 children | children with health cards |
-| 13 | `school-health-clinic-13.jpg` | – | 🧒 children | boy at clinic with adults; signboard visible |
+| 13 | `school-health-clinic-13.jpg` | **yes** | 🧒 children | boy at clinic with adults; signboard cropped off |
 | 14 | `school-health-clinic-14.jpg` | **yes** | 🧒 children | boy on scale |
 | 15 | `school-health-clinic-15.jpg` | **yes** | 🧒 children | health worker filling cards, 'Health check-ups 2.9.25' on board |
 | 16 | `school-health-clinic-16.jpg` | **yes** | 🧒 children | adult + child at desk |
 | 17 | `school-health-clinic-17.jpg` | **yes** | 🧒 children | women and children seated on floor |
-| 18 | `school-health-clinic-18.jpg` | – | 🧒 children | schoolgirls, deworming poster |
+| 18 | `school-health-clinic-18.jpg` | **yes** | 🧒 children | schoolgirls, deworming poster; signboard edge cropped off |
 | 19 | `school-health-clinic-19.jpg` | **yes** | 🧒 children | women seated on floor, one child |
 | 20 | `school-health-clinic-20.jpg` | **yes** | 🧒 children | children at clinic, deworming poster |
-| 21 | `school-health-clinic-21.jpg` | – | 🧒 children | children holding medicine and bottles |
+| 21 | `school-health-clinic-21.jpg` | **yes** | 🧒 children | children holding medicine and bottles; signboard edge cropped off |
 | 22 | `school-health-clinic-22.jpg` | **yes** | 🧒 children | children taking medicine |
 | 23 | `women-development-23.jpg` | **yes** | adults | women in meeting room |
 | 24 | `women-development-24.jpg` | **yes** | adults | woman at desk consultation |
@@ -217,3 +217,26 @@ Source: `school-ptm-01` from Website2.6.docx; `ar-*` from the Annual Report 2025
 | ar-youth-training | women | Young women sit together on the floor during a vocational training session. | Confirmed |
 | ar-youth-life-skills | women | Young women sit in a circle on the floor for a life skills session. | Confirmed |
 | ar-youth-group | women | Young women sit together on the floor of a training room, with a trainer on a chair. | Confirmed |
+
+## Added 2026-09-25: clinic photos with the signboard cropped off
+
+Seven clinic photos held back only for the supporter's signboard, now used
+with the sign cropped off the top, exactly as #03 is (`crop` in
+`src/data/photos.json`; each crop checked by eye for any trace of the sign).
+They appear on the Healthcare page (as extra photos in the story panel and in
+the reel) and in the Gallery.
+
+| Name | Cropped | Description | Consent |
+|---|---|---|---|
+| swasthya-kendra-05 | top 24% | A woman in a blue-and-white sari stands by the desk as a health worker writes. | Confirmed |
+| school-health-clinic-06 | top 33% | A health worker checks a schoolgirl's mouth and teeth at the clinic desk. | Confirmed |
+| school-health-clinic-07 | top 27% | A schoolgirl stands on the weighing scale while a health worker writes. | Confirmed |
+| school-health-clinic-10 | top 29% | A health worker fills in a yellow health card for a young schoolgirl. | Confirmed |
+| school-health-clinic-13 | top 36% | A health worker talks with a schoolboy seated on a stool. | Confirmed |
+| school-health-clinic-18 | top 12% | Schoolgirls gather round a health worker by a National Deworming Day poster. | Confirmed |
+| school-health-clinic-21 | top 12% | Young schoolchildren hold up their deworming tablets and water bottles. | Confirmed |
+
+Duplicates to know about: `ar-counselling` is the same photo as
+`women-development-25`, and `ar-crc` the same as `women-development-24` (the
+Annual Report copies are smaller). The Women development story now uses the
+larger copies.

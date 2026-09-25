@@ -990,15 +990,20 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 .story--live .story__step.is-active { opacity: 1; }
 .story--live .story__fig { display: none; }
 .shot { position: absolute; inset: 0; z-index: 0; }
+/* One sheet per step, plain indigo, holding the step's photos (laid out by
+   src/story.js) with thin gaps between them. The sheet is what each page's
+   transition brings in over the last one. */
+.shot__photos { position: absolute; inset: 0; background: var(--indigo); }
+.shot__cell { position: absolute; overflow: hidden; background: #2A3152; }
 .shot picture, .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .shot.is-on { z-index: 2; }
 .shot.was-on { z-index: 1; }
-.shot.is-on picture { animation: shot-wipe .95s cubic-bezier(.7,0,.2,1) both; }
+.shot.is-on .shot__photos { animation: shot-wipe .95s cubic-bezier(.7,0,.2,1) both; }
 .shot__band { position: absolute; left: 0; right: 0; top: 0; height: 22px; z-index: 2; pointer-events: none; opacity: 0;
   background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); box-shadow: 0 2px 0 var(--marigold), 0 -2px 0 var(--rani); }
 .shot.is-on .shot__band { animation: shot-band .95s cubic-bezier(.7,0,.2,1) both; }
-.shot.is-on img { animation: shot-settle 1.6s cubic-bezier(.2,.8,.2,1) both; }
-.shot__type { position: absolute; inset: 0; display: grid; place-items: center; padding: 10%; background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); }
+.shot.is-on img { animation: shot-settle 1.6s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--k, 0) * 90ms); }
+.shot__type { display: grid; place-items: center; padding: 10%; }
 .shot__type span { background: var(--khadi); color: var(--indigo); font: 800 clamp(1.8rem, 1rem + 2.6vw, 3.4rem)/1 var(--display); letter-spacing: -0.03em; padding: 18px 22px; text-align: center; outline: 2px dashed rgba(30,36,64,.45); outline-offset: -8px; }
 .story__cap { position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; padding: 40px 20px 16px; background: linear-gradient(transparent, rgba(20,24,44,.8)); color: var(--khadi); display: flex; justify-content: space-between; align-items: end; gap: 16px; font-size: .9rem; }
 .story__count { font: 800 2.4rem/1 var(--display); letter-spacing: -0.04em; color: var(--khadi); white-space: nowrap; }
@@ -1006,7 +1011,7 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 .story__thread { position: absolute; z-index: 3; left: 0; top: 0; bottom: 0; width: 5px; background: rgba(243,236,223,.15); }
 .story__thread i { display: block; height: 100%; background: linear-gradient(var(--marigold), var(--rani), var(--neem)); transform-origin: top; transform: scaleY(var(--p, 0)); }
 /* Healthcare: the photo is swept in from left to right behind a heartbeat. */
-.story--pulse .shot.is-on picture { animation: shot-sweep 1s cubic-bezier(.6,0,.3,1) both; }
+.story--pulse .shot.is-on .shot__photos { animation: shot-sweep 1s cubic-bezier(.6,0,.3,1) both; }
 .shot__ecg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; opacity: 0; }
 .shot__ecg path { fill: none; stroke: #F2B940; stroke-width: 3; vector-effect: non-scaling-stroke; stroke-linejoin: round; filter: drop-shadow(0 0 6px rgba(242,185,64,.9)); stroke-dasharray: 1; stroke-dashoffset: 1; }
 .story--pulse .shot.is-on .shot__ecg { animation: ecg-show 1.3s ease both; }
@@ -1016,12 +1021,12 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 @keyframes ecg-show { 0% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
 /* Education: the new photo turns in like a page. */
 .story--page .story__media { perspective: 1800px; }
-.story--page .shot.is-on picture { transform-origin: 0 50%; animation: page-turn 1.1s cubic-bezier(.3,.7,.2,1) both; box-shadow: 0 0 60px rgba(0,0,0,.4); }
+.story--page .shot.is-on .shot__photos { transform-origin: 0 50%; animation: page-turn 1.1s cubic-bezier(.3,.7,.2,1) both; box-shadow: 0 0 60px rgba(0,0,0,.4); }
 .story--page .shot.is-on::after { content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(90deg, rgba(20,24,44,.55), rgba(20,24,44,0) 60%); animation: page-shade 1.1s ease both; }
 @keyframes page-turn { from { transform: rotateY(-96deg); } to { transform: none; } }
 @keyframes page-shade { from { opacity: 1; } to { opacity: 0; } }
 /* Women development: the photo opens as a circle from the middle, with a ring. */
-.story--iris .shot.is-on picture { animation: iris-open 1.2s cubic-bezier(.6,0,.2,1) both; }
+.story--iris .shot.is-on .shot__photos { animation: iris-open 1.2s cubic-bezier(.6,0,.2,1) both; }
 .shot__ring { position: absolute; left: 50%; top: 50%; z-index: 3; width: 0; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; border: 3px solid #F2B940; box-shadow: 0 0 0 3px rgba(194,47,102,.7); opacity: 0; pointer-events: none; }
 .story--iris .shot.is-on .shot__ring { animation: iris-ring 1.2s cubic-bezier(.6,0,.2,1) both; }
 @keyframes iris-open { from { clip-path: circle(0% at 50% 50%); } to { clip-path: circle(75% at 50% 50%); } }
@@ -1371,11 +1376,6 @@ html.opened [data-intro="deal"] .band__card::before, html.opened [data-intro="de
 .foreword__q p::before { content: '“'; color: #F2B940; }
 .foreword__q p::after { content: '”'; color: #F2B940; }
 .foreword__q footer { color: #E3DCCD; font-size: 1rem; }
-
-/* Story panel: a photo smaller than the panel sits at its own size on the rug. */
-.shot--small { background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); }
-.shot--small picture { position: absolute; inset: 0; display: grid; place-items: center; padding: 6%; box-sizing: border-box; }
-.shot.shot--small img { width: auto; height: auto; max-height: 100%; object-fit: contain; box-shadow: 0 0 0 5px var(--khadi), 0 24px 50px rgba(0,0,0,.45); }
 
 /* The left card's weave pulls away to the left, the right card's to the right. */
 .nextprog .ncard:first-child .ncard__photo { clip-path: inset(0 0 0 100%); }

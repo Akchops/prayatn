@@ -51,6 +51,20 @@ viewers block scripts; there you will only see the still version.
 | `src/loom/` | the Gallery's draggable tapestry |
 | pages | `/`, `/about/`, `/healthcare/`, `/education/`, `/women-development/`, `/gallery/`, `/get-involved/`, `/404.html` |
 
+## Photos in the programme stories
+
+On a PC, the left-hand panel on Healthcare, Education and Women development
+shows each step's photo together with the extra photos listed after it:
+
+```html
+<figure class="story__fig">{{img gallery-62 …}}<figcaption>Sports day.</figcaption></figure>
+{{more ar-sports-day ar-medals gallery-57}}
+```
+
+`src/story.js` picks how many to show, and how to arrange them, to fill the
+panel at its current size without enlarging any photo past its own size. So
+more photos means a fuller panel. Phones show only the step's own photo.
+
 ## Adding the partners
 
 Put each confirmed partner in `src/data/partners.json`:
