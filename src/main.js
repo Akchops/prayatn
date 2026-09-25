@@ -33,7 +33,11 @@ if (!reduce.matches) import('./motion.js').catch(() => {});
 
 if (!reduce.matches) {
   const loom = document.querySelector('[data-loom]');
-  if (loom) import('./loom/index.js').then((m) => m.start(loom)).catch((e) => { document.documentElement.dataset.loomFail = `script: ${e?.message || e}`; });
+  const startLoom = () => import('./loom/index.js').then((m) => m.start(loom)).catch((e) => { document.documentElement.dataset.loomFail = `script: ${e?.message || e}`; });
+  // The corridor (a switchable feature), with the Loom as its fallback.
+  if (loom && features.includes('gallery3d')) {
+    import('./features/gallery-3d.js').then((m) => { if (!m.start(loom)) startLoom(); }).catch(startLoom);
+  } else if (loom) startLoom();
 
   // About: project photos that follow the mouse, the mission, the loom, the ring.
   if (document.querySelector('.pindex')) import('./about.js').then((m) => m.start()).catch(() => {});
