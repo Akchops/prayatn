@@ -14,6 +14,9 @@ import('./ui.js').catch(() => {});
 const features = (document.documentElement.dataset.features || '').split(' ');
 const giftEl = features.includes('giftSlider') && document.querySelector('[data-gift]');
 if (giftEl) import('./features/gift.js').then((m) => m.start(giftEl)).catch(() => {});
+if (features.includes('pageWeave') && !reduce.matches) {
+  import('./features/page-weave.js').then((m) => m.start()).catch(() => document.documentElement.classList.remove('pw-in'));
+}
 
 // The page's full-screen opening, if the inline script in <head> chose to play it.
 if (document.documentElement.classList.contains('opening')) {

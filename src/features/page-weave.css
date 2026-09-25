@@ -1,0 +1,10 @@
+/* Feature 1 (switch: site.json features.pageWeave): threads close over the
+   page when you leave it and pull apart on the next. */
+.pw { position: fixed; inset: 0; z-index: 10000; display: grid; grid-template-columns: repeat(14, 1fr); pointer-events: none; }
+.pw i { background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); transform: scaleY(0); transform-origin: top; transition: transform .5s cubic-bezier(.7,0,.2,1); transition-delay: calc(var(--k) * 18ms); box-shadow: 1px 0 0 rgba(0,0,0,.25); }
+.pw i:nth-child(even) { transform-origin: bottom; }
+.pw.is-closed i { transform: none; }
+/* Before the script runs on the next page, the page is already covered. The
+   cover clears itself after 2 s if the script never comes. */
+html.pw-in::after { content: ''; position: fixed; inset: 0; z-index: 9999; background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); animation: pw-clear .3s 2s forwards; }
+@keyframes pw-clear { to { opacity: 0; visibility: hidden; } }
