@@ -1,5 +1,6 @@
 // Page openings. Each time a page is opened, its header photo
-// is built full-screen out of tiles, each page in its own way, and then the
+// is built out of tiles (full-screen, or the whole photo as large as fits on a
+// phone), each page in its own way, and then the
 // finished photo flies into its card in the header while the page's own title
 // animation plays:
 //   healthcare (pulse)  a heartbeat line crosses the screen; the photo grows out of it
@@ -26,18 +27,44 @@ export async function start() {
   if (!img.complete || !img.naturalWidth) {
     await Promise.race([img.decode?.().catch(() => {}) ?? Promise.resolve(), new Promise((r) => setTimeout(r, 1500))]);
   }
-  const src = img.currentSrc || img.src;
+  let src = img.currentSrc || img.src;
   if (!img.naturalWidth || !src) { end(); return; }
 
   const style = STYLE[band.dataset.intro] || 'hands';
   const W = innerWidth, H = innerHeight;
-  const cols = W >= 900 ? 10 : 6;
-  const rows = Math.max(4, Math.round(cols * H / W));
-  const tw = W / cols, th = H / rows;
-  // The photo covers the screen (cropped like object-fit: cover).
   const a = img.naturalWidth / img.naturalHeight;
-  const pw = W / H > a ? W : H * a, ph = W / H > a ? W / a : H;
-  const ox = (W - pw) / 2, oy = (H - ph) / 2;
+  // The photo covers the screen (cropped like object-fit: cover), unless that
+  // would hide much of it (a wide photo on a tall phone screen): then the
+  // whole photo is built, as large as fits, on the indigo.
+  const coverW = W / H > a ? W : H * a, coverH = W / H > a ? W / a : H;
+  const shown = (W * H) / (coverW * coverH);
+  let FW, FH;
+  if (shown >= 0.6) { FW = coverW; FH = coverH; } else {
+    FW = Math.min(W - 24, (H * 0.72) * a); FH = FW / a;
+  }
+  const FX = (W - FW) / 2, FY = (H - FH) / 2;
+  // The box the tiles fill: the screen, or the fitted photo.
+  const BX = Math.max(0, FX), BY = Math.max(0, FY), BW = Math.min(W, FW), BH = Math.min(H, FH);
+
+  // A sharp enough copy for the full-screen build (the header card may have
+  // loaded a small one on a phone).
+  const need = Math.min(FW, W * 1.2) * Math.min(devicePixelRatio || 1, 2);
+  if (img.naturalWidth < need * 0.9) {
+    const set = (/\.avif(\?|$)/.test(src) ? img.closest('picture')?.querySelector('source')?.srcset : img.srcset) || '';
+    const list = set.split(',').map((c) => c.trim().split(/\s+/)).map(([u, w]) => ({ u, w: parseInt(w, 10) || 0 })).filter((c) => c.u && c.w).sort((x, y) => x.w - y.w);
+    const pick = list.find((c) => c.w >= need) || list.at(-1);
+    if (pick && pick.w > img.naturalWidth) {
+      const big = new Image();
+      big.src = new URL(pick.u, location.href).href;
+      const ok = await Promise.race([big.decode().then(() => true, () => false), new Promise((r) => setTimeout(() => r(false), 900))]);
+      if (ok) src = big.src;
+    }
+  }
+
+  const cols = BW >= 900 ? 10 : 6;
+  const rows = Math.max(3, Math.round(cols * BH / BW));
+  const tw = BW / cols, th = BH / rows;
+  const pw = FW, ph = FH, ox = FX, oy = FY;
 
   const stage = document.createElement('div');
   stage.className = 'opening';
@@ -50,7 +77,7 @@ export async function start() {
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       const t = document.createElement('i');
-      const x = c * tw, y = r * th;
+      const x = BX + c * tw, y = BY + r * th;
       t.style.cssText = `left:${x}px;top:${y}px;width:${Math.ceil(tw) + 1}px;height:${Math.ceil(th) + 1}px;background-image:url("${src}");background-size:${pw}px ${ph}px;background-position:${ox - x}px ${oy - y}px`;
       field.appendChild(t);
       tiles.push({ el: t, c, r, x, y, cx: x + tw / 2, cy: y + th / 2 });
@@ -153,8 +180,8 @@ export async function start() {
     tiles.forEach((t, i) => {
       let to;
       if (ok) {
-        const sx = card.width / W, sy = card.height / H;
-        to = `translate(${card.left + t.x * sx - t.x}px, ${card.top + t.y * sy - t.y}px) scale(${sx}, ${sy})`;
+        const sx = card.width / BW, sy = card.height / BH;
+        to = `translate(${card.left + (t.x - BX) * sx - t.x}px, ${card.top + (t.y - BY) * sy - t.y}px) scale(${sx}, ${sy})`;
       } else {
         to = `translate(${(W / 2 - t.cx) * 0.6}px, ${(H / 2 - t.cy) * 0.6}px) scale(.4)`;
       }
