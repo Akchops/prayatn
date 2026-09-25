@@ -1373,3 +1373,7 @@ html.opened [data-intro="deal"] .band__card::before, html.opened [data-intro="de
 .shot--small { background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); }
 .shot--small picture { position: absolute; inset: 0; display: grid; place-items: center; padding: 6%; box-sizing: border-box; }
 .shot.shot--small img { width: auto; height: auto; max-height: 100%; object-fit: contain; box-shadow: 0 0 0 5px var(--khadi), 0 24px 50px rgba(0,0,0,.45); }
+
+/* The left card's weave pulls away to the left, the right card's to the right. */
+.nextprog .ncard:first-child .ncard__photo { clip-path: inset(0 0 0 100%); }
+.nextprog .ncard:first-child:hover .ncard__photo, .nextprog .ncard:first-child:focus-visible .ncard__photo, .nextprog .ncard:first-child.is-on .ncard__photo { clip-path: inset(0); }
