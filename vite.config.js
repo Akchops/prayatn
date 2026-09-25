@@ -90,8 +90,8 @@ function partnersBlock(list, variant) {
 // phone, as it comes into view: src/motion.js).
 const PROGRAMMES = {
   healthcare: { href: '/healthcare/', title: 'Healthcare', img: 'school-health-clinic-09', line: 'Swaasthya Kendra and the School Health Program.' },
-  education: { href: '/education/', title: 'Education', img: 'gallery-53', line: 'Seth Vidyalaya and the Scholarship Scheme for Students.' },
-  women: { href: '/women-development/', title: 'Women development', img: 'women-development-33', line: 'The Mahila Panchayat, the Legal Help Desk, and Addressing GBV in Communities.' },
+  education: { href: '/education/', title: 'Education', img: 'gallery-53', line: 'Seth Vidyalaya, Project Savera, and scholarships for meritorious students.' },
+  women: { href: '/women-development/', title: 'Women development', img: 'women-development-33', line: 'Ten Mahila Panchayats, Crisis Management Centres, a weekly Legal Help Desk, and young people as agents of change.' },
 };
 function nextCard(key, label, images) {
   const p = PROGRAMMES[key];
@@ -136,7 +136,7 @@ function giveBlock(site) {
     <p class="small">Or call ${phones}.</p></li>
   <li class="give__step"><span class="give__n" aria-hidden="true">3</span><h3>Get your receipt</h3>
     <p>${esc(site.receiptLine)}</p>
-    <p class="tax">* ${esc(site.taxLine)}</p>${reg}</li>
+    <p class="tax">* ${esc(site.taxLine)}</p>${site.registration ? `<p class="tax">${esc(site.registration)}</p>` : ''}${reg}</li>
 </ol>`;
 }
 
@@ -162,6 +162,7 @@ function templates() {
           addressLine: site.address.map(esc).join(', '),
           cheque: esc(site.chequePayee),
           taxLine: esc(site.taxLine),
+          registration: esc(site.registration || ''),
           credit: esc(site.credit),
           tagline: esc(site.tagline),
           blurb: esc(site.blurb),

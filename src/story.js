@@ -29,6 +29,9 @@ export function start(section) {
         img.style.cssText = '';           // drop the phone scroll effect's inline styles
         clone.style.cssText = '';
         img.sizes = '(min-width: 760px) 50vw, 92vw';
+        // A small photo is shown at its own size on the rug, never stretched.
+        const native = Number(img.getAttribute('width'));
+        if (native < 760) { shot.classList.add('shot--small'); img.style.maxWidth = `min(100%, ${native}px)`; }
         shot.appendChild(clone);
       } else {
         // A step without a photo gets its title, set on the rug.

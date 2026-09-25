@@ -188,3 +188,32 @@ Every one of the 86 photos shows identifiable people.
 - `public/logo-ink.png`, `public/logo-khadi.png`: the Prayatn logo, cropped from the old-site footer screenshot the owner supplied (`src/logo-source/`). **Replace with the original logo file.**
 - `public/thread-shade.svg`: generated thread shading for the woven backgrounds.
 - Fonts: Bricolage Grotesque and Hind, both SIL Open Font License 1.1, self-hosted from `@fontsource`. Licences are in `src/fonts/`.
+
+
+## Added 2026-09-25 (from the owner's documents)
+
+Source: `school-ptm-01` from Website2.6.docx; `ar-*` from the Annual Report 2025–26, which states "Photography used with consent from all children"; the owner has confirmed consent for everyone photographed. Not used: charts, collages, a photo with another organisation's banner, and a woman lying down during a medical examination (dignity).
+
+| Name | Programme | Description | Consent |
+|---|---|---|---|
+| school-ptm-01 | events | A mother talks with a teacher across a small desk at a parent-teacher meeting; the blackboard behind reads “Welcome to P.T.M”. | Confirmed |
+| ar-gk-quiz | school | Three young children in woolly caps stand by a blackboard that reads “G.K. Quiz Competition”. | Confirmed |
+| ar-certificates | school | Three girls hold up their certificates, standing between two teachers in front of the blackboard. | Confirmed |
+| ar-certificate-day | school | On certificate distribution day, a boy receives his certificate from teachers and guests at the front of the class. | Confirmed |
+| ar-dussehra | school | Children in bright costumes and crowns at Seth Vidyalaya’s Dussehra celebration. | Confirmed |
+| ar-sports-day | school | Children and teachers gather for a group photo on sports day. | Confirmed |
+| ar-trip-stupa | school | Students and teachers gather for a photo in front of a white stupa on a school trip. | Confirmed |
+| ar-planetarium | school | Students look at a display beneath a large model of the Moon on a visit to the planetarium. | Confirmed |
+| ar-sports-carnival | school | Children stand in front of a “Sports Carnival 2025” banner. | Confirmed |
+| ar-medals | school | Three boys wear their sports day medals. | Confirmed |
+| ar-graduation | school | Class V students in sashes at their graduation ceremony, beside a board that reads “A Sweet Ending to a New Beginning”. | Confirmed |
+| ar-scholars | school | Scholarship students hold up their scholarship cheques, with Prayatn staff beside them. | Confirmed |
+| ar-crc | women | A woman in a red dupatta talks with a staff member across a desk at a Community Resource Centre. | Confirmed |
+| ar-counselling | women | A counselling session across a desk at a Crisis Management Centre. | Confirmed |
+| ar-jagruk | women | Families write and listen at a Jagruk Families workshop organised by Prayatn. | Confirmed |
+| ar-womens-day | women | Women cheer behind a Prayatn International Women’s Day banner. | Confirmed |
+| ar-womens-day-dance | women | Women dance and raise their arms at the Women’s Day celebration. | Confirmed |
+| ar-youth-english | women | Young women take notes at their desks in an English Conversation class. | Confirmed |
+| ar-youth-training | women | Young women sit together on the floor during a vocational training session. | Confirmed |
+| ar-youth-life-skills | women | Young women sit in a circle on the floor for a life skills session. | Confirmed |
+| ar-youth-group | women | Young women sit together on the floor of a training room, with a trainer on a chair. | Confirmed |

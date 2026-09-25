@@ -246,5 +246,89 @@
   "gallery-72": {
     "use": "events",
     "alt": "A woman receives a certificate from two men in a classroom."
+  },
+  "school-ptm-01": {
+    "use": "events",
+    "alt": "A mother talks with a teacher across a small desk at a parent-teacher meeting; the blackboard behind reads “Welcome to P.T.M”."
+  },
+  "ar-gk-quiz": {
+    "use": "school",
+    "alt": "Three young children in woolly caps stand by a blackboard that reads “G.K. Quiz Competition”."
+  },
+  "ar-certificates": {
+    "use": "school",
+    "alt": "Three girls hold up their certificates, standing between two teachers in front of the blackboard."
+  },
+  "ar-certificate-day": {
+    "use": "school",
+    "alt": "On certificate distribution day, a boy receives his certificate from teachers and guests at the front of the class."
+  },
+  "ar-dussehra": {
+    "use": "school",
+    "alt": "Children in bright costumes and crowns at Seth Vidyalaya’s Dussehra celebration."
+  },
+  "ar-sports-day": {
+    "use": "school",
+    "alt": "Children and teachers gather for a group photo on sports day."
+  },
+  "ar-trip-stupa": {
+    "use": "school",
+    "alt": "Students and teachers gather for a photo in front of a white stupa on a school trip."
+  },
+  "ar-planetarium": {
+    "use": "school",
+    "alt": "Students look at a display beneath a large model of the Moon on a visit to the planetarium."
+  },
+  "ar-sports-carnival": {
+    "use": "school",
+    "alt": "Children stand in front of a “Sports Carnival 2025” banner."
+  },
+  "ar-medals": {
+    "use": "school",
+    "alt": "Three boys wear their sports day medals."
+  },
+  "ar-graduation": {
+    "use": "school",
+    "alt": "Class V students in sashes at their graduation ceremony, beside a board that reads “A Sweet Ending to a New Beginning”."
+  },
+  "ar-scholars": {
+    "use": "school",
+    "alt": "Scholarship students hold up their scholarship cheques, with Prayatn staff beside them."
+  },
+  "ar-crc": {
+    "use": "women",
+    "alt": "A woman in a red dupatta talks with a staff member across a desk at a Community Resource Centre."
+  },
+  "ar-counselling": {
+    "use": "women",
+    "alt": "A counselling session across a desk at a Crisis Management Centre."
+  },
+  "ar-jagruk": {
+    "use": "women",
+    "alt": "Families write and listen at a Jagruk Families workshop organised by Prayatn."
+  },
+  "ar-womens-day": {
+    "use": "women",
+    "alt": "Women cheer behind a Prayatn International Women’s Day banner."
+  },
+  "ar-womens-day-dance": {
+    "use": "women",
+    "alt": "Women dance and raise their arms at the Women’s Day celebration."
+  },
+  "ar-youth-english": {
+    "use": "women",
+    "alt": "Young women take notes at their desks in an English Conversation class."
+  },
+  "ar-youth-training": {
+    "use": "women",
+    "alt": "Young women sit together on the floor during a vocational training session."
+  },
+  "ar-youth-life-skills": {
+    "use": "women",
+    "alt": "Young women sit in a circle on the floor for a life skills session."
+  },
+  "ar-youth-group": {
+    "use": "women",
+    "alt": "Young women sit together on the floor of a training room, with a trainer on a chair."
   }
 }

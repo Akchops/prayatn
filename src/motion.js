@@ -433,3 +433,33 @@ if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
     btn.addEventListener('pointerleave', () => { btn.style.translate = ''; });
   });
 }
+
+// Numbers count up from zero the first time they come into view.
+{
+  const nums = [...document.querySelectorAll('[data-count]')];
+  if (nums.length) {
+    const fmt = (n) => n.toLocaleString('en-IN');
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      const el = e.target, end = Number(el.dataset.count), t0 = performance.now(), dur = end > 50 ? 1600 : 900;
+      const step = (now) => {
+        const k = Math.min(1, (now - t0) / dur);
+        el.textContent = fmt(Math.round(end * (1 - Math.pow(1 - k, 3))));
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }), { threshold: 0.6 });
+    nums.forEach((n) => { n.textContent = '0'; io.observe(n); });
+  }
+}
+
+// The year at a glance: each row's bars grow in when the table comes into view.
+{
+  const g = document.querySelector('[data-glance]');
+  if (g) {
+    g.classList.add('is-live');
+    g.querySelectorAll('tbody tr').forEach((tr, i) => tr.style.setProperty('--i', i));
+    new IntersectionObserver(([e], obs) => { if (e.isIntersecting) { g.classList.add('is-in'); obs.disconnect(); } }, { threshold: 0.25 }).observe(g.querySelector('table'));
+  }
+}

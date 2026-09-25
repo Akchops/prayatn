@@ -28,8 +28,8 @@ uniform float uCount;     // number of photos
 uniform sampler2D uAtlas; // every photo as a 4:3 tile, uploaded with FLIP_Y
 uniform vec2 uHover;      // cell under the pointer (cx, cy)
 uniform float uHoverAmt;  // 0..1 how lifted that cell is
-uniform vec4 uCat[16];    // programme of each photo (0 health .. 3 events), 4 per vec4:
-                          // 16 vectors, not 64 - iPhones allow only 64 in total
+uniform vec4 uCat[24];    // programme of each photo (0 health .. 3 events), 4 per vec4:
+                          // 24 vectors (96 photos), not 96 - iPhones allow only 64 in total
 uniform float uSel;       // selected programme, or -1 for all
 uniform float uSelAmt;    // 0..1 how far the filter has faded in
 uniform float uIntro;     // 0..1 weave-in on arrival
@@ -46,12 +46,12 @@ const vec3 KHADI    = vec3(0.953, 0.925, 0.875);  // #F3ECDF frame of a lifted t
 float hash(vec2 c) { return fract(sin(dot(c, vec2(12.9898, 78.233))) * 43758.5453); }
 
 // The programme of photo i. WebGL1 cannot index a uniform array with a
-// non-constant, so walk the 16 vectors (constant bound) and pick the one
+// non-constant, so walk the 24 vectors (constant bound) and pick the one
 // holding photo i, then the component i mod 4 within it.
 float catOf(float i) {
   float slot = floor(i / 4.0), lane = i - slot * 4.0;
   vec4 v = vec4(0.0);
-  for (int k = 0; k < 16; k++) { if (float(k) == slot) v = uCat[k]; }
+  for (int k = 0; k < 24; k++) { if (float(k) == slot) v = uCat[k]; }
   return lane < 0.5 ? v.x : (lane < 1.5 ? v.y : (lane < 2.5 ? v.z : v.w));
 }
 
@@ -210,7 +210,7 @@ export function create(canvas, atlasImg, meta, { allowSoftware = false, onLost }
   gl.uniform1i(L.uAtlas, 0);
   gl.uniform2f(L.uGrid, meta.cols, meta.rows);
   gl.uniform1f(L.uCount, meta.count);
-  const cats = new Float32Array(64);
+  const cats = new Float32Array(96);   // room for 96 photos (see uCat)
   meta.tiles.forEach((t, i) => { cats[i] = t.cat; });
   gl.uniform4fv(L.uCat, cats);
 

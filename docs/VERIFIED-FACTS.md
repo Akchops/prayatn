@@ -205,3 +205,36 @@ Status on 2026-09-23. The site is not going live yet; the owner asked for everyt
 | 8 | Logo | Stopgap crop from a screenshot; send the original file. |
 | 9 | Partners | **Done** (2026-09-24): the old site's five partners, with logos from the owner's screenshots. |
 | 6 | School figures | Waiting for the yearly report. No numbers until then. |
+
+
+## Owner documents, 2026-09-25
+
+Two documents from the owner (the Managing Trustee's content for the site):
+
+1. **Website2.6.docx**: about Prayatn, mission, vision, strategy, approach, areas of operation, themes, governance, SMC, PTA, key projects with supporters, programme descriptions, credits, trustees (8 names), one photo (a PTM).
+2. **Annual Report 2025–26** (38 pages): foreword by the Managing Trustee, registration, at-a-glance and 2024–25 vs 2025–26 figures, full programme reports, 80 photos ("Photography used with consent from all children").
+
+**Rule used:** where the two differ, the Annual Report 2025–26 (newer, official) wins for figures; the Word document is used for descriptions it alone gives.
+
+| Fact | Used on the site | Source |
+|---|---|---|
+| Registration | "Registered under the Indian Trusts Act 1882, Reg. No. 5102(IV). All donations exempt under section 80G." | Annual Report p.2 |
+| Phone | 011-45688954 | Annual Report cover (the Word document still has 26415832) |
+| Seth Vidyalaya | 655 students (364 boys, 291 girls), Nursery–V; Deloitte through United Way of Delhi since April 2023 | AR p.14 (doc: 666) |
+| Project Savera | 300 students (175 boys, 125 girls), Nursery–IV; Seth Foundation | AR p.22 (doc: 237) |
+| School Health Program | 1,192 students (2024–25: 874); Samrat Offset since 2023; deworming 848 students + 32 staff | AR p.9, 11, 13 |
+| Swaasthya Kendra | 5,736 beneficiaries (2024–25: 5,365) | AR p.8–9 |
+| Scholarships | 22 students, Rs 12,000 p.a.; began April 2017; 10 individual donors | AR p.21 (doc: 2017–18, "many" donors) |
+| Mahila Panchayats | ten, 245 women; 450 meetings | AR p.27–28 (doc: nine) |
+| CMC + MP cases | 1,303 (319 + 984); 857 women approached; 345 reconciled; 270 referred | AR p.28–29 |
+| CRCs | Nizamuddin, Okhla Phase II; 7,565 enquiries; 7,243 accessed benefits | AR p.27 |
+| Legal Help Desk | weekly, professional lawyers; 129 camps + 121 desk sessions; 4,282 reached; 459 given legal help | AR p.30–31 |
+| Youth project | Empowering Youth as Agents of Change, Samrat Offset, from Jan 2025; 153 (2024–25: 63) | AR p.35–36 |
+| SMC | eighteen members | AR p.7 (doc: fifteen) |
+| Women outreach | 14,958 (2024–25: 14,401) | AR p.9 |
+
+**Open conflicts for the owner:**
+- **Board size:** the Annual Report says seven trustees; the Word document says eight and names Mrs Reena Singh. The site shows eight (the Word document's list). Confirm.
+- **Year of the GBV project:** the report's foreword says it has entered its fourth year; page 27 says fifth. The site avoids the number.
+- **Mahila Panchayat in Badarpur:** from the old site; neither document mentions Badarpur, so it has been removed.
+- **"School Support Program"** is named in the Word document but not in the Annual Report; it is mentioned once (Education aims) and no longer listed as a project.

@@ -779,5 +779,241 @@
     "rows": 104,
     "alt": "A woman receives a certificate from two men in a classroom.",
     "use": "events"
+  },
+  "school-ptm-01": {
+    "width": 1387,
+    "height": 1040,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280,
+      1387
+    ],
+    "rows": 120,
+    "alt": "A mother talks with a teacher across a small desk at a parent-teacher meeting; the blackboard behind reads “Welcome to P.T.M”.",
+    "use": "events"
+  },
+  "ar-gk-quiz": {
+    "width": 584,
+    "height": 1145,
+    "widths": [
+      360,
+      560,
+      584
+    ],
+    "rows": 314,
+    "alt": "Three young children in woolly caps stand by a blackboard that reads “G.K. Quiz Competition”.",
+    "use": "school"
+  },
+  "ar-certificates": {
+    "width": 969,
+    "height": 547,
+    "widths": [
+      360,
+      560,
+      800,
+      969
+    ],
+    "rows": 90,
+    "alt": "Three girls hold up their certificates, standing between two teachers in front of the blackboard.",
+    "use": "school"
+  },
+  "ar-certificate-day": {
+    "width": 496,
+    "height": 319,
+    "widths": [
+      360,
+      496
+    ],
+    "rows": 102,
+    "alt": "On certificate distribution day, a boy receives his certificate from teachers and guests at the front of the class.",
+    "use": "school"
+  },
+  "ar-dussehra": {
+    "width": 329,
+    "height": 329,
+    "widths": [
+      329
+    ],
+    "rows": 160,
+    "alt": "Children in bright costumes and crowns at Seth Vidyalaya’s Dussehra celebration.",
+    "use": "school"
+  },
+  "ar-sports-day": {
+    "width": 343,
+    "height": 306,
+    "widths": [
+      343
+    ],
+    "rows": 142,
+    "alt": "Children and teachers gather for a group photo on sports day.",
+    "use": "school"
+  },
+  "ar-trip-stupa": {
+    "width": 361,
+    "height": 307,
+    "widths": [
+      360,
+      361
+    ],
+    "rows": 136,
+    "alt": "Students and teachers gather for a photo in front of a white stupa on a school trip.",
+    "use": "school"
+  },
+  "ar-planetarium": {
+    "width": 288,
+    "height": 291,
+    "widths": [
+      288
+    ],
+    "rows": 162,
+    "alt": "Students look at a display beneath a large model of the Moon on a visit to the planetarium.",
+    "use": "school"
+  },
+  "ar-sports-carnival": {
+    "width": 335,
+    "height": 310,
+    "widths": [
+      335
+    ],
+    "rows": 148,
+    "alt": "Children stand in front of a “Sports Carnival 2025” banner.",
+    "use": "school"
+  },
+  "ar-medals": {
+    "width": 314,
+    "height": 343,
+    "widths": [
+      314
+    ],
+    "rows": 174,
+    "alt": "Three boys wear their sports day medals.",
+    "use": "school"
+  },
+  "ar-graduation": {
+    "width": 993,
+    "height": 466,
+    "widths": [
+      360,
+      560,
+      800,
+      993
+    ],
+    "rows": 76,
+    "alt": "Class V students in sashes at their graduation ceremony, beside a board that reads “A Sweet Ending to a New Beginning”.",
+    "use": "school"
+  },
+  "ar-scholars": {
+    "width": 726,
+    "height": 425,
+    "widths": [
+      360,
+      560,
+      726
+    ],
+    "rows": 94,
+    "alt": "Scholarship students hold up their scholarship cheques, with Prayatn staff beside them.",
+    "use": "school"
+  },
+  "ar-crc": {
+    "width": 499,
+    "height": 371,
+    "widths": [
+      360,
+      499
+    ],
+    "rows": 118,
+    "alt": "A woman in a red dupatta talks with a staff member across a desk at a Community Resource Centre.",
+    "use": "women"
+  },
+  "ar-counselling": {
+    "width": 454,
+    "height": 375,
+    "widths": [
+      360,
+      454
+    ],
+    "rows": 132,
+    "alt": "A counselling session across a desk at a Crisis Management Centre.",
+    "use": "women"
+  },
+  "ar-jagruk": {
+    "width": 491,
+    "height": 316,
+    "widths": [
+      360,
+      491
+    ],
+    "rows": 102,
+    "alt": "Families write and listen at a Jagruk Families workshop organised by Prayatn.",
+    "use": "women"
+  },
+  "ar-womens-day": {
+    "width": 495,
+    "height": 382,
+    "widths": [
+      360,
+      495
+    ],
+    "rows": 124,
+    "alt": "Women cheer behind a Prayatn International Women’s Day banner.",
+    "use": "women"
+  },
+  "ar-womens-day-dance": {
+    "width": 502,
+    "height": 384,
+    "widths": [
+      360,
+      502
+    ],
+    "rows": 122,
+    "alt": "Women dance and raise their arms at the Women’s Day celebration.",
+    "use": "women"
+  },
+  "ar-youth-english": {
+    "width": 366,
+    "height": 442,
+    "widths": [
+      360,
+      366
+    ],
+    "rows": 194,
+    "alt": "Young women take notes at their desks in an English Conversation class.",
+    "use": "women"
+  },
+  "ar-youth-training": {
+    "width": 369,
+    "height": 442,
+    "widths": [
+      360,
+      369
+    ],
+    "rows": 192,
+    "alt": "Young women sit together on the floor during a vocational training session.",
+    "use": "women"
+  },
+  "ar-youth-life-skills": {
+    "width": 496,
+    "height": 251,
+    "widths": [
+      360,
+      496
+    ],
+    "rows": 80,
+    "alt": "Young women sit in a circle on the floor for a life skills session.",
+    "use": "women"
+  },
+  "ar-youth-group": {
+    "width": 472,
+    "height": 251,
+    "widths": [
+      360,
+      472
+    ],
+    "rows": 86,
+    "alt": "Young women sit together on the floor of a training room, with a trainer on a chair.",
+    "use": "women"
   }
 }
