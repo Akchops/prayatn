@@ -84,9 +84,24 @@ out of tiles, each page in its own way (`src/opening.js`), and then flies into
 the header. A tap, a key or a scroll skips it. It does not play with reduced
 motion or without JavaScript.
 
+## Our street map
+
+The map on Get involved is drawn by the site itself from OpenStreetMap data,
+so visitors load no Google map. The streets are fetched once and saved:
+
+1. Put the office's position in `src/data/site.json` → `findMap.office` as
+   `[latitude, longitude]` (right-click the building in Google Maps to copy
+   them).
+2. `npm run map-data` (needs internet access to `overpass-api.de`). This
+   writes `src/data/findmap.json`; commit it.
+3. `npm run build`.
+
+Until `src/data/findmap.json` exists, the page shows the Google map as before.
+The footer's map box then links to our map instead of loading Google's.
+
 ## Switchable features
 
-Three features can each be switched off on their own, in `src/data/site.json`
+Four features can each be switched off on their own, in `src/data/site.json`
 under `features`, then `npm run build`:
 
 | Switch | What it is | Where it lives |
@@ -94,6 +109,7 @@ under `features`, then `npm run build`:
 | `pageWeave` | threads close over the page when you follow a link, and pull apart on the next | `src/features/page-weave.*` |
 | `whereMap` | the woven map of where we work, on About (off: the plain list of areas) | `src/features/where-map.*`, `whereMap()` in `vite.config.js` |
 | `giftSlider` | "what your gift can do" beside the donate steps | `src/features/gift.*`, `giftBlock()` in `vite.config.js` |
+| `findMap` | our own street map on Get involved, in the site's colours and fonts (off: the Google map) | `src/features/find-map.*`, `findMap()` in `vite.config.js`, data in `src/data/findmap.json` |
 
 Each was also added in its own commit, so `git revert <commit>` removes one
 completely without touching the others.

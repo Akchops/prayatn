@@ -14,6 +14,8 @@ import('./ui.js').catch(() => {});
 const features = (document.documentElement.dataset.features || '').split(' ');
 const giftEl = features.includes('giftSlider') && document.querySelector('[data-gift]');
 if (giftEl) import('./features/gift.js').then((m) => m.start(giftEl)).catch(() => {});
+const findEl = features.includes('findMap') && document.querySelector('[data-fmap]');
+if (findEl) import('./features/find-map.js').then((m) => m.start(findEl)).catch(() => {});
 const mapEl = features.includes('whereMap') && !reduce.matches && document.querySelector('[data-wmap]');
 if (mapEl) import('./features/where-map.js').then((m) => m.start(mapEl)).catch(() => {});
 if (features.includes('pageWeave') && !reduce.matches) {
