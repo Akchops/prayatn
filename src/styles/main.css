@@ -1363,8 +1363,8 @@ html.opened [data-intro="deal"] .band__card::before, html.opened [data-intro="de
 
 /* ---------- Foreword quote (About) ---------- */
 .foreword { background: var(--indigo); color: var(--khadi); padding: clamp(56px, 7vw, 100px) 0; }
-.foreword__q { margin: 0; max-width: 30ch; }
-.foreword__q p { font: 800 clamp(1.7rem, 1rem + 3vw, 3.6rem)/1.1 var(--display); letter-spacing: -0.03em; margin: 0 0 18px; }
+.foreword__q { margin: 0 auto; max-width: 1100px; }
+.foreword__q p { font: 800 clamp(1.5rem, 1rem + 2.2vw, 3rem)/1.15 var(--display); letter-spacing: -0.025em; margin: 0 0 18px; max-width: 32ch; }
 .foreword__q p::before { content: '“'; color: #F2B940; }
 .foreword__q p::after { content: '”'; color: #F2B940; }
 .foreword__q footer { color: #E3DCCD; font-size: 1rem; }
