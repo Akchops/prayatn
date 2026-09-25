@@ -92,11 +92,13 @@ so visitors load no Google map. The streets are fetched once and saved:
 1. Put the office's position in `src/data/site.json` → `findMap.office` as
    `[latitude, longitude]` (right-click the building in Google Maps to copy
    them).
-2. `npm run map-data` (needs internet access to `overpass-api.de`). This
-   writes `src/data/findmap.json`; commit it.
-3. `npm run build`.
+2. `npm run build` fetches the streets from OpenStreetMap (`overpass-api.de`)
+   whenever `src/data/findmap.json` is missing, which is how the online
+   preview gets them. `npm run map-data` fetches them again, e.g. after the
+   office moves; commit the file to keep that version.
 
-Until `src/data/findmap.json` exists, the page shows the Google map as before.
+If the streets cannot be fetched, the build carries on and the page shows the
+Google map as before.
 The footer's map box then links to our map instead of loading Google's.
 
 ## Switchable features
