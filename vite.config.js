@@ -140,6 +140,21 @@ function giveBlock(site) {
 </ol>`;
 }
 
+// Feature 3 (switchable in site.json: features.giftSlider): what a gift can
+// do, from the one real per-unit figure we have: a scholarship is Rs 1,000 a
+// month for each student. Renders nothing when switched off.
+function giftBlock(site) {
+  if (!site.features?.giftSlider) return '';
+  return `<div class="gift" data-gift>
+  <p class="gift__label" id="gift-l">What your gift can do</p>
+  <p class="gift__amount"><output data-gift-out for="gift-range">₹3,000</output></p>
+  <input id="gift-range" class="gift__range" type="range" min="1000" max="36000" step="1000" value="3000" aria-labelledby="gift-l" data-gift-range>
+  <div class="gift__months" aria-hidden="true" data-gift-months></div>
+  <p class="gift__says" data-gift-says aria-live="polite">keeps a scholar in school for 3 months.</p>
+  <p class="gift__note">A scholarship is Rs 1,000 a month for each student, Rs 12,000 a year. To give to the Scholarship Scheme, say so when you tell us about your gift.</p>
+</div>`;
+}
+
 function templates() {
   return {
     name: 'prayatn-templates',
@@ -169,6 +184,9 @@ function templates() {
           // Pages with a header band get the full-screen opening (src/opening.js).
           opening: String(!['home', '404'].includes(page)),
           bank: bankBlock(site),
+          gift: giftBlock(site),
+          // Switchable features (site.json features), read by the inline script in head.html.
+          features: Object.entries(site.features || {}).filter(([, on]) => on).map(([k]) => k).join(' '),
           give: giveBlock(site),
           receiptLine: esc(site.receiptLine),
           partnersHome: partnersBlock(partners, 'home'),

@@ -30,5 +30,11 @@
     "validity": null
   },
   "receiptLine": "After you give, tell us and we will send you a receipt.",
-  "registration": "Registered under the Indian Trusts Act 1882, Reg. No. 5102(IV)."
+  "registration": "Registered under the Indian Trusts Act 1882, Reg. No. 5102(IV).",
+  "_features_note": "Switch a feature off by setting it to false and rebuilding. Each lives in src/features/ with its own CSS, and was added in its own commit.",
+  "features": {
+    "pageWeave": true,
+    "whereMap": true,
+    "giftSlider": true
+  }
 }

@@ -10,6 +10,11 @@ const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 import('./ui.js').catch(() => {});
 
+// Switchable features (site.json features; the list is set in head.html).
+const features = (document.documentElement.dataset.features || '').split(' ');
+const giftEl = features.includes('giftSlider') && document.querySelector('[data-gift]');
+if (giftEl) import('./features/gift.js').then((m) => m.start(giftEl)).catch(() => {});
+
 // The page's full-screen opening, if the inline script in <head> chose to play it.
 if (document.documentElement.classList.contains('opening')) {
   import('./opening.js').then((m) => m.start()).catch(() => document.documentElement.classList.remove('opening'));

@@ -1,3 +1,4 @@
+@import "../features/gift.css";
 /* Prayatn — "The Durrie".
    Base styles are the no-JS page: everything is visible here. Anything the
    motion layer hides is scoped under .js / .is-weaving and never applied under
