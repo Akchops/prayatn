@@ -155,6 +155,52 @@ function giftBlock(site) {
 </div>`;
 }
 
+// Feature 2 (switchable in site.json: features.whereMap): the woven map of
+// where Prayatn works, on About. Positions are approximate (the map says so);
+// what is listed at each place comes from the Annual Report 2025-26.
+const PLACES = [
+  { id: 'kalkaji', name: 'Kalkaji', lat: 28.5465, lon: 77.2595, office: true, text: 'Our office, E-103, G.F., Kalkaji. Where the work is planned and run from.' },
+  { id: 'sriniwaspuri', name: 'Sriniwaspuri', lat: 28.5655, lon: 77.2480, text: 'A Mahila Panchayat, and families in the Jagruk Pariwar programme.' },
+  { id: 'ashram', name: 'Ashram', lat: 28.5725, lon: 77.2555, text: 'A Mahila Panchayat, including Double Storey. English conversation classes for young people, Jagruk Pariwar families, a Self-Help Group, and Women’s Day 2025 at the Ashram Community Centre.' },
+  { id: 'nizamuddin', name: 'Nizamuddin', lat: 28.5893, lon: 77.2440, below: true, text: 'A Mahila Panchayat and a Community Resource Centre. Jagruk Pariwar families, a Self-Help Group, and Eid at the Nizamuddin centre.' },
+  { id: 'sarai', name: 'Sarai Kale Khan', lat: 28.5905, lon: 77.2585, text: 'A Mahila Panchayat.' },
+  { id: 'okhla', name: 'Okhla', lat: 28.5480, lon: 77.2800, text: 'A Mahila Panchayat in Okhla Basti and a Community Resource Centre in Okhla Phase II. Beauty culture and English classes for young people.' },
+  { id: 'harkesh', name: 'Harkesh Nagar', lat: 28.5335, lon: 77.2735, text: 'A Mahila Panchayat, and families in the Jagruk Pariwar programme.' },
+  { id: 'gautampuri', name: 'Gautampuri', lat: 28.5245, lon: 77.2960, text: 'A Mahila Panchayat, a Self-Help Group, Jagruk Pariwar families and beauty culture training. Diwali at the Gautampuri centre.' },
+  { id: 'madanpur', name: 'Madanpur Khadar', lat: 28.5165, lon: 77.3110, text: 'Seth Vidyalaya and Project Savera, about 900 children. The Swaasthya Kendra. Mahila Panchayats at Seth Vidyalaya, A1 and Babloo Dairy, beauty culture and English classes, and Self-Help Groups.' },
+];
+function whereMap(site) {
+  if (!site.features?.whereMap) return '';
+  const X = (lon) => +((lon - 77.232) * 5600).toFixed(1), Y = (lat) => +((28.603 - lat) * 6360).toFixed(1);
+  const W = 560, H = 640;
+  const river = [[28.606, 77.2685], [28.585, 77.2715], [28.566, 77.2835], [28.548, 77.3005], [28.530, 77.3155], [28.500, 77.3270]]
+    .map(([la, lo], i) => `${i ? 'L' : 'M'}${X(lo)} ${Y(la)}`).join(' ');
+  const route = PLACES.map((p, i) => `${i ? 'L' : 'M'}${X(p.lon)} ${Y(p.lat)}`).join(' ');
+  const knots = PLACES.map((p, i) => {
+    const x = X(p.lon), y = Y(p.lat), right = x < W * 0.62;
+    return `<g class="wmap__place${p.office ? ' wmap__place--office' : ''}" data-i="${i}" transform="translate(${x} ${y})"><circle class="wmap__ring" r="18"/><circle class="wmap__knot" r="${p.office ? 11 : 8}"/><text x="${p.below ? 0 : right ? 16 : -16}" y="${p.below ? 28 : 5}" text-anchor="${p.below ? 'middle' : right ? 'start' : 'end'}">${esc(p.name)}</text></g>`;
+  }).join('');
+  const items = PLACES.map((p, i) => `<li class="wmap__item" data-i="${i}"><span class="wmap__n">${String(i + 1).padStart(2, '0')}</span><h3>${esc(p.name)}${p.office ? ' <small>our office</small>' : ''}</h3><p>${esc(p.text)}</p></li>`).join('');
+  return `<div class="wmap" data-wmap>
+  <div class="wmap__stick">
+    <figure class="wmap__fig">
+      <svg class="wmap__svg" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="wmap-t">
+        <title id="wmap-t">A woven map of South and South-East Delhi, showing the nine places where Prayatn works, from its office in Kalkaji to Madanpur Khadar by the Yamuna. Not to scale.</title>
+        <defs><pattern id="wmap-weave" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#1E2440"/><rect width="6" height="6" fill="#262D4D"/><rect x="6" y="6" width="6" height="6" fill="#262D4D"/></pattern></defs>
+        <rect width="${W}" height="${H}" fill="url(#wmap-weave)"/>
+        <path class="wmap__river" d="${river}"/>
+        <text class="wmap__rivername" x="${X(77.3)}" y="${Y(28.566)}" transform="rotate(-52 ${X(77.3)} ${Y(28.566)})">Yamuna</text>
+        <path class="wmap__route-under" d="${route}"/>
+        <path class="wmap__route" d="${route}" pathLength="1"/>
+        ${knots}
+      </svg>
+      <figcaption>Not to scale: positions are approximate. A Legal Help Desk is held every week in each project community.</figcaption>
+    </figure>
+    <ol class="wmap__list">${items}</ol>
+  </div>
+</div>`;
+}
+
 function templates() {
   return {
     name: 'prayatn-templates',
@@ -185,6 +231,7 @@ function templates() {
           opening: String(!['home', '404'].includes(page)),
           bank: bankBlock(site),
           gift: giftBlock(site),
+          wheremap: whereMap(site),
           // Switchable features (site.json features), read by the inline script in head.html.
           features: Object.entries(site.features || {}).filter(([, on]) => on).map(([k]) => k).join(' '),
           give: giveBlock(site),

@@ -1,0 +1,54 @@
+/* Feature 2 (switch: site.json features.whereMap): the woven map, About. */
+.where:has(.wmap) .where__zones { display: none; }
+.wmap { max-width: var(--max); margin: 40px auto 0; padding: 0 var(--gutter); }
+.wmap__stick { display: grid; gap: 24px; align-items: center; }
+@media (min-width: 900px) { .wmap__stick { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 48px; } }
+.wmap__fig { margin: 0; }
+.wmap__svg { display: block; width: 100%; height: auto; max-height: 72vh; box-shadow: 0 0 0 4px var(--khadi), 0 24px 60px rgba(0,0,0,.4); }
+.wmap__fig figcaption { font-size: .85rem; color: #D9D2C3; padding-top: 12px; }
+.wmap__river { fill: none; stroke: #2E7F92; stroke-width: 22; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+.wmap__rivername { fill: #BFE3EA; font: 700 13px var(--body); letter-spacing: .3em; text-transform: uppercase; }
+.wmap__route-under { fill: none; stroke: rgba(243,236,223,.18); stroke-width: 3; stroke-dasharray: 2 7; stroke-linecap: round; }
+.wmap__route { fill: none; stroke: #F2B940; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.wmap__knot { fill: #F2B940; stroke: #1E2440; stroke-width: 3; transition: fill .3s, transform .4s cubic-bezier(.3,1.6,.5,1); }
+.wmap__place--office .wmap__knot { fill: #C22F66; }
+.wmap__knot, .wmap__ring { transform-box: fill-box; transform-origin: center; }
+.wmap__ring { fill: none; stroke: #F2B940; stroke-width: 2; opacity: 0; }
+.wmap__place text { fill: var(--khadi); font: 700 15px var(--display); paint-order: stroke; stroke: #1E2440; stroke-width: 5px; stroke-linejoin: round; transition: opacity .3s; }
+.wmap__place { cursor: default; }
+.wmap__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.wmap__item { padding: 16px 18px; border-left: 4px solid #F2B940; background: rgba(243,236,223,.05); }
+.wmap__item h3 { color: var(--khadi); font-size: 1.3rem; margin: 2px 0 6px; }
+.wmap__item h3 small { font: 600 .75rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: #F07BA6; margin-left: 6px; }
+.wmap__item p { margin: 0; color: #E3DCCD; }
+.wmap__n { font: 700 .8rem/1 var(--body); letter-spacing: .14em; color: #F2B940; }
+
+/* Live: pinned; the thread runs place to place and one card shows at a time. */
+.wmap.is-live .wmap__stick { position: sticky; top: var(--head); height: calc(100vh - var(--head)); height: calc(100svh - var(--head)); box-sizing: border-box; padding: 16px 0; align-content: center; }
+.wmap.is-live .wmap__svg { max-height: calc(100svh - var(--head) - 90px); width: auto; max-width: 100%; margin: 0 auto; }
+.wmap.is-live .wmap__route { stroke-dashoffset: calc(1 - var(--drawn, 0)); }
+.wmap.is-live .wmap__knot { fill: #4A5378; }
+.wmap.is-live .wmap__place text { opacity: .45; }
+.wmap.is-live .wmap__place.is-lit .wmap__knot { fill: #F2B940; }
+.wmap.is-live .wmap__place--office.is-lit .wmap__knot { fill: #C22F66; }
+.wmap.is-live .wmap__place.is-lit text { opacity: 1; }
+.wmap.is-live .wmap__place { cursor: pointer; }
+.wmap.is-live .wmap__place.is-here .wmap__knot { transform: scale(1.5); }
+.wmap.is-live .wmap__place.is-here .wmap__ring { animation: wmap-pulse 1.6s ease-out infinite; }
+@keyframes wmap-pulse { from { opacity: .9; transform: scale(.5); } to { opacity: 0; transform: scale(2); } }
+.wmap.is-live .wmap__list { position: relative; min-height: 13rem; overflow-x: clip; }
+.wmap.is-live .wmap__item { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; opacity: 0; transform: translateX(24px); transition: opacity .45s, transform .55s cubic-bezier(.2,.8,.2,1); pointer-events: none; padding: 22px 24px; background: rgba(243,236,223,.07); }
+.wmap.is-live .wmap__item.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.wmap.is-live .wmap__item h3 { font-size: clamp(1.6rem, 1.1rem + 2vw, 2.6rem); letter-spacing: -0.03em; }
+.wmap.is-live .wmap__item p { font-size: clamp(1rem, .95rem + .35vw, 1.2rem); }
+@media (max-width: 899px) {
+  .wmap.is-live .wmap__stick { display: flex; flex-direction: column; justify-content: center; align-items: stretch; gap: 12px; }
+  .wmap.is-live .wmap__fig { flex: none; }
+  .wmap.is-live .wmap__svg { width: 100%; height: auto; max-height: 46svh; }
+  .wmap.is-live .wmap__item h3 { font-size: 1.4rem; }
+  .wmap.is-live .wmap__item p { font-size: .98rem; }
+  .wmap.is-live .wmap__fig figcaption { display: none; }
+  .wmap.is-live .wmap__list { min-height: 0; }
+  .wmap.is-live .wmap__item { top: 0; translate: none; padding: 14px 16px; }
+  .wmap.is-live .wmap__item.is-on { position: relative; }
+}
