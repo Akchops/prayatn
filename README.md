@@ -70,6 +70,20 @@ out of tiles, each page in its own way (`src/opening.js`), and then flies into
 the header. A tap, a key or a scroll skips it. It does not play with reduced
 motion or without JavaScript.
 
+## Switchable features
+
+Three features can each be switched off on their own, in `src/data/site.json`
+under `features`, then `npm run build`:
+
+| Switch | What it is | Where it lives |
+|---|---|---|
+| `pageWeave` | threads close over the page when you follow a link, and pull apart on the next | `src/features/page-weave.*` |
+| `whereMap` | the woven map of where we work, on About (off: the plain list of areas) | `src/features/where-map.*`, `whereMap()` in `vite.config.js` |
+| `giftSlider` | "what your gift can do" beside the donate steps | `src/features/gift.*`, `giftBlock()` in `vite.config.js` |
+
+Each was also added in its own commit, so `git revert <commit>` removes one
+completely without touching the others.
+
 ## If something doesn't animate on a phone
 
 Open the page with `?debug` on the end, for example
