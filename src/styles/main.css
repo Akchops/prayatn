@@ -1283,7 +1283,7 @@ html.opened [data-intro="deal"] .band__card::before, html.opened [data-intro="de
 .stat b { font: 800 clamp(2.4rem, 1.4rem + 4vw, 4.8rem)/.9 var(--display); letter-spacing: -0.04em; color: #F2B940; font-variant-numeric: tabular-nums; }
 .stat b i { font-style: normal; }
 .stat b sup { font-size: .45em; vertical-align: .9em; }
-.stat span { color: #E3DCCD; font-size: .98rem; max-width: 22ch; }
+.stat span { color: var(--khadi); font: 600 clamp(1.08rem, .95rem + .55vw, 1.4rem)/1.3 var(--body); max-width: 22ch; }
 .stat:nth-child(2) b { color: #F07BA6; }
 .stat:nth-child(3) b { color: #6FC7B6; }
 
