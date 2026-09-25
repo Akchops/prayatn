@@ -1258,3 +1258,17 @@ html.opened [data-intro="deal"] .band__card::before, html.opened [data-intro="de
 /* The reading thread along the foot of the header (src/motion.js). */
 .site-head.has-thread::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; pointer-events: none; background: linear-gradient(90deg, var(--marigold), var(--rani) 50%, var(--neem)); transform-origin: left; transform: scaleX(var(--read, 0)); }
 .magnet { transition: translate .25s cubic-bezier(.2,.8,.2,1); }
+
+/* Previous-page cards: arrow on the left. */
+.ncard--prev .ncard__go { right: auto; left: 26px; }
+.ncard--prev .ncard__body { padding-left: 26px; }
+.ncard--prev:hover .ncard__go, .ncard--prev:focus-visible .ncard__go { transform: translateX(-10px); }
+.ncard--prev .ncard__d { padding-bottom: 44px; }
+
+/* Get involved: the map, large, with the address card over it. */
+.findmap { position: relative; height: clamp(420px, 70vh, 680px); background: var(--khadi-deep); border-top: 6px solid var(--neem); }
+.findmap__frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: saturate(.85) contrast(1.05); }
+.findmap__card { position: absolute; left: var(--gutter); bottom: var(--gutter); max-width: min(360px, calc(100% - 2 * var(--gutter))); padding: 24px 26px; background: var(--indigo); color: var(--khadi); box-shadow: 0 24px 50px rgba(0,0,0,.35); }
+.findmap__card h2 { color: var(--khadi); font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem); letter-spacing: -0.03em; margin: 6px 0 4px; }
+.findmap__card .eyebrow { color: #F2B940; }
+@media (min-width: 900px) { .findmap__card { left: clamp(48px, 6vw, 110px); bottom: 48px; } }
