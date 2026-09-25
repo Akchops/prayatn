@@ -31,6 +31,14 @@ function picture(name, attrs, images) {
   return `<picture class="${esc(a.class ?? 'photo')}"><source type="image/avif" srcset="${set('avif')}" sizes="${sizes}"><img src="/img/${name}-${fallback}.jpg" srcset="${set('jpg')}" sizes="${sizes}" width="${im.width}" height="${im.height}" alt="${esc(a.alt ?? im.alt)}" loading="${loading}" decoding="async"${a.fetchpriority ? ` fetchpriority="${a.fetchpriority}"` : ''} style="--native:${im.width}px"${a.id ? ` id="${a.id}"` : ''}></picture>`;
 }
 
+// More photos for a programme-page story step, in order of preference. On a
+// PC, src/story.js lays them out with the step's own photo so the panel fills
+// without any photo being enlarged. Inside a <template>, so nothing is fetched
+// on phones or without JS.
+function more(names, images) {
+  return `<template class="story__more">${names.trim().split(/\s+/).map((n) => picture(n, 'sizes="40vw" loading="eager"', images)).join('')}</template>`;
+}
+
 const CATS = { health: 'Healthcare', school: 'Education', women: 'Women development', events: 'Events' };
 
 // A grid of every photo in a category (or all of them, grouped), each with its
@@ -177,6 +185,7 @@ function templates() {
         const fill = (s) => s
           .replace(/<!--@(\w+)-->/g, (_, p) => fill(read(`src/partials/${p}.html`)))
           .replace(/\{\{img ([\w-]+)([^}]*)\}\}/g, (_, n, a) => picture(n, a, images))
+          .replace(/\{\{more ([\w\s-]+)\}\}/g, (_, n) => more(n, images))
           .replace(/\{\{gallery ([\w-]+)\}\}/g, (_, w) => gallery(w, images))
           .replace(/\{\{reel ([\w-]+)\}\}/g, (_, w) => reel(w, images))
           .replace(/\{\{nextcard ([\w-]+) ([\w-]+)\}\}/g, (_, k, l) => nextCard(k, l, images))

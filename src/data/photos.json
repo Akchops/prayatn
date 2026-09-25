@@ -330,5 +330,61 @@
   "ar-youth-group": {
     "use": "women",
     "alt": "Young women sit together on the floor of a training room, with a trainer on a chair."
+  },
+  "swasthya-kendra-05": {
+    "use": "health",
+    "alt": "A woman in a blue-and-white sari stands by the desk as a health worker writes, with shelves of medicine behind them.",
+    "crop": {
+      "top": 0.24,
+      "why": "removes the clinic signboard naming a supporter (the partner list is where supporters are named)"
+    }
+  },
+  "school-health-clinic-06": {
+    "use": "health",
+    "alt": "A health worker checks a schoolgirl's mouth and teeth at the clinic desk.",
+    "crop": {
+      "top": 0.33,
+      "why": "removes the clinic signboard naming a supporter (the partner list is where supporters are named)"
+    }
+  },
+  "school-health-clinic-07": {
+    "use": "health",
+    "alt": "A schoolgirl stands on the weighing scale while a health worker writes at the desk.",
+    "crop": {
+      "top": 0.27,
+      "why": "removes the clinic signboard naming a supporter (the partner list is where supporters are named)"
+    }
+  },
+  "school-health-clinic-10": {
+    "use": "health",
+    "alt": "A health worker fills in a yellow health card for a young schoolgirl standing at her desk.",
+    "crop": {
+      "top": 0.29,
+      "why": "removes the clinic signboard naming a supporter (the partner list is where supporters are named)"
+    }
+  },
+  "school-health-clinic-13": {
+    "use": "health",
+    "alt": "A health worker talks with a schoolboy seated on a stool, while a woman in a pink sari stands beside him.",
+    "crop": {
+      "top": 0.36,
+      "why": "removes the clinic signboard naming a supporter (the partner list is where supporters are named)"
+    }
+  },
+  "school-health-clinic-18": {
+    "use": "health",
+    "alt": "Schoolgirls with long plaits gather round a health worker in front of a National Deworming Day poster.",
+    "crop": {
+      "top": 0.12,
+      "why": "removes the clinic signboard naming a supporter (the partner list is where supporters are named)"
+    }
+  },
+  "school-health-clinic-21": {
+    "use": "health",
+    "alt": "Five young schoolchildren hold up their deworming tablets and water bottles in front of a National Deworming Day poster.",
+    "crop": {
+      "top": 0.12,
+      "why": "removes the clinic signboard naming a supporter (the partner list is where supporters are named)"
+    }
   }
 }

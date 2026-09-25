@@ -1015,5 +1015,96 @@
     "rows": 86,
     "alt": "Young women sit together on the floor of a training room, with a trainer on a chair.",
     "use": "women"
+  },
+  "swasthya-kendra-05": {
+    "width": 963,
+    "height": 973,
+    "widths": [
+      360,
+      560,
+      800,
+      963
+    ],
+    "rows": 162,
+    "alt": "A woman in a blue-and-white sari stands by the desk as a health worker writes, with shelves of medicine behind them.",
+    "use": "health"
+  },
+  "school-health-clinic-06": {
+    "width": 829,
+    "height": 555,
+    "widths": [
+      360,
+      560,
+      800,
+      829
+    ],
+    "rows": 108,
+    "alt": "A health worker checks a schoolgirl's mouth and teeth at the clinic desk.",
+    "use": "health"
+  },
+  "school-health-clinic-07": {
+    "width": 963,
+    "height": 934,
+    "widths": [
+      360,
+      560,
+      800,
+      963
+    ],
+    "rows": 156,
+    "alt": "A schoolgirl stands on the weighing scale while a health worker writes at the desk.",
+    "use": "health"
+  },
+  "school-health-clinic-10": {
+    "width": 1280,
+    "height": 909,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "rows": 114,
+    "alt": "A health worker fills in a yellow health card for a young schoolgirl standing at her desk.",
+    "use": "health"
+  },
+  "school-health-clinic-13": {
+    "width": 667,
+    "height": 438,
+    "widths": [
+      360,
+      560,
+      667
+    ],
+    "rows": 106,
+    "alt": "A health worker talks with a schoolboy seated on a stool, while a woman in a pink sari stands beside him.",
+    "use": "health"
+  },
+  "school-health-clinic-18": {
+    "width": 1280,
+    "height": 1126,
+    "widths": [
+      360,
+      560,
+      800,
+      1108,
+      1280
+    ],
+    "rows": 140,
+    "alt": "Schoolgirls with long plaits gather round a health worker in front of a National Deworming Day poster.",
+    "use": "health"
+  },
+  "school-health-clinic-21": {
+    "width": 677,
+    "height": 593,
+    "widths": [
+      360,
+      560,
+      677
+    ],
+    "rows": 140,
+    "alt": "Five young schoolchildren hold up their deworming tablets and water bottles in front of a National Deworming Day poster.",
+    "use": "health"
   }
 }
