@@ -317,7 +317,6 @@ function templates() {
           blurb: esc(site.blurb),
           // Pages with a header band get the full-screen opening (src/opening.js).
           opening: String(!['home', '404'].includes(page)),
-          home: String(page === 'home'),
           bank: bankBlock(site),
           gift: giftBlock(site),
           wheremap: whereMap(site),
