@@ -108,7 +108,7 @@ under `features`, then `npm run build`:
 
 | Switch | What it is | Where it lives |
 |---|---|---|
-| `pageCloth` | the page as a cloth: a durrie is pulled up off the page from the middle of its top edge (on Home, and after following a link), and drops back over it when you leave | `src/features/page-cloth.*` |
+| `pageCloth` | the page is a cloth: following a link, a picture of the page as it is on the screen becomes a simulated cloth over the next page, and is pulled up off it from the middle of its top edge | `src/features/page-cloth.*`, the WebGL line in `src/main.js`, the `modern-screenshot` dependency |
 | `pageWeave` | (off; replaced by `pageCloth`) threads close over the page when you follow a link, and pull apart on the next | `src/features/page-weave.*` |
 | `whereMap` | the woven map of where we work, on About (off: the plain list of areas) | `src/features/where-map.*`, `whereMap()` in `vite.config.js` |
 | `giftSlider` | "what your gift can do" beside the donate steps, and on Home as a pinned band the scroll drives | `src/features/gift.*`, `giftBlock()` in `vite.config.js` |

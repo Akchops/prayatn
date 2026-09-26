@@ -8,6 +8,16 @@ document.querySelectorAll('[data-years]').forEach((el) => { el.textContent = Str
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+// The page-as-cloth feature draws the page into a picture when a link is
+// followed; WebGL canvases must keep their last frame for that to include them.
+if ((document.documentElement.dataset.features || '').includes('pageCloth') && !reduce.matches) {
+  const get = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function (type, attrs) {
+    if (/^(webgl2?|experimental-webgl)$/.test(type) && !this.classList.contains('pc')) attrs = { ...attrs, preserveDrawingBuffer: true };
+    return get.call(this, type, attrs);
+  };
+}
+
 import('./ui.js').catch(() => {});
 
 // Switchable features (site.json features; the list is set in head.html).

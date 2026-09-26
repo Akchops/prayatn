@@ -21,6 +21,7 @@
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",
     "@fontsource/hind": "^5.3.0",
     "gsap": "^3.15.0",
+    "modern-screenshot": "^4.7.0",
     "three": "^0.186.1"
   }
 }
