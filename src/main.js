@@ -18,6 +18,9 @@ const findEl = features.includes('findMap') && document.querySelector('[data-fma
 if (findEl) import('./features/find-map.js').then((m) => m.start(findEl)).catch(() => {});
 const mapEl = features.includes('whereMap') && !reduce.matches && document.querySelector('[data-wmap]');
 if (mapEl) import('./features/where-map.js').then((m) => m.start(mapEl)).catch(() => {});
+if (features.includes('pageCloth') && !reduce.matches) {
+  import('./features/page-cloth.js').then((m) => m.start()).catch(() => document.documentElement.classList.remove('pc-in'));
+}
 if (features.includes('pageWeave') && !reduce.matches) {
   import('./features/page-weave.js').then((m) => m.start()).catch(() => document.documentElement.classList.remove('pw-in'));
 }

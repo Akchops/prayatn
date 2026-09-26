@@ -1,0 +1,11 @@
+/* Feature (switch: site.json features.pageCloth): the page as a cloth that is
+   pulled off (src/features/page-cloth.js). */
+.pc { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 10001; pointer-events: none; }
+/* Before the script runs, the page is already covered by the cloth's colour.
+   The cover clears itself after 2.5 s if the script never comes. */
+html.pc-in::after { content: ''; position: fixed; inset: 0; z-index: 10000; background: var(--indigo); animation: pc-clear .3s 2.5s forwards; }
+@keyframes pc-clear { to { opacity: 0; visibility: hidden; } }
+/* Without WebGL: the cover slides up. */
+.pc-flat { position: fixed; inset: 0; z-index: 10000; background: var(--indigo) url('/rug.svg') 0 0 / calc(16 * var(--t)) calc(20 * var(--t)); pointer-events: none;
+  transition: transform .8s cubic-bezier(.7,0,.2,1), border-radius .8s; border-radius: 0 0 50% 50% / 0 0 0 0; }
+.pc-flat.is-off { transform: translateY(-105%); border-radius: 0 0 50% 50% / 0 0 18% 18%; }

@@ -103,14 +103,15 @@ The footer's map box then links to our map instead of loading Google's.
 
 ## Switchable features
 
-Five features can each be switched off on their own, in `src/data/site.json`
+Each of these features can be switched on or off on its own, in `src/data/site.json`
 under `features`, then `npm run build`:
 
 | Switch | What it is | Where it lives |
 |---|---|---|
-| `pageWeave` | threads close over the page when you follow a link, and pull apart on the next | `src/features/page-weave.*` |
+| `pageCloth` | the page as a cloth: a durrie is pulled up off the page from the middle of its top edge (on Home, and after following a link), and drops back over it when you leave | `src/features/page-cloth.*` |
+| `pageWeave` | (off; replaced by `pageCloth`) threads close over the page when you follow a link, and pull apart on the next | `src/features/page-weave.*` |
 | `whereMap` | the woven map of where we work, on About (off: the plain list of areas) | `src/features/where-map.*`, `whereMap()` in `vite.config.js` |
-| `giftSlider` | "what your gift can do" beside the donate steps | `src/features/gift.*`, `giftBlock()` in `vite.config.js` |
+| `giftSlider` | "what your gift can do" beside the donate steps, and on Home as a pinned band the scroll drives | `src/features/gift.*`, `giftBlock()` in `vite.config.js` |
 | `findMap` | our own street map on Get involved, in the site's colours and fonts (off: the Google map) | `src/features/find-map.*`, `findMap()` in `vite.config.js`, data in `src/data/findmap.json` |
 | `gallery3d` | the gallery as a corridor you walk through, in three.js (off, or on a phone without WebGL 2: the Loom) | `src/features/gallery-3d.*`, the `three` dependency |
 

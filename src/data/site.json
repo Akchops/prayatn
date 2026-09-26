@@ -33,7 +33,8 @@
   "registration": "Registered under the Indian Trusts Act 1882, Reg. No. 5102(IV).",
   "_features_note": "Switch a feature off by setting it to false and rebuilding. Each lives in src/features/ with its own CSS, and was added in its own commit.",
   "features": {
-    "pageWeave": true,
+    "pageWeave": false,
+    "pageCloth": true,
     "whereMap": true,
     "giftSlider": true,
     "findMap": true,

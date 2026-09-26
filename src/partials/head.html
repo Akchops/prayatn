@@ -1,6 +1,6 @@
 <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script>(function(d){d.classList.add('js');d.dataset.features='{{features}}';try{if({{opening}}&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('opening')}catch(e){}try{if(/pageWeave/.test(d.dataset.features)&&sessionStorage.getItem('pw')){sessionStorage.removeItem('pw');if(!d.classList.contains('opening')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('pw-in')}}catch(e){}})(document.documentElement)</script>
+    <script>(function(d){d.classList.add('js');d.dataset.features='{{features}}';try{if({{opening}}&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('opening')}catch(e){}try{if(/pageCloth/.test(d.dataset.features)&&!matchMedia('(prefers-reduced-motion: reduce)').matches){var k=sessionStorage.getItem('pc');if(k)sessionStorage.removeItem('pc');if(k||{{home}}){d.classList.remove('opening');d.classList.add('pc-in')}}}catch(e){}try{if(/pageWeave/.test(d.dataset.features)&&sessionStorage.getItem('pw')){sessionStorage.removeItem('pw');if(!d.classList.contains('opening')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('pw-in')}}catch(e){}})(document.documentElement)</script>
     <meta name="theme-color" content="#1E2440">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/src/styles/main.css">
