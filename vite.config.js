@@ -163,6 +163,25 @@ function giftBlock(site) {
 </div>`;
 }
 
+// The slider again, as a band of its own on Home and Education, so that it is
+// met on the way through the site and not only on Get involved.
+function giftBand(site, where) {
+  if (!site.features?.giftSlider) return '';
+  const head = where === 'school'
+    ? ['Keep a scholar in school', 'Our scholarships pay Rs 1,000 a month for each of 22 students. Slide to see what a gift covers.']
+    : ['What ₹1,000 does', 'It keeps one of our scholars in school for a month. Slide to see what your gift would cover.'];
+  return `<section class="giftband" aria-labelledby="giftband-h">
+  <div class="giftband__inner">
+    <div class="giftband__text">
+      <h2 id="giftband-h" class="giftband__h rv">${head[0]}</h2>
+      <p class="giftband__p">${head[1]}</p>
+      <p><a class="btn btn--donate" href="/get-involved/#donate">Give now</a></p>
+    </div>
+    ${giftBlock(site)}
+  </div>
+</section>`;
+}
+
 // Feature 2 (switchable in site.json: features.whereMap): the woven map of
 // where Prayatn works, on About. Positions are approximate (the map says so);
 // what is listed at each place comes from the Annual Report 2025-26.
@@ -251,6 +270,7 @@ function templates() {
           .replace(/<!--@(\w+)-->/g, (_, p) => fill(read(`src/partials/${p}.html`)))
           .replace(/\{\{img ([\w-]+)([^}]*)\}\}/g, (_, n, a) => picture(n, a, images))
           .replace(/\{\{more ([\w\s-]+)\}\}/g, (_, n) => more(n, images))
+          .replace(/\{\{giftband (\w+)\}\}/g, (_, w) => giftBand(site, w))
           .replace(/\{\{gallery ([\w-]+)\}\}/g, (_, w) => gallery(w, images))
           .replace(/\{\{reel ([\w-]+)\}\}/g, (_, w) => reel(w, images))
           .replace(/\{\{nextcard ([\w-]+) ([\w-]+)\}\}/g, (_, k, l) => nextCard(k, l, images))
