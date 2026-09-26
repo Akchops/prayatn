@@ -36,6 +36,17 @@
     "pageWeave": true,
     "whereMap": true,
     "giftSlider": true,
+    "findMap": true,
     "gallery3d": true
+  },
+  "findMap": {
+    "_note": "Our own street map on Get involved (src/features/find-map.*). office is [lat, lon] of E-103, Kalkaji: CONFIRM with the owner, then run npm run map-data to fetch the streets around it from OpenStreetMap into src/data/findmap.json. Until that file exists, the Google map is shown.",
+    "office": [
+      28.5465,
+      77.2595
+    ],
+    "officeConfirmed": false,
+    "halfWidth": 1400,
+    "halfHeight": 1000
   }
 }

@@ -1,0 +1,74 @@
+/* Feature 4 (switch: site.json features.findMap): our own street map, Get
+   involved. Drawn like printed cloth: khadi ground with a faint twill, streets
+   in white with a warm edge, main roads in marigold edged in indigo, lanes as
+   running stitches, parks in neem, the metro as a rani thread. Labels use the
+   site's own fonts. --s is screen pixels per map metre (set by
+   src/features/find-map.js), so labels and the office flag keep their size
+   at any zoom. */
+.fmap { position: absolute; inset: 0; overflow: hidden; background: #F3ECDF; outline: none; --s: .8; }
+.fmap:focus-visible { box-shadow: inset 0 0 0 4px var(--marigold); }
+.fmap__svg { display: block; width: 100%; height: 100%; touch-action: pan-x pan-y; user-select: none; -webkit-user-select: none; }
+.fmap.is-live .fmap__svg { cursor: grab; }
+.fmap.is-dragging .fmap__svg { cursor: grabbing; }
+
+.fmap__bld { fill: #E6DCC8; }
+.fmap__green path { fill: url(#fmap-green); stroke: #A9C3A4; stroke-width: 1.5; }
+.fmap__water path { fill: #BFD9E0; stroke: #8DBBC6; stroke-width: 1.5; }
+.fmap__water .fmap__river { fill: none; stroke: #8DBBC6; stroke-width: 8; stroke-linecap: round; }
+
+.fmap__case, .fmap__road { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.fmap__case--service { stroke: #D6CAB2; stroke-width: 6; }
+.fmap__case--minor { stroke: #D2C5AB; stroke-width: 10; }
+.fmap__case--tertiary { stroke: #C8B89A; stroke-width: 14; }
+.fmap__case--secondary { stroke: #B8860B; stroke-width: 18; }
+.fmap__case--major { stroke: #1E2440; stroke-width: 24; }
+.fmap__road--path { stroke: #7A7F99; stroke-width: 1.6; stroke-dasharray: 4 4; }
+.fmap__road--service { stroke: #FFFDF8; stroke-width: 4; }
+.fmap__road--minor { stroke: #FFFDF8; stroke-width: 7; }
+.fmap__road--tertiary { stroke: #FFFDF8; stroke-width: 10.5; }
+.fmap__road--secondary { stroke: #F5D27E; stroke-width: 14; }
+.fmap__road--major { stroke: #E2A019; stroke-width: 19; }
+
+/* The metro: a rani thread; underground stretches as a running stitch. */
+.fmap__rail { fill: none; stroke: #C22F66; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.fmap__rail--under { stroke-dasharray: 10 8; stroke-width: 5; opacity: .85; }
+
+/* Labels: a khadi halo so they read over any street. */
+.fmap text { paint-order: stroke; stroke: #F3ECDF; stroke-linejoin: round; }
+.fmap__street { fill: #3A4166; font: 600 calc(11.5px / var(--s)) var(--body); letter-spacing: .02em; stroke-width: calc(3.5px / var(--s)); text-anchor: middle; dominant-baseline: central; }
+.fmap__street--major, .fmap__street--secondary { fill: #1E2440; font-weight: 700; font-size: calc(12.5px / var(--s)); }
+.fmap__place { fill: rgba(30,36,64,.5); font: 800 calc(15px / var(--s)) var(--display); letter-spacing: .18em; text-transform: uppercase; text-anchor: middle; stroke-width: calc(4px / var(--s)); }
+.fmap__keep { transform: scale(calc(1 / var(--s))); }
+.fmap__station circle { fill: #F3ECDF; stroke: #C22F66; stroke-width: 4; }
+.fmap__station text { fill: #C22F66; font: 800 13.5px var(--display); letter-spacing: -0.01em; stroke-width: 4px; }
+.fmap__poi circle { fill: #1D6E62; stroke: #F3ECDF; stroke-width: 2; }
+.fmap__poi text { fill: #1D6E62; font: 600 11.5px var(--body); text-anchor: middle; stroke-width: 3.5px; }
+.fmap__poi--place_of_worship circle { fill: #E2A019; }
+.fmap__poi--place_of_worship text { fill: #8A5A00; }
+
+/* Our office: a rani knot that pulses, with a flag. */
+.fmap__knot { fill: #C22F66; stroke: #F3ECDF; stroke-width: 3; }
+.fmap__ring { fill: none; stroke: #C22F66; stroke-width: 3; transform-box: fill-box; transform-origin: center; animation: fmap-pulse 1.8s ease-out infinite; }
+@keyframes fmap-pulse { from { opacity: .9; transform: scale(.55); } to { opacity: 0; transform: scale(2.2); } }
+.fmap__flag rect { fill: #1E2440; filter: drop-shadow(0 6px 10px rgba(30,36,64,.35)); }
+.fmap__flag text { stroke: none; }
+.fmap__flagname { fill: #F3ECDF; font: 800 17px var(--display); letter-spacing: -0.02em; }
+.fmap__flagaddr { fill: #F2B940; font: 600 11.5px var(--body); letter-spacing: .02em; }
+@media (prefers-reduced-motion: reduce) { .fmap__ring { animation: none; opacity: .5; } }
+
+/* Zoom buttons, the gesture hint and the data credit. */
+.fmap__ui { position: absolute; top: 16px; right: 16px; display: grid; gap: 6px; }
+.fmap__btn { width: 42px; height: 42px; display: grid; place-items: center; padding: 0; border: 0; background: #1E2440; color: #F3ECDF; font: 700 1.5rem/1 var(--display); cursor: pointer; box-shadow: 0 6px 16px rgba(30,36,64,.3); transition: background .2s; }
+.fmap__btn:hover { background: #3A4166; }
+.fmap__btn:focus-visible { outline: 3px solid #F2B940; outline-offset: 2px; }
+.fmap__btn svg { width: 20px; height: 20px; }
+.fmap__ui:not(.is-on) { display: none; }
+.fmap__hint { position: absolute; left: 50%; top: 50%; translate: -50% -50%; margin: 0; padding: 12px 18px; background: rgba(30,36,64,.88); color: #F3ECDF; font: 600 1rem/1.3 var(--body); text-align: center; pointer-events: none; opacity: 0; transition: opacity .25s; max-width: 80%; }
+.fmap__hint.is-on { opacity: 1; }
+.fmap__credit { position: absolute; right: 0; bottom: 0; margin: 0; padding: 3px 8px; background: rgba(243,236,223,.85); color: #3A4166; font-size: .72rem; }
+.fmap__credit a { color: inherit; }
+@media (min-width: 900px) { .fmap__ui { top: 24px; right: 24px; } }
+
+/* The footer's map box, once our map exists: a link to it. */
+.map--ours { display: flex; align-items: flex-end; }
+.map--ours .map__load { text-decoration: none; }

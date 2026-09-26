@@ -84,9 +84,26 @@ out of tiles, each page in its own way (`src/opening.js`), and then flies into
 the header. A tap, a key or a scroll skips it. It does not play with reduced
 motion or without JavaScript.
 
+## Our street map
+
+The map on Get involved is drawn by the site itself from OpenStreetMap data,
+so visitors load no Google map. The streets are fetched once and saved:
+
+1. Put the office's position in `src/data/site.json` → `findMap.office` as
+   `[latitude, longitude]` (right-click the building in Google Maps to copy
+   them).
+2. `npm run build` fetches the streets from OpenStreetMap (`overpass-api.de`)
+   whenever `src/data/findmap.json` is missing, which is how the online
+   preview gets them. `npm run map-data` fetches them again, e.g. after the
+   office moves; commit the file to keep that version.
+
+If the streets cannot be fetched, the build carries on and the page shows the
+Google map as before.
+The footer's map box then links to our map instead of loading Google's.
+
 ## Switchable features
 
-Four features can each be switched off on their own, in `src/data/site.json`
+Five features can each be switched off on their own, in `src/data/site.json`
 under `features`, then `npm run build`:
 
 | Switch | What it is | Where it lives |
@@ -94,6 +111,7 @@ under `features`, then `npm run build`:
 | `pageWeave` | threads close over the page when you follow a link, and pull apart on the next | `src/features/page-weave.*` |
 | `whereMap` | the woven map of where we work, on About (off: the plain list of areas) | `src/features/where-map.*`, `whereMap()` in `vite.config.js` |
 | `giftSlider` | "what your gift can do" beside the donate steps | `src/features/gift.*`, `giftBlock()` in `vite.config.js` |
+| `findMap` | our own street map on Get involved, in the site's colours and fonts (off: the Google map) | `src/features/find-map.*`, `findMap()` in `vite.config.js`, data in `src/data/findmap.json` |
 | `gallery3d` | the gallery as a corridor you walk through, in three.js (off, or on a phone without WebGL 2: the Loom) | `src/features/gallery-3d.*`, the `three` dependency |
 
 Each was also added in its own commit, so `git revert <commit>` removes one

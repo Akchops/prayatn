@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const root = import.meta.dirname;
@@ -228,6 +228,70 @@ function whereMap(site) {
 </div>`;
 }
 
+// Feature 4 (switchable in site.json: features.findMap): our own street map
+// of the office's neighbourhood on Get involved, drawn from OpenStreetMap data
+// saved in src/data/findmap.json (npm run map-data). Until that file exists,
+// or with the feature off, the Google map is shown as before.
+const GOOGLE_Q = 'E-103%2C%20Kalkaji%2C%20New%20Delhi%20110019';
+function findMap(site) {
+  const file = resolve(root, 'src/data/findmap.json');
+  if (!site.features?.findMap || !existsSync(file)) {
+    return `<iframe class="findmap__frame" title="Map showing Prayatn, E-103, Kalkaji, New Delhi" src="https://www.google.com/maps?q=${GOOGLE_Q}&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+  }
+  const m = JSON.parse(readFileSync(file, 'utf8'));
+  const [W, H] = m.size;
+  const join = (list) => list.join('');
+  // Rough width of a label in map units at font size f, to skip names that
+  // will not fit along their street.
+  const fits = (n, f) => n.name.length * f * 0.56 < n.len * 0.8;
+  const roads = ['path', 'service', 'minor', 'tertiary', 'secondary', 'major'];
+  const casings = roads.filter((c) => c !== 'path' && m.roads[c]?.length).map((c) => `<path class="fmap__case fmap__case--${c}" d="${join(m.roads[c])}"/>`).join('');
+  const fills = roads.filter((c) => m.roads[c]?.length).map((c) => `<path class="fmap__road fmap__road--${c}" d="${join(m.roads[c])}"/>`).join('');
+  const names = m.names.filter((n) => fits(n, n.cls === 'minor' ? 10 : 12));
+  const defs = names.map((n, i) => `<path id="fmap-n${i}" d="${n.d}"/>`).join('');
+  const streetLabels = names.map((n, i) => `<text class="fmap__street fmap__street--${n.cls}"><textPath href="#fmap-n${i}" startOffset="50%">${esc(n.name)}</textPath></text>`).join('');
+  const rail = m.rail.map((r) => `<path class="fmap__rail${r.under ? ' fmap__rail--under' : ''}" d="${r.d}"/>`).join('');
+  const stations = m.stations.map((st) => `<g class="fmap__station" transform="translate(${st.at[0]} ${st.at[1]})"><g class="fmap__keep"><circle r="7"/><text x="11" y="4">${esc(st.name)}</text></g></g>`).join('');
+  const places = m.places.map((p) => `<text class="fmap__place" x="${p.at[0]}" y="${p.at[1]}">${esc(p.name)}</text>`).join('');
+  const pois = m.pois.filter((p) => p.kind !== 'school').map((p) => `<g class="fmap__poi fmap__poi--${p.kind}" transform="translate(${p.at[0]} ${p.at[1]})"><g class="fmap__keep"><circle r="4"/><text y="-8">${esc(p.name)}</text></g></g>`).join('');
+  const view = site.findMap.view ?? 1500;
+  return `<div class="fmap" data-fmap data-w="${W}" data-h="${H}" data-view="${view}" tabindex="0" aria-label="Map of the streets around our office. Drag, or use the buttons, to move and zoom.">
+  <svg class="fmap__svg" viewBox="${-view / 2} ${-view / 2 * 0.6} ${view} ${view * 0.6}" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="fmap-t">
+    <title id="fmap-t">Map of the streets around Prayatn's office at E-103, G.F., Kalkaji, New Delhi, with the nearest metro stations.</title>
+    <defs>
+      <pattern id="fmap-twill" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#F3ECDF"/><path d="M0 8 8 0M-2 2 2-2M6 10 10 6" stroke="#EAE1CF" stroke-width="1.6"/></pattern>
+      <pattern id="fmap-green" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#CFDDCB"/><path d="M0 5h10" stroke="#BCD0B8" stroke-width="2"/></pattern>
+      ${defs}
+    </defs>
+    <rect x="${-W / 2}" y="${-H / 2}" width="${W}" height="${H}" fill="url(#fmap-twill)"/>
+    <path class="fmap__bld" d="${m.buildings[0] || ''}"/>
+    <g class="fmap__green">${m.green.map((d) => `<path d="${d}"/>`).join('')}</g>
+    <g class="fmap__water">${m.water.map((d) => `<path d="${d}"/>`).join('')}${m.rivers.map((d) => `<path class="fmap__river" d="${d}"/>`).join('')}</g>
+    <g class="fmap__roads">${casings}${fills}</g>
+    ${rail}
+    <g class="fmap__labels">${places}${streetLabels}</g>
+    ${pois}${stations}
+    <g class="fmap__office"><g class="fmap__keep"><circle class="fmap__ring" r="16"/><circle class="fmap__knot" r="9"/><g class="fmap__flag" transform="translate(16 -46)"><rect width="142" height="44" rx="2"/><text x="12" y="20" class="fmap__flagname">Prayatn</text><text x="12" y="36" class="fmap__flagaddr">E-103, G.F., Kalkaji</text></g></g></g>
+  </svg>
+  <div class="fmap__ui">
+    <button type="button" class="fmap__btn" data-zoom="in" aria-label="Zoom in">+</button>
+    <button type="button" class="fmap__btn" data-zoom="out" aria-label="Zoom out">−</button>
+    <button type="button" class="fmap__btn fmap__btn--home" data-zoom="home" aria-label="Back to our office"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="2" fill="currentColor"/><path d="M10 0v4M10 16v4M0 10h4M16 10h4" stroke="currentColor" stroke-width="2"/></svg></button>
+  </div>
+  <p class="fmap__hint" aria-hidden="true"></p>
+  <p class="fmap__credit">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</p>
+</div>`;
+}
+// The footer's small map box: a link to our map once it exists, otherwise the
+// button that loads Google's map on request (src/ui.js).
+function footMap(site) {
+  const ours = site.features?.findMap && existsSync(resolve(root, 'src/data/findmap.json'));
+  const google = `<a class="map__open" href="https://www.google.com/maps/search/?api=1&amp;query=${GOOGLE_Q}" target="_blank" rel="noopener">${ours ? 'Directions' : 'Open in Google Maps'} ↗</a>`;
+  return ours
+    ? `<div class="map map--ours"><div class="map__btns"><a class="map__load" href="/get-involved/#map">See our map</a>${google}</div></div>`
+    : `<div class="map" data-map>${google}</div>`;
+}
+
 function templates() {
   return {
     name: 'prayatn-templates',
@@ -271,6 +335,8 @@ function templates() {
           .replace(/\{\{img ([\w-]+)([^}]*)\}\}/g, (_, n, a) => picture(n, a, images))
           .replace(/\{\{more ([\w\s-]+)\}\}/g, (_, n) => more(n, images))
           .replace(/\{\{giftband (\w+)\}\}/g, (_, w) => giftBand(site, w))
+          .replace(/\{\{findmap\}\}/g, () => findMap(site))
+          .replace(/\{\{footmap\}\}/g, () => footMap(site))
           .replace(/\{\{gallery ([\w-]+)\}\}/g, (_, w) => gallery(w, images))
           .replace(/\{\{reel ([\w-]+)\}\}/g, (_, w) => reel(w, images))
           .replace(/\{\{nextcard ([\w-]+) ([\w-]+)\}\}/g, (_, k, l) => nextCard(k, l, images))

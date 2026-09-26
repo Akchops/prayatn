@@ -6,10 +6,11 @@
   "scripts": {
     "images": "node scripts/build-images.mjs",
     "dev": "vite",
-    "build": "node scripts/build-rug.mjs && node scripts/build-images.mjs && node scripts/build-atlas.mjs && vite build",
+    "build": "node scripts/build-rug.mjs && node scripts/build-images.mjs && node scripts/build-atlas.mjs && node scripts/fetch-map-data.mjs --if-missing && vite build",
     "preview": "vite preview --port 4173 --strictPort",
     "budget": "node scripts/first-load-budget.mjs dist/",
-    "preview-files": "node scripts/build-preview.mjs"
+    "preview-files": "node scripts/build-preview.mjs",
+    "map-data": "node scripts/fetch-map-data.mjs"
   },
   "devDependencies": {
     "playwright": "^1.56.1",
