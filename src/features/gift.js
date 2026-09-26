@@ -28,4 +28,26 @@ export function start(root) {
   };
   range.addEventListener('input', set);
   set();
+
+  // On Home the band is pinned, and scrolling through it slides the amount
+  // from Rs 1,000 up to Rs 36,000. Taking hold of the slider hands it over
+  // until the band has left the screen.
+  const band = root.closest('[data-gift-scroll]');
+  if (!band || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  band.classList.add('is-scrolly');
+  let manual = false, raf = 0;
+  const hand = () => { manual = true; };
+  range.addEventListener('pointerdown', hand);
+  range.addEventListener('keydown', hand);
+  new IntersectionObserver(([e]) => { if (!e.isIntersecting) manual = false; }).observe(band);
+  const follow = () => {
+    raf = 0;
+    if (manual) return;
+    const r = band.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight)));
+    const v = String(Number(range.min) + Math.round(p * (range.max - range.min) / 1000) * 1000);
+    if (range.value !== v) { range.value = v; set(); }
+  };
+  addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(follow); }, { passive: true });
+  follow();
 }

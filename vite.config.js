@@ -163,18 +163,15 @@ function giftBlock(site) {
 </div>`;
 }
 
-// The slider again, as a band of its own on Home and Education, so that it is
-// met on the way through the site and not only on Get involved.
-function giftBand(site, where) {
+// The slider again on Home, woven into the scroll: the band is pinned and
+// scrolling through it slides the amount up (src/features/gift.js).
+function giftBand(site) {
   if (!site.features?.giftSlider) return '';
-  const head = where === 'school'
-    ? ['Keep a scholar in school', 'Our scholarships pay Rs 1,000 a month for each of 22 students. Slide to see what a gift covers.']
-    : ['What ₹1,000 does', 'It keeps one of our scholars in school for a month. Slide to see what your gift would cover.'];
-  return `<section class="giftband" aria-labelledby="giftband-h">
+  return `<section class="giftband" aria-labelledby="giftband-h" data-gift-scroll>
   <div class="giftband__inner">
     <div class="giftband__text">
-      <h2 id="giftband-h" class="giftband__h rv">${head[0]}</h2>
-      <p class="giftband__p">${head[1]}</p>
+      <h2 id="giftband-h" class="giftband__h rv">What ₹1,000 does</h2>
+      <p class="giftband__p">It keeps one of our scholars in school for a month. Keep scrolling, or slide, to see what your gift would cover.</p>
       <p><a class="btn btn--donate" href="/get-involved/#donate">Give now</a></p>
     </div>
     ${giftBlock(site)}
@@ -320,6 +317,7 @@ function templates() {
           blurb: esc(site.blurb),
           // Pages with a header band get the full-screen opening (src/opening.js).
           opening: String(!['home', '404'].includes(page)),
+          home: String(page === 'home'),
           bank: bankBlock(site),
           gift: giftBlock(site),
           wheremap: whereMap(site),
@@ -334,7 +332,7 @@ function templates() {
           .replace(/<!--@(\w+)-->/g, (_, p) => fill(read(`src/partials/${p}.html`)))
           .replace(/\{\{img ([\w-]+)([^}]*)\}\}/g, (_, n, a) => picture(n, a, images))
           .replace(/\{\{more ([\w\s-]+)\}\}/g, (_, n) => more(n, images))
-          .replace(/\{\{giftband (\w+)\}\}/g, (_, w) => giftBand(site, w))
+          .replace(/\{\{giftband (\w+)\}\}/g, () => giftBand(site))
           .replace(/\{\{findmap\}\}/g, () => findMap(site))
           .replace(/\{\{footmap\}\}/g, () => footMap(site))
           .replace(/\{\{gallery ([\w-]+)\}\}/g, (_, w) => gallery(w, images))
