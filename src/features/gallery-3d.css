@@ -51,3 +51,7 @@
 .lightbox__nav button { width: 48px; height: 48px; font: 700 1.4rem/1 var(--body); background: transparent; color: var(--khadi); border: 2px solid rgba(243,236,223,.5); cursor: pointer; }
 .lightbox__nav button:hover { background: var(--khadi); color: var(--indigo); }
 .lightbox.is-corr[open] img { animation: none; }
+.corr__stick { touch-action: pan-y; cursor: grab; }
+.corr__stick.is-looking { cursor: grabbing; }
+.corr__coarse { display: none; }
+@media (hover: none) { .corr__fine { display: none; } .corr__coarse { display: inline; } }

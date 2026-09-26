@@ -21,15 +21,17 @@ import { probeWebGL } from '../weave/probe.js';
 
 const BASE = import.meta.env.BASE_URL;
 const CHAPTERS = [
-  { key: 'health', label: 'Healthcare', color: '#C22F66' },
-  { key: 'school', label: 'Education', color: '#E2A019' },
-  { key: 'women', label: 'Women development', color: '#35A08C' },
-  { key: 'events', label: 'Events', color: '#7F8CD6' },
+  { key: 'health', label: 'Healthcare', color: '#C22F66', title: '#EE5A8E' },
+  { key: 'school', label: 'Education', color: '#E2A019', title: '#F2B940' },
+  { key: 'women', label: 'Women development', color: '#35A08C', title: '#4CC7AE' },
+  { key: 'events', label: 'Events', color: '#7F8CD6', title: '#9DA9F0' },
 ];
 const INDIGO = '#1E2440', KHADI = '#F3ECDF';
 const SPACING = 1.45;     // corridor length per photo (each wall gets one every 2.9)
 const GAP = 7;            // before and after a programme's name
-const SCREENS_PER_UNIT = 0.085; // page scroll (in screens) per unit of corridor
+const SCREENS_PER_UNIT = 0.095; // page scroll (in screens) per unit of corridor
+const HOLD = 6;           // at each programme's name the walk pauses (units of scroll)
+const END_HOLD = 12;      // and pauses longer at the end
 
 ColorManagement.enabled = false; // colours and photos in, as they are, out
 
@@ -89,26 +91,41 @@ const frag = /* glsl */`
     gl_FragColor = vec4(mix(col, uFog, f), uFade);
   }`;
 
-function chapterCard(ch, n, index) {
-  // A programme's name, drawn on a canvas in the site's display font.
+function chapterCard(ch, sub, kicker) {
+  // A programme's name, large, in its own colour, drawn on a canvas in the
+  // site's display font. Long names go onto two lines.
   const c = document.createElement('canvas');
-  c.width = 2048; c.height = 640;
+  c.width = 2048; c.height = 1024;
   const x = c.getContext('2d');
   const display = getComputedStyle(document.documentElement).getPropertyValue('--display') || 'sans-serif';
   const body = getComputedStyle(document.documentElement).getPropertyValue('--body') || 'sans-serif';
   x.textAlign = 'center';
-  x.fillStyle = ch.color;
-  x.font = `600 64px ${body}`;
-  x.fillText(index, 1024, 150);
-  x.fillStyle = KHADI;
-  let size = 260;
-  do { x.font = `800 ${size}px ${display}`; size -= 10; } while (x.measureText(ch.label).width > 1900 && size > 80);
-  x.fillText(ch.label, 1024, 420);
-  x.fillStyle = ch.color;
-  x.fillRect(1024 - 90, 470, 180, 10);
-  x.fillStyle = 'rgba(243,236,223,.8)';
-  x.font = `600 64px ${body}`;
-  x.fillText(n, 1024, 590);
+  x.textBaseline = 'alphabetic';
+  const fit = (lines, size) => { x.font = `800 ${size}px ${display}`; return lines.every((l) => x.measureText(l).width < 1960); };
+  let lines = [ch.label], size = 340;
+  while (!fit(lines, size) && size > 190) size -= 10;
+  if (!fit(lines, size) && ch.label.includes(' ')) {
+    const w = ch.label.split(' ');
+    lines = [w.slice(0, Math.ceil(w.length / 2)).join(' '), w.slice(Math.ceil(w.length / 2)).join(' ')];
+    size = 340;
+  }
+  while (!fit(lines, size) && size > 80) size -= 10;
+  const lh = size * 0.92, block = lh * lines.length;
+  const top = 512 - block / 2 + size * 0.72 - (sub ? 60 : 0);
+  x.fillStyle = ch.title || ch.color;
+  x.font = `700 72px ${body}`;
+  if (kicker) x.fillText(kicker, 1024, top - size * 0.72 - 40);
+  x.font = `800 ${size}px ${display}`;
+  x.shadowColor = 'rgba(20,24,44,.55)'; x.shadowBlur = 30;
+  lines.forEach((l, i) => x.fillText(l, 1024, top + i * lh));
+  x.shadowBlur = 0;
+  const under = top + (lines.length - 1) * lh + 60;
+  x.fillRect(1024 - 110, under, 220, 12);
+  if (sub) {
+    x.fillStyle = 'rgba(243,236,223,.85)';
+    x.font = `600 76px ${body}`;
+    x.fillText(sub, 1024, under + 130);
+  }
   const t = new CanvasTexture(c);
   t.minFilter = LinearFilter; t.generateMipmaps = false;
   return t;
@@ -143,7 +160,7 @@ export function start(section) {
     <div class="corr__stick">
       <div class="corr__hud" aria-hidden="true">
         <p class="corr__where"><span class="corr__ch"></span><span class="corr__n"></span></p>
-        <p class="corr__hint"><span class="corr__mouse"></span>Scroll to walk through</p>
+        <p class="corr__hint"><span class="corr__mouse"></span><span class="corr__fine">Scroll to walk · drag to look around</span><span class="corr__coarse">Scroll to walk · swipe sideways to look</span></p>
       </div>
       <nav class="corr__rail" aria-label="Jump to a programme"><span class="corr__fill"></span></nav>
       <p class="corr__chip" aria-hidden="true"></p>
@@ -276,7 +293,10 @@ export function start(section) {
     cards.forEach((c) => {
       const z = c.userData.ch === 'intro' ? -1.5 : c.userData.ch === 'end' ? layout.lastZ - GAP * 0.5 : layout.chapterZ[c.userData.ch];
       c.position.set(0, 0, z);
-      c.scale.setScalar(aspect < 0.9 ? 2.3 : 5.2); c.scale.y *= 640 / 2048;
+      // As wide as the view allows at the pause, 5 units away.
+      const view = 2 * 5 * Math.tan(58 * Math.PI / 360) * aspect;
+      const w = aspect < 0.9 ? view * 0.84 : Math.min(view * 0.7, 6.4);
+      c.scale.set(w, w / 2, 1);
     });
   }
 
@@ -289,7 +309,15 @@ export function start(section) {
   scene.add(fibres);
 
   // ---------- sizing ----------
-  let W = 0, H = 0, stickH = 0, zStart = 3, zEnd = -100;
+  let W = 0, H = 0, stickH = 0, zStart = 3, zEnd = -100, track = [], total = 1;
+  // Scroll progress (0..1) to camera depth, and back.
+  const zAt = (p) => {
+    const u = p * total;
+    const seg = track.find((t) => u <= t.u1) || track.at(-1);
+    if (!seg) return zStart;
+    const f = seg.u1 > seg.u0 ? (u - seg.u0) / (seg.u1 - seg.u0) : 0;
+    return seg.z0 + (seg.z1 - seg.z0) * Math.min(1, Math.max(0, f));
+  };
   const filter = document.querySelector('[data-gfilter]');
   function size() {
     const head = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head')) || 60;
@@ -303,8 +331,21 @@ export function start(section) {
     camera.aspect = aspect;
     camera.updateProjectionMatrix();
     build();
-    zStart = 3; zEnd = layout.endZ;
-    const len = (zStart - zEnd) * SCREENS_PER_UNIT;
+    // The walk: from pause to pause (the opening title, each programme's
+    // name, the end), in scroll units; one unit of travel is one of corridor.
+    const endCard = layout.lastZ - GAP * 0.5;
+    const stops = [-1.5 + 5, ...CHAPTERS.map((_, ci) => layout.chapterZ[ci]).filter((z) => z !== undefined).map((z) => z + 5), endCard + 5];
+    track = [];
+    let u = 0;
+    stops.forEach((z, k) => {
+      const hold = k === stops.length - 1 ? END_HOLD : k === 0 ? HOLD * 0.5 : HOLD;
+      track.push({ u0: u, u1: u + hold, z0: z, z1: z, stop: k });
+      u += hold;
+      if (k < stops.length - 1) { const d = z - stops[k + 1]; track.push({ u0: u, u1: u + d, z0: z, z1: stops[k + 1] }); u += d; }
+    });
+    total = u;
+    zStart = stops[0]; zEnd = stops.at(-1);
+    const len = total * SCREENS_PER_UNIT;
     wrap.style.height = `${stickH * (len + 1)}px`;
     for (let i = 0; i < count; i++) {
       pos[i * 3] = (Math.random() - 0.5) * spreadX * 5;
@@ -326,7 +367,14 @@ export function start(section) {
     });
     wake();
   }
-  const progressAt = (camZ) => Math.min(1, Math.max(0, (zStart - camZ) / (zStart - zEnd)));
+  const progressAt = (camZ) => {
+    // A travel stretch that passes this depth; a pause lands a little way in.
+    const hold = track.find((t) => t.z0 === t.z1 && Math.abs(t.z0 - camZ) < 1e-6);
+    if (hold) return (hold.u0 + (hold.u1 - hold.u0) * 0.35) / total;
+    const seg = track.find((t) => t.z0 !== t.z1 && camZ <= t.z0 && camZ >= t.z1);
+    if (!seg) return camZ >= zStart ? 0 : 1;
+    return (seg.u0 + (seg.z0 - camZ)) / total;
+  };
 
   // Scroll position that puts the camera just before a programme's name.
   function jump(ci, smooth = true) {
@@ -338,7 +386,7 @@ export function start(section) {
     const top = wrap.getBoundingClientRect().top + scrollY;
     const p = progressAt(photos[i].base.z + 3.2);
     scrollTo({ top: top + p * (wrap.offsetHeight - stickH), behavior: 'instant' });
-    cam.z = zStart - p * (zStart - zEnd);
+    cam.z = zAt(p);
   }
 
   // The programme buttons above the gallery walk to that programme.
@@ -355,17 +403,18 @@ export function start(section) {
     CHAPTERS.forEach((ch, ci) => {
       const n = photos.filter((p) => p.ch === ci).length;
       if (!n) return;
-      const m = new Mesh(new PlaneGeometry(1, 1), new MeshBasicMaterial({ map: chapterCard(ch, `${n} photograph${n === 1 ? '' : 's'}`, `0${ci + 1}`), transparent: true, fog: true, depthWrite: false }));
+      const m = new Mesh(new PlaneGeometry(1, 1), new MeshBasicMaterial({ map: chapterCard(ch, '', `0${ci + 1}`), transparent: true, fog: true, depthWrite: false, depthTest: false }));
       m.userData.ch = ci;
+      m.renderOrder = 5; // after the photos: those behind it never cover it
       cards.push(m);
       scene.add(m);
     });
     const extra = (key, card) => {
-      const m = new Mesh(new PlaneGeometry(1, 1), new MeshBasicMaterial({ map: chapterCard(card, card.sub, card.kicker), transparent: true, fog: true, depthWrite: false }));
-      m.userData.ch = key; cards.push(m); scene.add(m);
+      const m = new Mesh(new PlaneGeometry(1, 1), new MeshBasicMaterial({ map: chapterCard(card, card.sub, card.kicker), transparent: true, fog: true, depthWrite: false, depthTest: false }));
+      m.userData.ch = key; m.renderOrder = 5; cards.push(m); scene.add(m);
     };
-    extra('intro', { label: `${photos.length} photographs`, color: '#E2A019', sub: CHAPTERS.map((c) => c.label).join(' · '), kicker: 'Our work, in pictures' });
-    extra('end', { label: 'That is all of them', color: '#E2A019', sub: 'For now. There is a list of every photo below.', kicker: `${photos.length} photographs` });
+    extra('intro', { label: `${photos.length} photographs`, color: '#E2A019', title: KHADI, sub: CHAPTERS.map((c) => c.label).join(' · '), kicker: 'Our work, in pictures' });
+    extra('end', { label: 'That is all of them', color: '#E2A019', title: KHADI, sub: 'For now. There is a list of every photo below.', kicker: `${photos.length} photographs` });
     size();
   });
 
@@ -432,7 +481,26 @@ export function start(section) {
   });
   stick.addEventListener('pointerleave', () => { hover = -1; pointer.in = false; chip.classList.remove('is-on'); stick.classList.remove('is-over'); });
   let down = null;
-  stick.addEventListener('pointerdown', (e) => { down = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+  const look = { yaw: 0, to: 0, drag: null };
+  stick.addEventListener('pointerdown', (e) => {
+    down = { x: e.clientX, y: e.clientY, t: performance.now() };
+    look.drag = { x: e.clientX, id: e.pointerId };
+    if (hint) hint.classList.add('is-gone');
+  });
+  // Dragging sideways turns to look along the walls (on a phone, a sideways
+  // swipe; up and down still scrolls the page).
+  stick.addEventListener('pointermove', (e) => {
+    if (!look.drag || e.pointerId !== look.drag.id) return;
+    if (e.pointerType === 'mouse' && !(e.buttons & 1)) { look.drag = null; return; }
+    const dx = e.clientX - look.drag.x;
+    look.drag.x = e.clientX;
+    look.to = Math.max(-0.75, Math.min(0.75, look.to + dx / Math.max(W, 1) * 1.6));
+    stick.classList.add('is-looking');
+    wake();
+  });
+  const endLook = () => { look.drag = null; stick.classList.remove('is-looking'); };
+  stick.addEventListener('pointercancel', endLook);
+  addEventListener('pointerup', endLook);
   stick.addEventListener('pointerup', (e) => {
     if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 10 || performance.now() - down.t > 600) { down = null; return; }
     down = null;
@@ -493,7 +561,7 @@ export function start(section) {
   function target() {
     const r = wrap.getBoundingClientRect();
     const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - stickH)));
-    return { p, z: zStart - p * (zStart - zEnd) };
+    return { p, z: zAt(p) };
   }
   function frame(now) {
     raf = 0;
@@ -505,18 +573,22 @@ export function start(section) {
     const vel = Math.min(1.6, Math.abs(cam.v));
     if (!hinted && tg.p > 0.01) { hinted = true; hint.classList.add('is-gone'); }
 
+    let settled = Math.abs(tg.z - cam.z) < 0.002;
     // The walk sways gently from side to side, and the view leans towards
     // the pointer.
     cam.lx += ((pointer.in ? pointer.x : 0) - cam.lx) * 0.06;
     cam.ly += ((pointer.in ? pointer.y : 0) - cam.ly) * 0.06;
-    camera.position.set(Math.sin(cam.z * 0.33) * spreadX * 0.14 + cam.lx * 0.3, Math.cos(cam.z * 0.21) * 0.08 - cam.ly * 0.2, cam.z);
-    camera.rotation.set(-cam.ly * 0.12, -cam.lx * 0.22 + Math.sin(cam.z * 0.33) * -0.04, 0);
+    // A turned head drifts back to face down the corridor while walking.
+    if (!look.drag && vel > 0.15) look.to *= 1 - Math.min(0.04, vel * 0.02);
+    look.yaw += (look.to - look.yaw) * 0.12;
+    if (Math.abs(look.to - look.yaw) > 0.001) settled = false;
+    camera.position.set(Math.sin(cam.z * 0.33) * spreadX * 0.14 + cam.lx * 0.6, Math.cos(cam.z * 0.21) * 0.08 - cam.ly * 0.25, cam.z);
+    camera.rotation.set(-cam.ly * 0.14, -cam.lx * 0.42 + look.yaw + Math.sin(cam.z * 0.33) * -0.04, 0, 'YXZ');
     camera.fov = 58 + vel * 7;
     camera.updateProjectionMatrix();
     camera.updateMatrixWorld();
 
     const time = (now - t0) / 1000;
-    let settled = Math.abs(tg.z - cam.z) < 0.002;
     // Opening / closing a photo.
     if (focus.i >= 0 && focus.dir) {
       focus.t = Math.min(1, Math.max(0, focus.t + focus.dir * dt / 0.5));
@@ -546,23 +618,23 @@ export function start(section) {
         camera.getWorldDirection(dirV);
         const front = camera.position.clone().addScaledVector(dirV, d);
         tmp.lerp(front, e);
-        ry *= 1 - e;
         m.renderOrder = 10;
       }
       m.position.copy(tmp);
-      m.rotation.set(focus.i === i ? camera.rotation.x * e : 0, ry + (focus.i === i ? camera.rotation.y * e : 0), 0);
+      m.rotation.set(0, ry, 0);
+      if (i === focus.i) m.quaternion.slerp(camera.quaternion, e); // turns to face you
       u.uFade.value = focus.i >= 0 && i !== focus.i ? 1 - e * 0.85 : 1;
     });
     // Walking through a programme's name: it fades as you reach it.
     cards.forEach((c) => {
       const dz = cam.z - c.position.z;
-      c.material.opacity = Math.min(1, Math.max(0, (dz - 0.6) / 3), Math.max(0, (8.5 - dz) / 2.5)) * (focus.i >= 0 ? 1 - e : 1);
+      c.material.opacity = Math.min(1, Math.max(0, (dz - 0.6) / 3), Math.max(0, (9.5 - dz) / 2.5)) * (focus.i >= 0 ? 1 - e : 1);
     });
     fibres.rotation.z = time * 0.01;
 
     // Where you are.
     let ci = 0;
-    CHAPTERS.forEach((_, k) => { if (layout.chapterZ[k] !== undefined && cam.z < layout.chapterZ[k] + 5) ci = k; });
+    CHAPTERS.forEach((_, k) => { if (layout.chapterZ[k] !== undefined && cam.z < layout.chapterZ[k] + 5.5) ci = k; });
     let near = 0;
     photos.forEach((p, i) => { if (p.base.z > cam.z - 3) near = i; });
     const label = `${CHAPTERS[ci].label}`;
