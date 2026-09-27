@@ -55,3 +55,7 @@
 .corr__stick.is-looking { cursor: grabbing; }
 .corr__coarse { display: none; }
 @media (hover: none) { .corr__fine { display: none; } .corr__coarse { display: inline; } }
+/* Daylight at the end of the corridor: the words turn dark. */
+.corr.is-day .corr__ch { color: var(--indigo); text-shadow: none; }
+.corr.is-day .corr__n { color: var(--muted); }
+.corr.is-day .corr__rail { background: rgba(30,36,64,.2); }

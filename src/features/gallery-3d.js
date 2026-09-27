@@ -102,9 +102,9 @@ function chapterCard(ch, sub, kicker) {
   x.textAlign = 'center';
   x.textBaseline = 'alphabetic';
   const fit = (lines, size) => { x.font = `800 ${size}px ${display}`; return lines.every((l) => x.measureText(l).width < 1960); };
-  let lines = [ch.label], size = 340;
+  let lines = ch.lines || [ch.label], size = 340;
   while (!fit(lines, size) && size > 190) size -= 10;
-  if (!fit(lines, size) && ch.label.includes(' ')) {
+  if (!ch.lines && !fit(lines, size) && ch.label.includes(' ')) {
     const w = ch.label.split(' ');
     lines = [w.slice(0, Math.ceil(w.length / 2)).join(' '), w.slice(Math.ceil(w.length / 2)).join(' ')];
     size = 340;
@@ -116,15 +116,26 @@ function chapterCard(ch, sub, kicker) {
   x.font = `700 72px ${body}`;
   if (kicker) x.fillText(kicker, 1024, top - size * 0.72 - 40);
   x.font = `800 ${size}px ${display}`;
-  x.shadowColor = 'rgba(20,24,44,.55)'; x.shadowBlur = 30;
-  lines.forEach((l, i) => x.fillText(l, 1024, top + i * lh));
+  if (!ch.light) { x.shadowColor = 'rgba(20,24,44,.55)'; x.shadowBlur = 30; }
+  lines.forEach((l, i) => { x.fillStyle = ch.lineColors?.[i] || ch.title || ch.color; x.fillText(l, 1024, top + i * lh); });
   x.shadowBlur = 0;
   const under = top + (lines.length - 1) * lh + 60;
+  x.fillStyle = ch.color;
   x.fillRect(1024 - 110, under, 220, 12);
   if (sub) {
-    x.fillStyle = 'rgba(243,236,223,.85)';
     x.font = `600 76px ${body}`;
-    x.fillText(sub, 1024, under + 130);
+    // The line under the name, in one colour or in coloured parts.
+    const parts = Array.isArray(sub) ? sub : [{ text: sub, color: ch.subColor || 'rgba(243,236,223,.85)' }];
+    const sep = '  ·  ';
+    const widths = parts.map((q) => x.measureText(q.text).width);
+    const total = widths.reduce((a, b) => a + b, 0) + x.measureText(sep).width * (parts.length - 1);
+    let px = 1024 - total / 2;
+    x.textAlign = 'left';
+    parts.forEach((q, i) => {
+      x.fillStyle = q.color; x.fillText(q.text, px, under + 130); px += widths[i];
+      if (i < parts.length - 1) { x.fillStyle = 'rgba(243,236,223,.5)'; x.fillText(sep, px, under + 130); px += x.measureText(sep).width; }
+    });
+    x.textAlign = 'center';
   }
   const t = new CanvasTexture(c);
   t.minFilter = LinearFilter; t.generateMipmaps = false;
@@ -178,6 +189,8 @@ export function start(section) {
   // ---------- the corridor ----------
   const scene = new Scene();
   const bg = new Color(INDIGO);
+  const NIGHT = new Color(INDIGO), DAY = new Color(KHADI);
+  let lastDay = 0;
   scene.background = bg;
   scene.fog = new Fog(bg, 6, 26);
   const camera = new PerspectiveCamera(58, 1, 0.05, 60);
@@ -224,15 +237,15 @@ export function start(section) {
   // of the programme's colour down each side.
   const floor = new Mesh(new PlaneGeometry(1, 1, 1, 1), new ShaderMaterial({
     transparent: true, depthWrite: false,
-    uniforms: { uFog: { value: bg }, uZ: { value: [0, 0, 0, 0] }, uC: { value: CHAPTERS.map((c) => new Color(c.color)) } },
+    uniforms: { uDay: { value: 0 }, uFog: { value: bg }, uZ: { value: [0, 0, 0, 0] }, uC: { value: CHAPTERS.map((c) => new Color(c.color)) } },
     vertexShader: `varying vec3 vW; varying float vDepth; void main(){ vec4 w = modelMatrix * vec4(position,1.0); vW = w.xyz; vec4 mv = viewMatrix * w; vDepth = -mv.z; gl_Position = projectionMatrix * mv; }`,
-    fragmentShader: `uniform vec3 uFog; uniform float uZ[4]; uniform vec3 uC[4]; varying vec3 vW; varying float vDepth;
+    fragmentShader: `uniform vec3 uFog; uniform float uDay; uniform float uZ[4]; uniform vec3 uC[4]; varying vec3 vW; varying float vDepth;
       void main(){
         vec3 c = uC[0];
         for (int i = 1; i < 4; i++) { if (vW.z < uZ[i]) c = uC[i]; }
         float z = vW.z;
         float stripe = step(0.5, fract(z * 0.9));
-        vec3 base = mix(vec3(0.16,0.19,0.33), vec3(0.2,0.235,0.39), stripe);
+        vec3 base = mix(mix(vec3(0.16,0.19,0.33), vec3(0.2,0.235,0.39), stripe), mix(vec3(0.906,0.867,0.796), vec3(0.953,0.925,0.875), stripe), uDay);
         float ax = abs(vW.x);
         float band = step(0.62, ax * 0.55) * (1.0 - step(0.78, ax * 0.55));
         float fine = step(0.94, fract(z * 3.6)) * step(ax * 0.55, 0.62);
@@ -413,8 +426,11 @@ export function start(section) {
       const m = new Mesh(new PlaneGeometry(1, 1), new MeshBasicMaterial({ map: chapterCard(card, card.sub, card.kicker), transparent: true, fog: true, depthWrite: false, depthTest: false }));
       m.userData.ch = key; m.renderOrder = 5; cards.push(m); scene.add(m);
     };
-    extra('intro', { label: `${photos.length} photographs`, color: '#E2A019', title: KHADI, sub: CHAPTERS.map((c) => c.label).join(' · '), kicker: 'Our work, in pictures' });
-    extra('end', { label: 'That is all of them', color: '#E2A019', title: KHADI, sub: 'For now. There is a list of every photo below.', kicker: `${photos.length} photographs` });
+    extra('intro', { label: 'Our work, in pictures', lines: ['Our work,', 'in pictures'], lineColors: ['#F2B940', '#EE5A8E'], color: '#4CC7AE', title: '#4CC7AE',
+      sub: CHAPTERS.map((c) => ({ text: c.label, color: c.title })), kicker: 'Prayatn' });
+    // The end is in daylight: the corridor brightens to khadi as you reach it.
+    extra('end', { label: 'Thank you for walking with us', lines: ['Thank you for', 'walking with us'], lineColors: [INDIGO, '#C22F66'], color: '#E2A019', title: '#1D6E62', light: true,
+      sub: 'Every photograph is also in the list below.', subColor: INDIGO, kicker: 'Prayatn' });
     size();
   });
 
@@ -645,6 +661,18 @@ export function start(section) {
     }
     nEl.textContent = `${near + 1} / ${photos.length}`;
     fill.style.transform = `scaleY(${tg.p})`;
+    // Daylight at the end of the walk.
+    const endAt = (total - END_HOLD) / total;
+    const f = Math.min(1, Math.max(0, (tg.p - (endAt - 0.05)) / 0.07));
+    const day = f * f * (3 - 2 * f);
+    if (Math.abs(day - lastDay) > 0.001) {
+      bg.copy(NIGHT).lerp(DAY, day);
+      fibres.material.opacity = 0.55 * (1 - day);
+      floor.material.uniforms.uDay.value = day;
+      wrap.classList.toggle('is-day', day > 0.5);
+      lastDay = day;
+      settled = false;
+    }
 
     if (now - lastStream > 200) { lastStream = now; stream(); }
     renderer.render(scene, camera);
