@@ -4,7 +4,7 @@
   "founded": 1992,
   "address": [
     "E-103, G.F., Kalkaji",
-    "New Delhi – 110019"
+    "New Delhi 110019"
   ],
   "phones": [
     "011-45688954"
@@ -32,6 +32,8 @@
   "receiptLine": "After you give, tell us and we will send you a receipt.",
   "registration": "Registered under the Indian Trusts Act 1882, Reg. No. 5102(IV).",
   "_features_note": "Switch a feature off by setting it to false and rebuilding. Each lives in src/features/ with its own CSS, and was added in its own commit.",
+  "_instagram_note": "The full address of Prayatn's Instagram page (https://www.instagram.com/...). Empty: no Instagram link is shown.",
+  "instagram": "",
   "features": {
     "pageWeave": false,
     "pageCloth": true,

@@ -39,9 +39,9 @@ confirmed, plus two screenshots the owner supplied.
 | Programme | Wording / detail | Status |
 |---|---|---|
 | Areas of work | "Education, Healthcare Services, Youth & Women Development" | CONFIRMED |
-| Health: first centre | "first community-based health center – Swaasthya Kendra was started in 1998-99" | CONFIRMED |
-| Health: flagship | Swaasthya Kendra at Madanpur Khadar, since 2007, "currently Prayatn's flagship health program" | CONFIRMED |
-| Spelling | Owner rule (2026-09-23): use the spelling on the NGO's own signage in the photos. **None of the 86 photos shows either spelling on signage.** Clinic signs read "PRAYATN SCHOOL HEALTH CLINIC". The fallback in the owner's message was left as an unfilled template ("[SWAASTHYA / SWASTHYA]"), so the site keeps the old-site spelling the owner confirmed with facts 1–6: **Swaasthya Kendra**. | PENDING |
+| Health: first centre | "first community-based health center – Swasthya Kendra was started in 1998-99" | CONFIRMED |
+| Health: flagship | Swasthya Kendra at Madanpur Khadar, since 2007, "currently Prayatn's flagship health program" | CONFIRMED |
+| Spelling | Owner rule (2026-09-23): use the spelling on the NGO's own signage in the photos. **None of the 86 photos shows either spelling on signage.** Clinic signs read "PRAYATN SCHOOL HEALTH CLINIC". The fallback in the owner's message was left as an unfilled template ("[SWAASTHYA / SWASTHYA]"), so the site keeps the old-site spelling the owner confirmed with facts 1–6: **Swasthya Kendra**. | PENDING |
 | Education | Prayatn runs a school | CONFIRMED |
 | School name | "Seth Vidyalaya" | CONFIRMED by owner 2026-09-23 ("those are the program names"). |
 | School Health Clinic | "School Health Clinic" is a section heading in the owner's own photo document (and on clinic signage) | CONFIRMED (owner document). Used in one caption. |
@@ -55,7 +55,7 @@ confirmed, plus two screenshots the owner supplied.
 
 | Project | Status |
 |---|---|
-| Swaasthya Kendra | OLD SITE. Also settles the spelling: the old site uses **Swaasthya**. |
+| Swasthya Kendra | OLD SITE. Also settles the spelling: the old site uses **Swasthya**. |
 | School Health Program | OLD SITE |
 | Seth Vidyalaya | OLD SITE + owner |
 | Scholarship Scheme for Students | OLD SITE. Name only: no details, amounts or numbers are used. |
@@ -72,9 +72,9 @@ The old site cannot be opened from this environment. These come from its **Healt
 
 | Where on the new site | Text | Source |
 |---|---|---|
-| Healthcare · Swaasthya Kendra | health services for people living in slums who lack easy access to government-run primary health centres, dispensaries and hospitals | prayatnonline.org/health |
-| Healthcare · Swaasthya Kendra | focus on primary medical care, basic maternal and child health, family planning, immunisation and referral services | /health |
-| Healthcare · Madanpur Khadar | general OPD twice a week for common ailments: diarrhoea, fever, injuries, skin diseases, joint pains, asthma, upper respiratory tract infections | /health |
+| Healthcare · Swasthya Kendra | health services for people living in slums who lack easy access to government-run primary health centres, dispensaries and hospitals | prayatnonline.org/health |
+| Healthcare · Swasthya Kendra | focus on primary medical care, basic maternal and child health, family planning, immunisation and referral services | /health |
+| Healthcare · Madanpur Khadar | ~~general OPD twice a week~~ (the owner marked this wrong, 2026-09-27; not used). Per the Annual Report 2025-26: basic maternity and child health care, family planning, referral services, and treatment for common illnesses such as diarrhoea, fever, skin diseases and respiratory tract infections | Annual Report p.10 |
 | Healthcare · health education | during OPD, medical examination, immunisation, prayer meetings, classes, assembly hall; topics chosen by need (hygiene, environmental sanitation, food hygiene, hand washing, balanced diet, iodine deficiency disorders); for individuals, parents' groups, community | /health |
 | Healthcare + Education · School Health Program | a Medical Officer and an ANM examine the students of Seth Vidyalaya and Project Savera; first aid and emergency care for children and staff | /health |
 | Healthcare · School Health Program | cumulative health record per child; referral to specialists; follow-up on monthly visits; teachers and parents informed in special cases | /health |
@@ -200,7 +200,7 @@ Status on 2026-09-23. The site is not going live yet; the owner asked for everyt
 | 2 | Bank details | **Still open.** Not received yet. Slot ready in `src/data/site.json`. The site asks donors to call or email until then. |
 | 3 | Photo consent | **Done.** Owner confirmed consent for all photos (2026-09-23). |
 | 4 | Programme names | **Done.** Seth Vidyalaya, Legal Help Desk, Mahila Panchayat (Badarpur) are named in copy. |
-| 5 | Spelling: Swaasthya / Swasthya | **Resolved by the old site:** its footer lists "Swaasthya Kendra". |
+| 5 | Spelling: Swasthya / Swasthya | **Resolved by the old site:** its footer lists "Swasthya Kendra". |
 | 7 | Phone number | **Resolved 2026-09-24.** The owner gave 011-45688954 as the new number; the site now shows only that. |
 | 8 | Logo | Stopgap crop from a screenshot; send the original file. |
 | 9 | Partners | **Done** (2026-09-24): the old site's five partners, with logos from the owner's screenshots. |
@@ -223,7 +223,7 @@ Two documents from the owner (the Managing Trustee's content for the site):
 | Seth Vidyalaya | 655 students (364 boys, 291 girls), Nursery–V; Deloitte through United Way of Delhi since April 2023 | AR p.14 (doc: 666) |
 | Project Savera | 300 students (175 boys, 125 girls), Nursery–IV; Seth Foundation | AR p.22 (doc: 237) |
 | School Health Program | 1,192 students (2024–25: 874); Samrat Offset since 2023; deworming 848 students + 32 staff | AR p.9, 11, 13 |
-| Swaasthya Kendra | 5,736 beneficiaries (2024–25: 5,365) | AR p.8–9 |
+| Swasthya Kendra | 5,736 beneficiaries (2024–25: 5,365) | AR p.8–9 |
 | Scholarships | 22 students, Rs 12,000 p.a.; began April 2017; 10 individual donors | AR p.21 (doc: 2017–18, "many" donors) |
 | Mahila Panchayats | ten, 245 women; 450 meetings | AR p.27–28 (doc: nine) |
 | CMC + MP cases | 1,303 (319 + 984); 857 women approached; 345 reconciled; 270 referred | AR p.28–29 |
@@ -238,3 +238,12 @@ Two documents from the owner (the Managing Trustee's content for the site):
 - **Year of the GBV project:** the report's foreword says it has entered its fourth year; page 27 says fifth. The site avoids the number.
 - **Mahila Panchayat in Badarpur:** from the old site; neither document mentions Badarpur, so it has been removed.
 - **"School Support Program"** is named in the Word document but not in the Annual Report; it is mentioned once (Education aims) and no longer listed as a project.
+
+## Owner's corrections, 2026-09-27
+
+- "Twice a week, a doctor" (Healthcare) was wrong: replaced with the Annual Report's description of the Swasthya Kendra.
+- "A record for every child" is "A record of every child".
+- The health centre is spelled **Swasthya Kendra**, as in the owner's documents (Annual Report and docx).
+- The GBV project's support by the **Azim Premji Foundation** (Annual Report p.8) is credited prominently on Women development.
+- The year-at-a-glance rows use the Annual Report's own labels (p.9, "Comparative Overview"); all fourteen figures match it.
+- Instagram: asked for; no address in any owner document yet (`site.json` → `instagram`).

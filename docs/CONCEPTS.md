@@ -3,7 +3,7 @@
 The concepts are built on what the 86 uploaded photos actually show:
 - women sitting in circles on patterned durries (Women Development, Mahila Panchayat, legal awareness)
 - children holding up yellow health cards in the School Health Clinic
-- nurses measuring height and weight in Swaasthya Kendra
+- nurses measuring height and weight in Swasthya Kendra
 - blackboards with dates written in chalk
 - event banners
 
@@ -49,7 +49,7 @@ Their colours are sampled from a real photo of a Mahila Panchayat circle. As the
 visitor scrolls, weft passes through warp, the threads close up, and the
 photograph assembles thread by thread until the women leading their own meeting
 are plainly visible. The woven edge then peels away to become the border that
-frames the next section (Swaasthya Kendra), so the weave runs down the page as
+frames the next section (Swasthya Kendra), so the weave runs down the page as
 the thread connecting the three programmes. On the pass list it is the
 **immersive-motion-qa pass condition 2: an object assembling under scroll**.
 At 320px the phone sees the same assembly, full-screen.

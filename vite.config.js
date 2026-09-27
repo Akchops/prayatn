@@ -97,7 +97,7 @@ function partnersBlock(list, variant) {
 // woven thread picture, resolving into the photograph on hover (or, on a
 // phone, as it comes into view: src/motion.js).
 const PROGRAMMES = {
-  healthcare: { href: '/healthcare/', title: 'Healthcare', img: 'school-health-clinic-09', line: 'Swaasthya Kendra and the School Health Program.' },
+  healthcare: { href: '/healthcare/', title: 'Healthcare', img: 'school-health-clinic-09', line: 'Swasthya Kendra and the School Health Program.' },
   education: { href: '/education/', title: 'Education', img: 'gallery-53', line: 'Seth Vidyalaya, Project Savera, and scholarships for meritorious students.' },
   women: { href: '/women-development/', title: 'Women development', img: 'women-development-33', line: 'Ten Mahila Panchayats, Crisis Management Centres, a weekly Legal Help Desk, and young people as agents of change.' },
 };
@@ -191,7 +191,7 @@ const PLACES = [
   { id: 'okhla', name: 'Okhla', lat: 28.5480, lon: 77.2800, text: 'A Mahila Panchayat in Okhla Basti and a Community Resource Centre in Okhla Phase II. Beauty culture and English classes for young people.' },
   { id: 'harkesh', name: 'Harkesh Nagar', lat: 28.5335, lon: 77.2735, text: 'A Mahila Panchayat, and families in the Jagruk Pariwar programme.' },
   { id: 'gautampuri', name: 'Gautampuri', lat: 28.5245, lon: 77.2960, text: 'A Mahila Panchayat, a Self-Help Group, Jagruk Pariwar families and beauty culture training. Diwali at the Gautampuri centre.' },
-  { id: 'madanpur', name: 'Madanpur Khadar', lat: 28.5165, lon: 77.3110, text: 'Seth Vidyalaya and Project Savera, about 900 children. The Swaasthya Kendra. Mahila Panchayats at Seth Vidyalaya, A1 and Babloo Dairy, beauty culture and English classes, and Self-Help Groups.' },
+  { id: 'madanpur', name: 'Madanpur Khadar', lat: 28.5165, lon: 77.3110, text: 'Seth Vidyalaya and Project Savera, about 900 children. The Swasthya Kendra. Mahila Panchayats at Seth Vidyalaya, A1 and Babloo Dairy, beauty culture and English classes, and Self-Help Groups.' },
 ];
 function whereMap(site) {
   if (!site.features?.whereMap) return '';
@@ -305,6 +305,8 @@ function templates() {
           year: String(year),
           founded: String(site.founded),
           email: site.email,
+          // Instagram: shown only once site.json has the page's address.
+          instagram: site.instagram ? `<a class="insta" href="${esc(site.instagram)}" target="_blank" rel="noopener">Instagram ↗</a>` : '',
           phone1: site.phones[0],
           tel1: tel(site.phones[0]),
           address: site.address.map(esc).join('<br>'),
