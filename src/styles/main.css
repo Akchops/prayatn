@@ -444,7 +444,8 @@ a.reach__way:hover { background: #474F79; }
 }
 .prog { max-width: var(--max); margin: 0 auto; padding: 56px var(--gutter) 40px calc(var(--gutter) + 8px); }
 .prog__head { max-width: 62ch; margin-bottom: 28px; }
-.prog__num { font: 600 .85rem/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--neem); margin-bottom: 14px; }
+.prog__head h2 { font-size: clamp(2.5rem, 1.4rem + 4.4vw, 5rem); line-height: .98; }
+.prog__num { font: 700 clamp(1.05rem, .9rem + .55vw, 1.45rem)/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--neem); margin-bottom: 14px; }
 .prog--school .prog__num { color: var(--rani); }
 .prog--women .prog__num { color: #7F5700; }  /* dark marigold, 5.5:1 on khadi */
 .prog__head p:not(.prog__num) { font-size: clamp(1.2rem, 1.05rem + .45vw, 1.45rem); }
@@ -666,7 +667,7 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
   transform: scaleY(0); transform-origin: bottom; transition: transform .4s cubic-bezier(.2,.7,.2,1);
 }
 .plist { position: relative; z-index: 0; }
-.plist__n { grid-area: n; font: 700 .9rem/1 var(--display); color: var(--rani); }
+.plist__n { grid-area: n; font: 700 clamp(1rem, .9rem + .4vw, 1.3rem)/1 var(--display); color: var(--rani); }
 .plist__name { grid-area: name; font: 700 clamp(1.45rem, 1rem + 2vw, 2.9rem)/1.05 var(--display); letter-spacing: -0.02em; transition: transform .35s cubic-bezier(.2,.7,.2,1), color .2s; }
 .plist__area { grid-area: area; font-size: 1rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
 .plist__thumb { grid-area: thumb; width: 64px; height: 64px; object-fit: cover; }
@@ -688,6 +689,9 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 }
 .plist__float img { width: 100%; height: 100%; object-fit: cover; }
 .plist__float.is-on { opacity: 1; }
+.plist__card { display: none; }
+.plist__float.is-card img { display: none; }
+.plist__float.is-card .plist__card { display: flex; align-items: flex-end; width: 100%; height: 100%; box-sizing: border-box; padding: 18px; background: var(--indigo) url('/rug.svg') 0 0 / 64px 80px; color: var(--khadi); font: 800 1.6rem/1.05 var(--display); letter-spacing: -0.02em; text-shadow: 0 2px 12px rgba(20,24,44,.9); }
 
 /* ---------- Moments strip ---------- */
 .moments { background: var(--indigo); color: var(--khadi); padding: 64px 0 72px; overflow: hidden; }

@@ -77,9 +77,33 @@ if (plist && float && matchMedia('(hover: hover) and (pointer: fine)').matches) 
     ty = e.clientY;
     if (!raf) raf = requestAnimationFrame(loop);
   });
+  // Fetch every preview as soon as the pointer reaches the list, and show a
+  // photo only once it has loaded, so a slow connection never shows the last
+  // one against the wrong project. A project with no photo of its own shows a
+  // woven card with its name.
+  const card = document.createElement('span');
+  card.className = 'plist__card';
+  float.appendChild(card);
+  let want = '';
+  plist.addEventListener('pointerenter', () => {
+    plist.querySelectorAll('.plist__row[data-preview]').forEach((r) => { const i = new Image(); i.src = r.dataset.preview; });
+  }, { once: true });
   plist.addEventListener('pointerover', (e) => {
     const row = e.target.closest('.plist__row');
-    if (row?.dataset.preview) { fimg.src = row.dataset.preview; float.classList.add('is-on'); } else float.classList.remove('is-on');
+    if (!row) { float.classList.remove('is-on'); return; }
+    const src = row.dataset.preview;
+    want = src || '';
+    if (!src) {
+      card.textContent = row.querySelector('.plist__name')?.textContent || '';
+      float.classList.add('is-card', 'is-on');
+      return;
+    }
+    float.classList.remove('is-card');
+    if (fimg.getAttribute('src') === src && fimg.complete) { float.classList.add('is-on'); return; }
+    float.classList.remove('is-on');
+    const next = new Image();
+    next.onload = () => { if (want === src) { fimg.src = src; float.classList.add('is-on'); } };
+    next.src = src;
   });
   plist.addEventListener('pointerleave', () => float.classList.remove('is-on'));
 }
