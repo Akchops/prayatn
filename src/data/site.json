@@ -36,7 +36,7 @@
   "instagram": "",
   "features": {
     "pageWeave": false,
-    "pageCloth": true,
+    "pageCloth": false,
     "whereMap": true,
     "giftSlider": true,
     "findMap": true,
