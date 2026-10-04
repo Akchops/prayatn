@@ -247,3 +247,13 @@ Two documents from the owner (the Managing Trustee's content for the site):
 - The GBV project's support by the **Azim Premji Foundation** (Annual Report p.8) is credited prominently on Women development.
 - The year-at-a-glance rows use the Annual Report's own labels (p.9, "Comparative Overview"); all fourteen figures match it.
 - Instagram: asked for; no address in any owner document yet (`site.json` → `instagram`).
+
+## Owner's handwritten notes, 2026-10-04 (these override the Annual Report where they differ)
+
+- Seth Vidyalaya "caters to children from the underprivileged sections of society and reaches out to **884** students" (replaces 655 on the site; the year-at-a-glance chart keeps the report's 2025-26 figure, 655).
+- Scholarships: **26** students (the report has 22; the chart keeps the report's figure).
+- **Five** key projects, not seven: Project Savera and Empowering Youth are no longer listed as key projects. Project Savera's details are removed from the site; the youth programme stays on Women development.
+- Home: "Education, healthcare and women's development in the communities we work in."; the photo caption is "A Mahila Panchayat meeting in action."
+- Health centre and Seth Vidyalaya contact: **98183 00863**, **sethvidyalaya@yahoo.com** (`site.json` → `schoolPhone`, `schoolEmail`).
+- The deworming campaign was organised by the National Deworming Campaign.
+- Get involved: a section on our staff and job openings (`site.json` → `jobs`, empty for now).

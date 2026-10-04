@@ -98,7 +98,7 @@ function partnersBlock(list, variant) {
 // phone, as it comes into view: src/motion.js).
 const PROGRAMMES = {
   healthcare: { href: '/healthcare/', title: 'Healthcare', img: 'school-health-clinic-09', line: 'Swasthya Kendra and the School Health Program.' },
-  education: { href: '/education/', title: 'Education', img: 'gallery-53', line: 'Seth Vidyalaya, Project Savera, and scholarships for meritorious students.' },
+  education: { href: '/education/', title: 'Education', img: 'gallery-53', line: 'Seth Vidyalaya, which reaches out to 884 students, and scholarships for meritorious students.' },
   women: { href: '/women-development/', title: 'Women development', img: 'women-development-33', line: 'Ten Mahila Panchayats, Crisis Management Centres, a weekly Legal Help Desk, and young people as agents of change.' },
 };
 function nextCard(key, label, images) {
@@ -191,7 +191,7 @@ const PLACES = [
   { id: 'okhla', name: 'Okhla', lat: 28.5480, lon: 77.2800, text: 'A Mahila Panchayat in Okhla Basti and a Community Resource Centre in Okhla Phase II. Beauty culture and English classes for young people.' },
   { id: 'harkesh', name: 'Harkesh Nagar', lat: 28.5335, lon: 77.2735, text: 'A Mahila Panchayat, and families in the Jagruk Pariwar programme.' },
   { id: 'gautampuri', name: 'Gautampuri', lat: 28.5245, lon: 77.2960, text: 'A Mahila Panchayat, a Self-Help Group, Jagruk Pariwar families and beauty culture training. Diwali at the Gautampuri centre.' },
-  { id: 'madanpur', name: 'Madanpur Khadar', lat: 28.5165, lon: 77.3110, text: 'Seth Vidyalaya and Project Savera, about 900 children. The Swasthya Kendra. Mahila Panchayats at Seth Vidyalaya, A1 and Babloo Dairy, beauty culture and English classes, and Self-Help Groups.' },
+  { id: 'madanpur', name: 'Madanpur Khadar', lat: 28.5165, lon: 77.3110, text: 'Seth Vidyalaya, which reaches out to 884 students. The Swasthya Kendra. Mahila Panchayats at Seth Vidyalaya, A1 and Babloo Dairy, beauty culture and English classes, and Self-Help Groups.' },
 ];
 function whereMap(site) {
   if (!site.features?.whereMap) return '';
@@ -309,6 +309,13 @@ function templates() {
           instagram: site.instagram ? `<a class="insta" href="${esc(site.instagram)}" target="_blank" rel="noopener">Instagram ↗</a>` : '',
           phone1: site.phones[0],
           tel1: tel(site.phones[0]),
+          phoneSV: site.schoolPhone,
+          telSV: 'tel:+91' + site.schoolPhone.replace(/\D/g, ''),
+          emailSV: site.schoolEmail,
+          // Job openings (Get involved): from site.json, or a line saying there are none.
+          jobs: (site.jobs || []).length
+            ? `<ul class="jobs__list">${site.jobs.map((j) => `<li><h3>${esc(j.title)}</h3><p>${esc(j.text || '')}</p></li>`).join('')}</ul>`
+            : '<p class="jobs__none">There are no openings listed at the moment.</p>',
           address: site.address.map(esc).join('<br>'),
           addressLine: site.address.map(esc).join(', '),
           cheque: esc(site.chequePayee),

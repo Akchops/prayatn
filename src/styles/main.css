@@ -1405,3 +1405,15 @@ html.opened [data-intro="deal"] .band__card::before, html.opened [data-intro="de
 /* Long addresses (the email) may break rather than widen a narrow screen. */
 a[href^="mailto:"] { overflow-wrap: anywhere; }
 .threads__photos figure { min-width: 0; }
+
+/* Get involved: our staff, and job openings. */
+.jobs { background: var(--khadi-deep); padding: clamp(56px, 8vw, 110px) 0; }
+.jobs__grid { display: grid; gap: 32px; align-items: start; }
+@media (min-width: 900px) { .jobs__grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
+.jobs__lede { font-size: clamp(1.15rem, 1rem + .4vw, 1.4rem); max-width: 46ch; }
+.jobs__card { background: #fff; padding: clamp(24px, 3.5vw, 40px); border-top: 8px solid var(--neem); box-shadow: 0 16px 34px rgba(30,36,64,.12); }
+.jobs__card h3 { margin: 0 0 12px; }
+.jobs__none { font: 700 clamp(1.15rem, 1rem + .4vw, 1.35rem)/1.35 var(--display); color: var(--neem); }
+.jobs__list { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 14px; }
+.jobs__list li { border-left: 4px solid var(--marigold); padding-left: 14px; }
+.jobs__list h3 { margin: 0 0 4px; font-size: 1.2rem; }

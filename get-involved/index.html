@@ -57,6 +57,24 @@
       </section>
 
       <!-- Where we are: the map, large, with the address card on it. -->
+      <!-- Work with us: about our staff, and job openings (site.json → jobs). -->
+      <section class="jobs" id="jobs" aria-labelledby="jobs-h">
+        <div class="wrap jobs__grid">
+          <div>
+            <p class="eyebrow">Work with us</p>
+            <h2 id="jobs-h" class="rv">Our staff, and job openings</h2>
+            <p class="jobs__lede">Our work is carried out by our staff: teachers at Seth Vidyalaya, the medical team of the School Health Program and the Swasthya Kendra, and the people who run our work with women and young people in the communities.</p>
+          </div>
+          <div class="jobs__card">
+            <h3>Job openings</h3>
+            {{jobs}}
+            <p>To ask about working with us, send a little about yourself and the work you are looking for.</p>
+            <p><a class="btn btn--donate" href="mailto:{{email}}?subject=Working%20with%20Prayatn">Email us about a job</a></p>
+            <p class="small">Or call <a href="{{tel1}}">{{phone1}}</a>.</p>
+          </div>
+        </div>
+      </section>
+
       <section class="findmap" id="map" aria-labelledby="findmap-h">
         {{findmap}}
         <div class="findmap__card">
