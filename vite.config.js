@@ -45,7 +45,7 @@ const CATS = { health: 'Healthcare', school: 'Education', women: 'Women developm
 // description as the caption. Figures carry data-cat for the gallery filter.
 function gallery(which, images) {
   const names = Object.keys(images).filter((n) => images[n].use !== 'hero' && (which === 'all' || images[n].use === which));
-  const fig = (n) => `<figure class="g-item" data-cat="${images[n].use}">${picture(n, 'sizes="(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw"', images)}<figcaption>${esc(images[n].alt)}</figcaption></figure>`;
+  const fig = (n) => `<figure class="g-item" data-cat="${images[n].use}">${picture(n, 'sizes="(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw"', images)}<figcaption aria-hidden="true">${esc(images[n].alt)}</figcaption></figure>`;
   if (which !== 'all') return `<div class="g-grid">${names.map(fig).join('')}</div>`;
   return Object.entries(CATS).map(([cat, label]) => {
     const list = names.filter((n) => images[n].use === cat);
@@ -74,7 +74,7 @@ function reel(which, images) {
   const cards = names.map(card);
   // Two rows: alternate photos, so neighbours differ in both rows.
   const rowA = cards.filter((_, i) => i % 2 === 0), rowB = cards.filter((_, i) => i % 2 === 1);
-  return `<div class="reel__rows"><div class="reel__track" data-reel-track>${rowA.join('')}</div><div class="reel__track reel__track--b" data-reel-track>${rowB.join('')}</div></div>`;
+  return `<div class="reel__rows"><div class="reel__track" data-reel-track tabindex="0" aria-label="Photographs, first row: scroll sideways">${rowA.join('')}</div><div class="reel__track reel__track--b" data-reel-track tabindex="0" aria-label="Photographs, second row: scroll sideways">${rowB.join('')}</div></div>`;
 }
 
 // Partners and supporters, from src/data/partners.json: one card each, the
@@ -289,6 +289,62 @@ function footMap(site) {
     : `<div class="map" data-map>${google}</div>`;
 }
 
+// Where the built site lives: the GitHub preview (in Actions), or the real
+// domain from site.json. Used for link previews, the sitemap and Google.
+const siteRoot = (site) => (process.env.GITHUB_REPOSITORY_OWNER
+  ? `https://${process.env.GITHUB_REPOSITORY_OWNER}.github.io${BASE}`
+  : `${site.url.replace(/\/$/, '')}/`);
+const PAGES = ['', 'about/', 'healthcare/', 'education/', 'women-development/', 'gallery/', 'get-involved/'];
+
+// Link previews (WhatsApp, Facebook, X), the canonical address, and on Home
+// the organisation's details for search engines, all from the page's own
+// title, description and header photo.
+function shareMeta(out, src, path, page, site, images) {
+  const root = siteRoot(site);
+  const rel = page === 'home' ? '' : page === '404' ? null : `${page}/`;
+  const title = (out.match(/<title>([^<]*)<\/title>/) || [])[1] || site.name;
+  const desc = (out.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+  const photo = (src.match(/\{\{bandimg ([\w-]+)\}\}/) || [])[1] || 'gallery-81';
+  const im = images[photo];
+  const w = im ? [...im.widths].reverse().find((x) => x <= 1280) || im.widths.at(-1) : null;
+  const tags = [
+    rel != null && `<link rel="canonical" href="${root}${rel}">`,
+    '<meta property="og:type" content="website">',
+    '<meta property="og:site_name" content="Prayatn">',
+    `<meta property="og:title" content="${title}">`,
+    desc && `<meta property="og:description" content="${desc}">`,
+    rel != null && `<meta property="og:url" content="${root}${rel}">`,
+    w && `<meta property="og:image" content="${root}img/${photo}-${w}.jpg">`,
+    w && `<meta property="og:image:alt" content="${esc(im.alt)}">`,
+    '<meta name="twitter:card" content="summary_large_image">',
+  ].filter(Boolean);
+  if (page === 'home') {
+    const org = {
+      '@context': 'https://schema.org', '@type': 'NGO', name: site.name, alternateName: 'Prayatn – A Developmental Effort',
+      url: root, logo: `${root}logo-ink.png`, foundingDate: String(site.founded), email: site.email,
+      telephone: site.phones.map((p) => '+91 ' + p.replace(/^0/, '')),
+      address: { '@type': 'PostalAddress', streetAddress: 'E-103, G.F., Kalkaji', addressLocality: 'New Delhi', postalCode: '110019', addressCountry: 'IN' },
+      ...(site.instagram ? { sameAs: [site.instagram] } : {}),
+    };
+    tags.push(`<script type="application/ld+json">${JSON.stringify(org)}</script>`);
+  }
+  return out.replace('</head>', `    ${tags.join('\n    ')}\n  </head>`);
+}
+
+// robots.txt and sitemap.xml (the preview asks not to be indexed).
+function crawl() {
+  return {
+    name: 'prayatn-crawl',
+    apply: 'build',
+    generateBundle() {
+      const site = json('src/data/site.json');
+      const root = siteRoot(site);
+      this.emitFile({ type: 'asset', fileName: 'robots.txt', source: PREVIEW ? 'User-agent: *\nDisallow: /\n' : `User-agent: *\nAllow: /\n\nSitemap: ${root}sitemap.xml\n` });
+      this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${PAGES.map((p) => `  <url><loc>${root}${p}</loc></url>`).join('\n')}\n</urlset>\n` });
+    },
+  };
+}
+
 function templates() {
   return {
     name: 'prayatn-templates',
@@ -354,6 +410,7 @@ function templates() {
           })
           .replace(/ data-nav="(\w+)"/g, (_, n) => (n === page ? ' aria-current="page"' : ''));
         let out = withBase(fill(html));
+        out = shareMeta(out, html, ctx.path, page, site, images);
         if (PREVIEW) {
           out = out.replace('<head>', '<head>\n    <meta name="robots" content="noindex, nofollow">')
             .replace(/<body([^>]*)>/, '<body$1>\n    <div class="preview-bar">Pre-launch preview · not the live site</div>');
@@ -369,7 +426,7 @@ function templates() {
 
 export default defineConfig({
   base: BASE,
-  plugins: [templates()],
+  plugins: [templates(), crawl()],
   build: {
     target: 'es2019',
     rollupOptions: {

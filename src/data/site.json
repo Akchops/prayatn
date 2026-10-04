@@ -1,6 +1,8 @@
 {
   "_comment": "Every value here must match a CONFIRMED or OLD SITE row in docs/VERIFIED-FACTS.md.",
   "name": "Prayatn",
+  "_url_note": "The site's own address, for link previews, the sitemap and Google. The GitHub preview build uses its own address instead.",
+  "url": "https://prayatnonline.org",
   "founded": 1992,
   "address": [
     "E-103, G.F., Kalkaji",

@@ -31,7 +31,7 @@ if (box && typeof box.showModal === 'function') {
     box.showModal();
   });
   box.addEventListener('click', (e) => { if (e.target === box || e.target.closest('[data-close]')) box.close(); });
-  document.querySelectorAll('.g-item').forEach((f) => { f.tabIndex = 0; f.setAttribute('role', 'button'); f.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.click(); } }); });
+  document.querySelectorAll('.g-item').forEach((f) => { const im = f.querySelector('img'); if (!im) return; im.tabIndex = 0; im.setAttribute('role', 'button'); im.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.click(); } }); });
 }
 
 // Map: Google Maps loads only when asked (third-party, heavy on mobile data).

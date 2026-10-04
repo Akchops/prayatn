@@ -49,7 +49,13 @@ if (!reduce.matches) {
   const startLoom = () => import('./loom/index.js').then((m) => m.start(loom)).catch((e) => { document.documentElement.dataset.loomFail = `script: ${e?.message || e}`; });
   // The corridor (a switchable feature), with the Loom as its fallback.
   if (loom && features.includes('gallery3d')) {
-    import('./features/gallery-3d.js').then((m) => { if (!m.start(loom)) startLoom(); }).catch(startLoom);
+    // Check for a real GPU first, so a device that cannot run the corridor
+    // never downloads it (the probe is tiny; the corridor is not).
+    import('./weave/probe.js').then(({ probeWebGL }) => {
+      const caps = probeWebGL({ allowSoftware: /[?&]tier=1\b/.test(location.search) });
+      if (!caps || caps.tier === 'low' || typeof WebGL2RenderingContext === 'undefined') { startLoom(); return; }
+      import('./features/gallery-3d.js').then((m) => { if (!m.start(loom)) startLoom(); }).catch(startLoom);
+    }).catch(startLoom);
   } else if (loom) startLoom();
 
   // About: project photos that follow the mouse, the mission, the loom, the ring.
