@@ -257,3 +257,7 @@ Two documents from the owner (the Managing Trustee's content for the site):
 - Health centre and Seth Vidyalaya contact: **98183 00863**, **sethvidyalaya@yahoo.com** (`site.json` → `schoolPhone`, `schoolEmail`).
 - The deworming campaign was organised by the National Deworming Campaign.
 - Get involved: a section on our staff and job openings (`site.json` → `jobs`, empty for now).
+
+## Owner's text "About Seth Vidyalaya", 2026-10-04
+
+Used on Education (Seth Vidyalaya) almost word for word: run since 2009; co-educational; mainstreams children into government schools after Class V; recognised by the Directorate of Education, MCD, Delhi in October 2025, after which 250 Project Savera children joined it; 884 children aged 4–12; MCD curriculum with co-scholastic and co-curricular subjects; yearly picnics and excursions; monthly PTMs; after-school support; evaluation methods. 2009 and October 2025 added to the timelines.
