@@ -142,3 +142,16 @@ Also in `site.json`, all hidden until filled:
 - `bankQr`: a QR image **issued by the bank for this account**, put in `public/` (e.g. `"bank-qr.png"`). There is no UPI, so this is only for a bank-issued code.
 - `eightyG`: `{ "number": "…", "validity": "…" }` shows the 80G registration under the tax line.
 - `receiptLine`: the sentence about receipts in step 3.
+
+## Editing the words (for the owner)
+
+`/edit/` (on the preview: https://akchops.github.io/prayatn/edit/) is a plain
+copy of every sentence on the site, page by page, with no photos or motion.
+It reads the real pages each time, so it always matches the site. Click a
+sentence, type the change (it turns yellow), and press "Send changes on
+WhatsApp". The message lists each change with a code (e.g. `[E8]` = the 8th
+piece of text on Education), the old words and the new, plus any notes.
+Changes are kept in that browser until sent; nothing on the site changes
+until someone applies them to the source. The page is not linked from the
+site and is not indexed. Code: `edit/index.html`, `src/edit.js`,
+`src/styles/edit.css`.

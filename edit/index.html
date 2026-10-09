@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#1E2440">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <title>Edit the words · Prayatn</title>
+    <!-- A plain copy of every sentence on the website, for the owner to
+         change. It reads the real pages, so it always matches the site.
+         Changes stay in this browser until sent on WhatsApp (src/edit.js).
+         Not linked from the site, not indexed. -->
+    <script type="module" src="/src/edit.js"></script>
+  </head>
+  <body>
+    <header class="ed-top">
+      <div class="ed-wrap">
+        <p class="ed-brand"><img src="/logo-ink.png" alt="" width="32" height="34"> Prayatn website · the words</p>
+        <h1>Change any sentence</h1>
+        <ol class="ed-how">
+          <li>Pick a page below.</li>
+          <li>Click on any sentence and type your change. Changed sentences turn yellow.</li>
+          <li>When you are done, press <b>Send changes on WhatsApp</b> and send the message to the person who looks after the website.</li>
+        </ol>
+        <p class="ed-small">The real website does not change until then. Your changes are kept on this computer or phone, even if you close the page.</p>
+      </div>
+      <nav class="ed-tabs" aria-label="Pages" data-tabs></nav>
+    </header>
+
+    <main class="ed-wrap" id="main">
+      <noscript><p class="ed-msg">This page needs JavaScript switched on.</p></noscript>
+      <p class="ed-msg" data-status>Loading the website’s words…</p>
+      <div data-page></div>
+    </main>
+
+    <div class="ed-bar" data-bar>
+      <div class="ed-bar__in">
+        <p class="ed-bar__count" data-count aria-live="polite">No changes yet</p>
+        <div class="ed-bar__btns">
+          <button type="button" class="ed-btn ed-btn--wa" data-send disabled>Send changes on WhatsApp</button>
+          <button type="button" class="ed-btn" data-copy disabled>Copy changes</button>
+          <button type="button" class="ed-btn ed-btn--quiet" data-clear disabled>Start again</button>
+        </div>
+        <p class="ed-bar__note" data-note aria-live="polite"></p>
+      </div>
+    </div>
+  </body>
+</html>
