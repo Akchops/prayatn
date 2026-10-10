@@ -69,7 +69,8 @@ function bandImg(name, images) {
 // Without JS or with reduced motion it is a swipeable row; with motion it is
 // pinned and driven by vertical scroll (src/reel.js).
 function reel(which, images) {
-  const names = Object.keys(images).filter((n) => images[n].use === which);
+  // A photo marked "reel": false in photos.json is left out of the strips.
+  const names = Object.keys(images).filter((n) => images[n].use === which && images[n].reel !== false);
   const card = (n, i) => `<figure class="reel__card"><div class="reel__img">${picture(n, 'sizes="(min-width: 900px) 440px, 60vw"', images)}</div><figcaption><span class="reel__n">${String(i + 1).padStart(2, '0')}</span>${esc(images[n].alt)}</figcaption></figure>`;
   const cards = names.map(card);
   // Two rows: alternate photos, so neighbours differ in both rows.
@@ -155,10 +156,10 @@ function giftBlock(site) {
   if (!site.features?.giftSlider) return '';
   return `<div class="gift" data-gift>
   <p class="gift__label" id="gift-l">What your gift can do</p>
-  <p class="gift__amount"><output data-gift-out for="gift-range">₹3,000</output></p>
-  <input id="gift-range" class="gift__range" type="range" min="1000" max="36000" step="1000" value="3000" aria-labelledby="gift-l" data-gift-range>
+  <p class="gift__amount"><output data-gift-out for="gift-range">₹12,000</output></p>
+  <input id="gift-range" class="gift__range" type="range" min="1000" max="36000" step="1000" value="12000" aria-labelledby="gift-l" data-gift-range>
   <div class="gift__months" aria-hidden="true" data-gift-months></div>
-  <p class="gift__says" data-gift-says aria-live="polite">keeps a scholar in school for 3 months.</p>
+  <p class="gift__says" data-gift-says aria-live="polite">keeps one scholar in school for a full year.</p>
   <p class="gift__note">A scholarship is Rs 1,000 a month for each student, Rs 12,000 a year. To give to the Scholarship Scheme, say so when you tell us about your gift.</p>
 </div>`;
 }

@@ -55,7 +55,7 @@ for (const name of Object.keys(photos)) {
   if (!existsSync(weave) || crop) {
     await src.clone().resize(160, rows, { fit: 'cover' }).png({ palette: true, colours: 96, dither: 0 }).toFile(weave);
   }
-  manifest[name] = { width, height, widths, rows, alt: photos[name].alt, use: photos[name].use };
+  manifest[name] = { width, height, widths, rows, alt: photos[name].alt, use: photos[name].use, ...(photos[name].reel === false ? { reel: false } : {}) };
 }
 
 writeFileSync(join(root, 'src/data/images.json'), JSON.stringify(manifest, null, 2) + '\n');
