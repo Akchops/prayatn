@@ -488,7 +488,7 @@ export function start(section) {
     if (e.pointerType !== 'mouse') return;
     hover = focus.i < 0 ? pick(e.clientX, e.clientY) : -1;
     stick.classList.toggle('is-over', hover >= 0);
-    if (hover >= 0) {
+    if (hover >= 0 && photos[hover].caption !== false) {
       chip.textContent = photos[hover].alt;
       chip.style.translate = `${Math.min(e.clientX - b.left + 18, W - 320)}px ${Math.min(e.clientY - b.top + 22, H - 100)}px`;
       chip.classList.add('is-on');
@@ -552,7 +552,7 @@ export function start(section) {
   function fillBox(i) {
     const p = photos[i];
     const img = box.querySelector('img'), cap = box.querySelector('.lightbox__cap');
-    img.src = bestSrc(p); img.alt = p.alt; cap.textContent = p.alt;
+    img.src = bestSrc(p); img.alt = p.alt; cap.textContent = p.caption === false ? '' : p.alt;
     nav.querySelector('span').textContent = `${CHAPTERS[p.ch].label} · ${i + 1} / ${photos.length}`;
   }
   function open(i) {

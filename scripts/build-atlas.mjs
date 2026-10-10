@@ -53,6 +53,7 @@ writeFileSync(join(root, 'src/data/atlas.json'), JSON.stringify({
     cat: CATS.indexOf(images[n].use === 'hero' ? 'women' : images[n].use),
     src: `/img/${n}-${big(n)}.jpg`,
     alt: images[n].alt,
+    ...(images[n].caption === false ? { nocap: true } : {}),
   })),
 }) + '\n');
 console.log(`atlas: ${order.length} tiles, ${COLS}x${ROWS} -> public/img/atlas.{avif,jpg}`);

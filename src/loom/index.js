@@ -116,7 +116,7 @@ export async function start(section) {
       s.hover = tileAt(s.px, s.py); targetHover = s.hover ? 1 : 0;
       // The hovered photo's description follows the pointer.
       if (chip) {
-        if (s.hover) {
+        if (s.hover && !meta.tiles[s.hover.idx].nocap) {
           chip.textContent = meta.tiles[s.hover.idx].alt;
           chip.style.translate = `${Math.min(s.px + 18, W - 300)}px ${Math.min(s.py + 22, H - 90)}px`;
           chip.classList.add('is-on');
@@ -166,7 +166,7 @@ export async function start(section) {
     const t = meta.tiles[idx];
     if (!box || typeof box.showModal !== 'function') { location.href = BASE + t.src.replace(/^\//, ''); return; }
     const img = box.querySelector('img'), cap = box.querySelector('.lightbox__cap');
-    img.src = BASE + t.src.replace(/^\//, ''); img.alt = t.alt; cap.textContent = t.alt;
+    img.src = BASE + t.src.replace(/^\//, ''); img.alt = t.alt; cap.textContent = t.nocap ? '' : t.alt;
     box.showModal();
   }
 

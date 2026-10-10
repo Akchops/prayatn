@@ -27,7 +27,7 @@ if (box && typeof box.showModal === 'function') {
     const best = (src.getAttribute('srcset') || '').split(',').map((s) => s.trim().split(' ')[0]).filter(Boolean).pop();
     img.src = best || src.currentSrc || src.src;
     img.alt = src.alt;
-    cap.textContent = src.alt;
+    cap.textContent = 'nocap' in fig.dataset ? '' : src.alt;
     box.showModal();
   });
   box.addEventListener('click', (e) => { if (e.target === box || e.target.closest('[data-close]')) box.close(); });

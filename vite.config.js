@@ -45,7 +45,7 @@ const CATS = { health: 'Healthcare', school: 'Education', women: 'Women developm
 // description as the caption. Figures carry data-cat for the gallery filter.
 function gallery(which, images) {
   const names = Object.keys(images).filter((n) => images[n].use !== 'hero' && (which === 'all' || images[n].use === which));
-  const fig = (n) => `<figure class="g-item" data-cat="${images[n].use}">${picture(n, 'sizes="(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw"', images)}<figcaption aria-hidden="true">${esc(images[n].alt)}</figcaption></figure>`;
+  const fig = (n) => `<figure class="g-item" data-cat="${images[n].use}"${images[n].caption === false ? ' data-nocap' : ''}>${picture(n, 'sizes="(min-width: 1100px) 33vw, (min-width: 640px) 50vw, 100vw"', images)}${images[n].caption === false ? '' : `<figcaption aria-hidden="true">${esc(images[n].alt)}</figcaption>`}</figure>`;
   if (which !== 'all') return `<div class="g-grid">${names.map(fig).join('')}</div>`;
   return Object.entries(CATS).map(([cat, label]) => {
     const list = names.filter((n) => images[n].use === cat);
@@ -69,9 +69,10 @@ function bandImg(name, images) {
 // Without JS or with reduced motion it is a swipeable row; with motion it is
 // pinned and driven by vertical scroll (src/reel.js).
 function reel(which, images) {
-  // A photo marked "reel": false in photos.json is left out of the strips.
+  // In photos.json, "reel": false leaves a photo out of the strips, and
+  // "caption": false shows it without words under it (its alt text stays).
   const names = Object.keys(images).filter((n) => images[n].use === which && images[n].reel !== false);
-  const card = (n, i) => `<figure class="reel__card"><div class="reel__img">${picture(n, 'sizes="(min-width: 900px) 440px, 60vw"', images)}</div><figcaption><span class="reel__n">${String(i + 1).padStart(2, '0')}</span>${esc(images[n].alt)}</figcaption></figure>`;
+  const card = (n, i) => `<figure class="reel__card"><div class="reel__img">${picture(n, 'sizes="(min-width: 900px) 440px, 60vw"', images)}</div>${images[n].caption === false ? '' : `<figcaption><span class="reel__n">${String(i + 1).padStart(2, '0')}</span>${esc(images[n].alt)}</figcaption>`}</figure>`;
   const cards = names.map(card);
   // Two rows: alternate photos, so neighbours differ in both rows.
   const rowA = cards.filter((_, i) => i % 2 === 0), rowB = cards.filter((_, i) => i % 2 === 1);
