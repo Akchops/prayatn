@@ -83,3 +83,20 @@ body { margin: 0; background: var(--khadi); color: var(--indigo); font: 400 1.2r
 .ed-row--photo textarea { font-size: 1.1rem; }
 .ed-hint { font-size: 1.05rem; color: var(--muted); margin: 6px 0 10px; }
 @media (max-width: 420px) { .ed-row--photo { grid-template-columns: 1fr; } .ed-row__img { max-width: 240px; } }
+
+/* Photos and captions (/photos/): a grid of photos, each with its caption
+   and where it is used. */
+.ph-main { max-width: 1200px; }
+.ph-group { margin: 34px 0 14px; padding-bottom: 10px; border-bottom: 3px solid var(--indigo); font: 800 clamp(1.6rem, 1.2rem + 1.6vw, 2.2rem)/1.1 var(--display); letter-spacing: -0.02em; }
+.ph-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 22px; }
+.ph-card { display: flex; flex-direction: column; background: #fff; border-radius: 4px; overflow: hidden; box-shadow: 0 8px 22px rgba(30,36,64,.1); border-top: 6px solid transparent; }
+.ph-card.is-changed { border-top-color: var(--marigold); background: #FFF8E4; }
+.ph-card__img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--khadi-deep); display: block; }
+.ph-card__body { display: grid; gap: 6px; padding: 14px 16px 16px; min-width: 0; }
+.ph-card textarea { width: 100%; min-width: 0; resize: vertical; field-sizing: content; font: 400 1.12rem/1.45 var(--body); color: inherit; background: var(--khadi); border: 2px solid rgba(30,36,64,.15); border-radius: 4px; padding: 8px 10px; }
+.ph-card textarea:focus { outline: 3px solid var(--rani); outline-offset: 1px; background: #fff; }
+.ph-card.is-changed .ed-row__ch { display: flex; }
+.ph-card__used { margin: 2px 0 0; font-size: .98rem; line-height: 1.4; color: var(--muted); }
+.ph-card__used ul { margin: 4px 0 0; padding-left: 1.1em; display: grid; gap: 2px; }
+.ph-card__used b { color: var(--indigo); }
+.ed-small a { color: #F2B940; }

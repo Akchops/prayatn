@@ -311,7 +311,7 @@ const PAGES = ['', 'about/', 'healthcare/', 'education/', 'women-development/', 
 // the organisation's details for search engines, all from the page's own
 // title, description and header photo.
 function shareMeta(out, src, path, page, site, images) {
-  if (page === 'edit') return out; // the owner's editing page: no previews
+  if (page === 'edit' || page === 'photos') return out; // the owner's editing pages: no previews
   const root = siteRoot(site);
   const rel = page === 'home' ? '' : page === '404' ? null : `${page}/`;
   const title = (out.match(/<title>([^<]*)<\/title>/) || [])[1] || site.name;
@@ -453,6 +453,7 @@ export default defineConfig({
         gallery: resolve(root, 'gallery/index.html'),
         notfound: resolve(root, '404.html'),
         edit: resolve(root, 'edit/index.html'),
+        photos: resolve(root, 'photos/index.html'),
       },
     },
   },

@@ -155,3 +155,10 @@ Each photo is listed once, with a thumbnail, on the first page where it appears;
 until someone applies them to the source. The page is not linked from the
 site and is not indexed. Code: `edit/index.html`, `src/edit.js`,
 `src/styles/edit.css`.
+
+`/photos/` (preview: https://akchops.github.io/prayatn/photos/) shows only the
+photos: each of the 89 once, with its caption and the pages and sections
+where it is used (the Gallery holds them all, which is said once at the
+top). Caption changes are sent on WhatsApp the same way, naming the photo
+(`[Photo gallery-53]`), to be applied in `photos.json`. Code:
+`photos/index.html`, `src/photos.js`.

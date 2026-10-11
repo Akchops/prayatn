@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#1E2440">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <title>Photos and captions · Prayatn</title>
+    <!-- Every photo on the website once, with its one caption and where it is
+         used, for the owner to change the captions (src/photos.js). Not
+         linked from the site, not indexed. -->
+    <script type="module" src="/src/photos.js"></script>
+  </head>
+  <body>
+    <header class="ed-top">
+      <div class="ed-wrap">
+        <p class="ed-brand"><img src="/logo-ink.png" alt="" width="32" height="34"> Prayatn website · photos and captions</p>
+        <h1>Every photo, once</h1>
+        <ol class="ed-how">
+          <li>Each photo on the website is here once, with its caption. Under it you can see the pages where it is used.</li>
+          <li>Click on a caption and type your change. Changed captions turn yellow. A caption changes everywhere the photo is used.</li>
+          <li>When you are done, press <b>Send changes on WhatsApp</b> and send the message to the person who looks after the website.</li>
+        </ol>
+        <p class="ed-small">All of these photos are also in the Gallery. To change the other words on the website, use <a href="/edit/">the words page</a>.</p>
+      </div>
+    </header>
+
+    <main class="ed-wrap ph-main" id="main">
+      <noscript><p class="ed-msg">This page needs JavaScript switched on.</p></noscript>
+      <p class="ed-msg" data-status>Loading the photos…</p>
+      <div data-list></div>
+    </main>
+
+    <div class="ed-bar">
+      <div class="ed-bar__in">
+        <p class="ed-bar__count" data-count aria-live="polite">No changes yet</p>
+        <div class="ed-bar__btns">
+          <button type="button" class="ed-btn ed-btn--wa" data-send disabled>Send changes on WhatsApp</button>
+          <button type="button" class="ed-btn" data-copy disabled>Copy changes</button>
+          <button type="button" class="ed-btn ed-btn--quiet" data-clear disabled>Start again</button>
+        </div>
+        <p class="ed-bar__note" data-note aria-live="polite"></p>
+      </div>
+    </div>
+  </body>
+</html>
