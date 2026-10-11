@@ -1,6 +1,7 @@
 // "Edit the words" (/edit/): a plain copy of every sentence on the website,
 // for the owner to change. It fetches the real pages and lists their text in
-// order, each sentence in a box that can be typed in. Changes are kept in
+// order, each sentence in a box that can be typed in. Each photo is shown
+// once, with its caption, on the first page where it appears. Changes are kept in
 // this browser (localStorage) and sent as one WhatsApp message (or copied),
 // each change with a short code (E12) and the old and new words, so it can be
 // found in the source and applied. Nothing here changes the site itself.
@@ -69,43 +70,114 @@ function kindOf(el) {
   if (t === 'ADDRESS') return 'Address';
   return 'Text';
 }
-const cache = new Map();
-async function blocksFor(page) {
-  if (cache.has(page.key)) return cache.get(page.key);
+// A photo is known by its file name (/img/gallery-53-800.jpg → gallery-53).
+const PHOTO = /\/img\/([\w-]+?)-\d+\.(?:jpg|avif|webp)/;
+function photoOf(fig) {
+  const img = fig.querySelector('img');
+  const m = img && (img.getAttribute('src') || '').match(PHOTO);
+  if (!m) return null;
+  const small = (img.getAttribute('srcset') || '').split(',')[0].trim().split(/\s+/)[0];
+  return { name: m[1], thumb: small || img.getAttribute('src') };
+}
+
+// Every page's words and captioned photos, in reading order.
+async function parse(page) {
   const res = await fetch(BASE + page.path, { cache: 'no-cache' });
   if (!res.ok) throw new Error(String(res.status));
   const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
   const root = page.footer ? doc.querySelector('.site-foot') : doc.querySelector('main');
   const out = [];
-  if (root) {
-    const taken = [];
-    for (const el of root.querySelectorAll(SEL)) {
-      if (el.closest(SKIP) || taken.some((t) => t.contains(el))) continue;
-      const text = textOf(el);
-      if (text.length < 2 || !/[\p{L}]/u.test(text)) continue;
-      taken.push(el);
-      out.push({ code: `${page.code}${out.length + 1}`, kind: kindOf(el), text });
+  let n = 0;
+  if (!root) return out;
+  const taken = [];
+  for (const el of root.querySelectorAll(`${SEL},figure`)) {
+    if (taken.some((t) => t.contains(el))) continue;
+    if (el.tagName === 'FIGURE') {
+      // A photo with its caption (a label like "Education" on About is a
+      // word, not a caption). Gallery photos count even without one.
+      const fc = el.querySelector(':scope > figcaption');
+      const ph = photoOf(el);
+      if (ph && ((fc && !fc.hasAttribute('data-label')) || el.classList.contains('g-item'))) {
+        taken.push(el);
+        out.push({ photo: ph.name, thumb: ph.thumb, code: `P-${ph.name}`, kind: 'Photo caption', text: fc ? textOf(fc) : '' });
+      }
+      continue;
     }
+    if (el.closest(SKIP)) continue;
+    const text = textOf(el);
+    if (text.length < 2 || !/[\p{L}]/u.test(text)) continue;
+    taken.push(el);
+    out.push({ code: `${page.code}${++n}`, kind: el.hasAttribute('data-label') ? 'Small label' : kindOf(el), text });
   }
-  cache.set(page.key, out);
   return out;
+}
+
+// All pages at once, so that each photo is listed once only: on the first
+// page (in the order of the tabs) where it appears with a caption. One
+// caption per photo; it shows everywhere the photo is used.
+let all = null;
+async function loadAll() {
+  if (all) return all;
+  const parsed = await Promise.all(PAGES.map((p) => parse(p).catch(() => null)));
+  const seen = new Map();
+  all = new Map();
+  PAGES.forEach((p, i) => {
+    const items = parsed[i];
+    if (!items) { all.set(p.key, null); return; }
+    all.set(p.key, items.filter((it) => {
+      if (!it.photo) return true;
+      if (seen.has(it.photo)) { seen.get(it.photo).count++; return false; }
+      it.count = 1; seen.set(it.photo, it);
+      return true;
+    }));
+  });
+  return all;
 }
 
 // ---------- showing a page ----------
 const grow = (ta) => { ta.style.height = 'auto'; ta.style.height = `${ta.scrollHeight + 2}px`; };
 let current = null;
 
+function makeRow(b, page) {
+  const ed = saved.edits[b.code];
+  // A change that is now on the site, or was made to words that have since
+  // changed, is dropped.
+  if (ed && (ed.orig !== b.text || ed.now === b.text)) delete saved.edits[b.code];
+  const row = document.createElement('div');
+  row.className = b.photo ? 'ed-row ed-row--photo' : 'ed-row';
+  row.dataset.kind = b.kind;
+  const id = `t-${b.code}`;
+  const label = b.photo
+    ? `Photo caption${b.count > 1 ? ` · shows in ${b.count} places on the website` : ''}`
+    : b.kind;
+  row.innerHTML = `${b.photo ? '<img class="ed-row__img" alt="" loading="lazy">' : ''}<div class="ed-row__body"><label class="ed-row__k" for="${id}"></label><textarea id="${id}" rows="1" spellcheck="true"${b.photo ? ' placeholder="(no caption)"' : ''}></textarea><div class="ed-row__ch"><span>Changed</span><button type="button">Undo</button></div></div>`;
+  if (b.photo) row.querySelector('img').src = b.thumb;
+  row.querySelector('label').textContent = label;
+  const ta = row.querySelector('textarea');
+  ta.value = saved.edits[b.code]?.now ?? b.text;
+  const mark = () => row.classList.toggle('is-changed', ta.value.replace(/\s+/g, ' ').trim() !== b.text);
+  mark();
+  ta.addEventListener('input', () => {
+    grow(ta); mark();
+    const now = ta.value.replace(/\s+/g, ' ').trim();
+    if (now === b.text) delete saved.edits[b.code];
+    else saved.edits[b.code] = { page: page.name, kind: b.kind, orig: b.text, now, ...(b.photo ? { photo: b.photo, count: b.count } : {}) };
+    save(); tally();
+  });
+  row.querySelector('button').addEventListener('click', () => {
+    ta.value = b.text; delete saved.edits[b.code]; save(); grow(ta); mark(); tally(); ta.focus();
+  });
+  return row;
+}
+
 async function show(page) {
   current = page;
   tabs.querySelectorAll('button').forEach((b) => b.setAttribute('aria-current', String(b.dataset.key === page.key)));
-  status.hidden = false; status.textContent = 'Loading the website’s words…';
+  status.hidden = false; status.textContent = 'Loading the website’s words and photos…';
   holder.replaceChildren();
-  let blocks;
-  try { blocks = await blocksFor(page); } catch {
-    status.textContent = 'This page could not be loaded. Check the internet connection and try again.';
-    return;
-  }
+  const blocks = (await loadAll()).get(page.key);
   if (current !== page) return;
+  if (!blocks) { status.textContent = 'This page could not be loaded. Check the internet connection and reload.'; return; }
   status.hidden = true;
 
   const head = document.createElement('div');
@@ -114,34 +186,13 @@ async function show(page) {
   head.querySelector('h2').textContent = page.name;
   head.querySelector('a').href = BASE + page.path + (page.footer ? '#main' : '');
   holder.append(head);
-
-  for (const b of blocks) {
-    const ed = saved.edits[b.code];
-    // A change that is now on the site, or was made to words that have since
-    // changed, is dropped.
-    if (ed && (ed.orig !== b.text || ed.now === b.text)) delete saved.edits[b.code];
-    const row = document.createElement('div');
-    row.className = 'ed-row';
-    row.dataset.kind = b.kind;
-    const id = `t-${b.code}`;
-    row.innerHTML = `<label class="ed-row__k" for="${id}"></label><textarea id="${id}" rows="1" spellcheck="true"></textarea><div class="ed-row__ch"><span>Changed</span><button type="button">Undo</button></div>`;
-    row.querySelector('label').textContent = b.kind;
-    const ta = row.querySelector('textarea');
-    ta.value = saved.edits[b.code]?.now ?? b.text;
-    const mark = () => row.classList.toggle('is-changed', ta.value.trim() !== b.text);
-    mark();
-    ta.addEventListener('input', () => {
-      grow(ta); mark();
-      const now = ta.value.replace(/\s+/g, ' ').trim();
-      if (now === b.text) delete saved.edits[b.code];
-      else saved.edits[b.code] = { page: page.name, kind: b.kind, orig: b.text, now };
-      save(); tally();
-    });
-    row.querySelector('button').addEventListener('click', () => {
-      ta.value = b.text; delete saved.edits[b.code]; save(); grow(ta); mark(); tally(); ta.focus();
-    });
-    holder.append(row);
+  if (page.key === 'gallery') {
+    const p = document.createElement('p');
+    p.className = 'ed-hint';
+    p.textContent = 'Below are the gallery’s photos that are not on the other pages. Photos already on another page are listed there, once.';
+    holder.append(p);
   }
+  for (const b of blocks) holder.append(makeRow(b, page));
 
   // Anything else for this page: a photo to add, a section to remove...
   const note = document.createElement('div');
@@ -171,7 +222,8 @@ function message() {
     lines.push('', `*${p.name.toUpperCase()}*`);
     for (const [code, e] of eds) {
       n++;
-      lines.push(`[${code}] ${e.kind}`, `Was: ${e.orig}`, `Now: ${e.now || '(delete this)'}`, '');
+      const what = e.photo ? `[Photo ${e.photo}] Photo caption, everywhere it appears` : `[${code}] ${e.kind}`;
+      lines.push(what, `Was: ${e.orig || '(no caption)'}`, `Now: ${e.now || '(delete this)'}`, '');
     }
     if (note) { n++; lines.push(`Also: ${note}`, ''); }
   }

@@ -151,7 +151,7 @@ It reads the real pages each time, so it always matches the site. Click a
 sentence, type the change (it turns yellow), and press "Send changes on
 WhatsApp". The message lists each change with a code (e.g. `[E8]` = the 8th
 piece of text on Education), the old words and the new, plus any notes.
-Changes are kept in that browser until sent; nothing on the site changes
+Each photo is listed once, with a thumbnail, on the first page where it appears; its caption is the same everywhere on the site (`{{cap name}}` in the pages, from `photos.json`: the photo's `alt`, or a separate `caption`, or `"caption": false` for none), so one change covers every place. Changes are kept in that browser until sent; nothing on the site changes
 until someone applies them to the source. The page is not linked from the
 site and is not indexed. Code: `edit/index.html`, `src/edit.js`,
 `src/styles/edit.css`.

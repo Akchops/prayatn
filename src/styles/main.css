@@ -1420,3 +1420,6 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 
 .jobs .eyebrow { color: #A8285A; }  /* rani darkened: 5:1 on khadi-deep */
 .g-item img:focus-visible { outline: 3px solid var(--rani); outline-offset: 3px; }
+
+/* A photo shown without a caption (photos.json "caption": false). */
+figcaption:empty { display: none; }
