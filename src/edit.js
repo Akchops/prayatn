@@ -131,6 +131,17 @@ async function loadAll() {
       return true;
     }));
   });
+  // Changes that are already on the website, or that were made to words
+  // which have changed since, are dropped on every page, not only on the
+  // pages opened (so an old change is never sent twice).
+  if ([...all.values()].every(Boolean)) {
+    const live = new Map();
+    for (const items of all.values()) for (const it of items) live.set(it.code, it.text);
+    for (const [code, e] of Object.entries(saved.edits)) {
+      if (!live.has(code) || live.get(code) !== e.orig || e.now === e.orig) delete saved.edits[code];
+    }
+    save();
+  }
   return all;
 }
 

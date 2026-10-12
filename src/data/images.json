@@ -23,7 +23,7 @@
       963
     ],
     "rows": 212,
-    "alt": "A woman in a black abaya stands on a weighing scale at the health centre, beside a health poster.",
+    "alt": "A woman on a weighing scale during a prenatal check-up at the health centre.",
     "use": "health"
   },
   "swasthya-kendra-03": {
@@ -48,7 +48,7 @@
       1280
     ],
     "rows": 160,
-    "alt": "The Doctor fills in yellow health cards at a table while children wait beside her. 'Health check-ups' is chalked on the blackboard behind.",
+    "alt": "A health check-up in progress.",
     "use": "health"
   },
   "school-health-clinic-08": {
@@ -61,7 +61,7 @@
       825
     ],
     "rows": 150,
-    "alt": "The ANM measures a schoolboy's height against the wall of the clinic.",
+    "alt": "The ANM measures a schoolboy’s height against the measuring scale.",
     "use": "health"
   },
   "school-health-clinic-09": {
@@ -75,7 +75,7 @@
       1280
     ],
     "rows": 160,
-    "alt": "Schoolchildren in uniform crowd together, holding their yellow health cards up high.",
+    "alt": "Schoolchildren in uniform holding their yellow health cards up high.",
     "use": "health"
   },
   "gallery-53": {
@@ -192,7 +192,7 @@
       1108
     ],
     "rows": 104,
-    "alt": "A large group of women sit on the grass of an open ground, facing a speaker.",
+    "alt": "Women listening to a speaker at the picnic.",
     "use": "women"
   },
   "school-health-clinic-12": {
@@ -206,7 +206,7 @@
       1280
     ],
     "rows": 160,
-    "alt": "Three young schoolchildren hold their yellow health cards as they wait their turn on the weighing scale.",
+    "alt": "Three young schoolchildren with their health cards wait for their turn on the weighing scale.",
     "use": "health"
   },
   "school-health-clinic-14": {
@@ -219,7 +219,7 @@
       963
     ],
     "rows": 212,
-    "alt": "The ANM reads a boy's card as he stands on the scale, with a queue of children behind him.",
+    "alt": "The doctor filling in the health card during a health check-up.",
     "use": "health"
   },
   "school-health-clinic-16": {
@@ -244,7 +244,7 @@
       515
     ],
     "rows": 162,
-    "alt": "Mothers and children sit together on the floor of a classroom for a health session.",
+    "alt": "Parents attending a health awareness session in school.",
     "use": "health"
   },
   "school-health-clinic-19": {
@@ -258,7 +258,7 @@
       1280
     ],
     "rows": 120,
-    "alt": "A large group of women seated on the floor listen during a health session in a classroom.",
+    "alt": "An awareness session in progress.",
     "use": "health"
   },
   "school-health-clinic-20": {
@@ -272,7 +272,7 @@
       1280
     ],
     "rows": 160,
-    "alt": "A health worker gives a deworming tablet to a small boy at the clinic, with another child waiting beside him.",
+    "alt": "The ANM gives a deworming tablet to a small boy at the clinic, with another child waiting beside him.",
     "use": "health"
   },
   "school-health-clinic-22": {
@@ -298,7 +298,7 @@
       694
     ],
     "rows": 204,
-    "alt": "Children in blue uniforms make colourful \"MOM\" cards with paper, clay and pens at a classroom table.",
+    "alt": "Children make colourful Mother’s Day cards with paper, clay and pens at a classroom table.",
     "use": "school"
   },
   "gallery-55": {
@@ -323,7 +323,7 @@
       793
     ],
     "rows": 102,
-    "alt": "Students in sports kit stand in rows on a sunny sports ground.",
+    "alt": "Students take part in the Sports Carnival 2025.",
     "use": "school"
   },
   "gallery-59": {
@@ -374,7 +374,7 @@
       570
     ],
     "rows": 176,
-    "alt": "Four young children in costume hold Indian flags in front of a Republic Day blackboard.",
+    "alt": "Four young children in costume, holding Indian flags, recite a poem during the Republic Day celebrations.",
     "use": "school"
   },
   "gallery-69": {
@@ -386,7 +386,7 @@
       709
     ],
     "rows": 168,
-    "alt": "A teacher stands with a class of children holding up the paper houses they made.",
+    "alt": "A volunteer with a class of children holding up the paper houses they made.",
     "use": "school"
   },
   "gallery-48": {
@@ -399,7 +399,7 @@
       852
     ],
     "rows": 136,
-    "alt": "Teachers hand out certificates in a classroom on certificate distribution day.",
+    "alt": "The chief guest and teachers hand out certificates on certificate distribution day.",
     "use": "school"
   },
   "gallery-50": {
@@ -436,7 +436,7 @@
       634
     ],
     "rows": 162,
-    "alt": "The documentation assistant fills in a form for a woman to access a government scheme.",
+    "alt": "The documentation assistant fills in a form for a woman to access a government scheme at the Community Resource Centre.",
     "use": "women"
   },
   "women-development-25": {
@@ -484,7 +484,7 @@
       599
     ],
     "rows": 136,
-    "alt": "In a lane, a man in a suit talks with a group of women seated along the wall.",
+    "alt": "A legal awareness session in the community.",
     "use": "women"
   },
   "women-development-30": {
@@ -535,7 +535,7 @@
       1280
     ],
     "rows": 120,
-    "alt": "Women sit together on a patterned rug in a small office.",
+    "alt": "A Mahila Panchayat meeting in the community.",
     "use": "women"
   },
   "gallery-42": {
@@ -547,8 +547,8 @@
       684
     ],
     "rows": 140,
-    "alt": "PTA meeting in school electing parent representative for School Management Committee.",
-    "use": "women"
+    "alt": "PTA meeting in school electing a parent representative for the School Management Committee.",
+    "use": "school"
   },
   "gallery-61": {
     "width": 663,
@@ -559,8 +559,8 @@
       663
     ],
     "rows": 130,
-    "alt": "Women sit around a long table during a training session.",
-    "use": "women"
+    "alt": "A teachers’ training workshop in progress.",
+    "use": "school"
   },
   "gallery-68": {
     "width": 748,
@@ -583,7 +583,7 @@
       686
     ],
     "rows": 160,
-    "alt": "Family members talk with a man across a desk.",
+    "alt": "Family members in consultation with the advocate.",
     "use": "women"
   },
   "gallery-73": {
@@ -611,7 +611,7 @@
       1204
     ],
     "rows": 160,
-    "alt": "Two men talk across the desk at the Legal Help Desk.",
+    "alt": "Two men in discussion with the advocate at the Legal Help Desk.",
     "use": "women"
   },
   "gallery-76": {
@@ -637,7 +637,7 @@
       880
     ],
     "rows": 106,
-    "alt": "A group of women and a girl stand together holding small certificates.",
+    "alt": "A group of women and a girl holding certificates.",
     "use": "women"
   },
   "gallery-78": {
@@ -662,7 +662,7 @@
       818
     ],
     "rows": 104,
-    "alt": "Women seated on chairs and on the floor talk together in an office.",
+    "alt": "Mahila Panchayat members attending a training.",
     "use": "women"
   },
   "gallery-83": {
@@ -686,7 +686,7 @@
       789
     ],
     "rows": 104,
-    "alt": "Women sit close together on a rug, one reading from a register.",
+    "alt": "Mahila Panchayat members attending the meeting.",
     "use": "women"
   },
   "gallery-85": {
@@ -699,7 +699,7 @@
       814
     ],
     "rows": 104,
-    "alt": "A woman stands to speak to a room full of women seated on rugs.",
+    "alt": "Mahila Panchayat training underway.",
     "use": "women"
   },
   "gallery-41": {
@@ -712,7 +712,7 @@
       807
     ],
     "rows": 120,
-    "alt": "Guests seated in the school courtyard at an annual function.",
+    "alt": "Guests at the annual function.",
     "use": "events"
   },
   "gallery-65": {
@@ -726,7 +726,7 @@
       1280
     ],
     "rows": 104,
-    "alt": "Guests on a row of chairs in the school courtyard at an event.",
+    "alt": "Chief guests at the annual function.",
     "use": "events"
   },
   "gallery-67": {
@@ -739,7 +739,7 @@
       955
     ],
     "rows": 80,
-    "alt": "A group of guests stands together in a school corridor.",
+    "alt": "Dr Ravi Seth and his wife on their yearly visit to the school.",
     "use": "events"
   },
   "gallery-46": {
@@ -806,7 +806,7 @@
       584
     ],
     "rows": 314,
-    "alt": "Three young children in woolly caps stand by a blackboard that reads “G.K. Quiz Competition”.",
+    "alt": "Three young children during the “Show & Tell” competition.",
     "use": "school"
   },
   "ar-certificates": {
@@ -927,7 +927,7 @@
       499
     ],
     "rows": 118,
-    "alt": "A woman in a red dupatta talks with a staff member across a desk at a Community Resource Centre.",
+    "alt": "The documentation assistant fills in a form for a woman to access a government scheme at the Community Resource Centre.",
     "use": "women"
   },
   "ar-counselling": {
@@ -971,7 +971,7 @@
       502
     ],
     "rows": 122,
-    "alt": "Women dance and raise their arms at the Women’s Day celebration.",
+    "alt": "Women dancing at the Women’s Day celebration.",
     "use": "women"
   },
   "ar-youth-english": {
@@ -993,7 +993,7 @@
       369
     ],
     "rows": 192,
-    "alt": "Young women sit together on the floor during a vocational training session.",
+    "alt": "Young girls attending a vocational training session.",
     "use": "women"
   },
   "ar-youth-life-skills": {
@@ -1015,7 +1015,7 @@
       472
     ],
     "rows": 86,
-    "alt": "Young women sit together on the floor of a training room, with a trainer on a chair.",
+    "alt": "Young girls in discussion with the instructor at a vocational training session.",
     "use": "women"
   },
   "swasthya-kendra-05": {
@@ -1028,7 +1028,7 @@
       963
     ],
     "rows": 162,
-    "alt": "A patient with the doctor, with shelves of medicine behind them.",
+    "alt": "A patient in consultation with the doctor.",
     "use": "health"
   },
   "school-health-clinic-06": {
@@ -1054,7 +1054,7 @@
       963
     ],
     "rows": 156,
-    "alt": "A schoolgirl stands on the weighing scale while the ANM writes at the desk.",
+    "alt": "A schoolgirl on the weighing scale during a health check-up.",
     "use": "health"
   },
   "school-health-clinic-10": {
@@ -1068,7 +1068,7 @@
       1280
     ],
     "rows": 114,
-    "alt": "ANM fills a yellow health card for a young schoolgirl.",
+    "alt": "The doctor with a student during a health check-up.",
     "use": "health"
   },
   "school-health-clinic-13": {
@@ -1080,7 +1080,7 @@
       667
     ],
     "rows": 106,
-    "alt": "The ANM talks with a schoolboy seated on a stool, while a woman in a pink sari stands beside him.",
+    "alt": "The mother of a student in consultation with the doctor.",
     "use": "health"
   },
   "school-health-clinic-18": {

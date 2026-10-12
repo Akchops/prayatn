@@ -131,6 +131,9 @@ function card(ph) {
 // gallery come last.
 function render(photos) {
   list.replaceChildren();
+  // A change for a photo no longer on the website is dropped.
+  const names = new Set(photos.map((ph) => ph.name));
+  for (const k of Object.keys(saved)) if (!names.has(k)) delete saved[k];
   const groups = new Map();
   for (const ph of photos) {
     const g = ph.uses[0]?.page || 'Only in the Gallery';

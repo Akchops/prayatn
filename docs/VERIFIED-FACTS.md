@@ -269,3 +269,8 @@ Applied as sent (65 changes): photo captions (in `photos.json`, so every place a
 Open: the timeline now says the health centre opened in 1997–98, but the Healthcare page and the Home programme text still say 1998–99. One photo caption came back as just "A woman" (gallery-85) and was left as it was. "(delete this)" on women-development-31's caption: the photo is left out of the Women development photo strip (`"reel": false`), still in the gallery.
 
 - 2026-10-10, owner: the first Swasthya Kendra opened in **1997–98** (everywhere). women-development-31 is shown without a caption (`"caption": false`), not removed.
+
+## Owner's edits, 2026-10-12
+
+- Partners (owner): Seth Foundation supports construction and education work; Deloitte, through United Way of Delhi, supports Seth Vidyalaya; Sleepwell Foundation supports the training of teachers; Subash Dua Memorial Trust supports the Scholarship Scheme for Meritorious Students; SJ Jindal Trust (what it supports not given). Partners without a logo show their name once.
+- 41 photo captions rewritten (photos.json). "MP members" written out as "Mahila Panchayat members". gallery-42 (PTA meeting) and gallery-61 (teachers' training workshop) moved from Women development to Education, as asked.

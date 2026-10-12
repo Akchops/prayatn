@@ -3,7 +3,7 @@
   "partners": [
     {
       "name": "Seth Foundation",
-      "what": "Supports our education work"
+      "what": "Supports our construction and education work"
     },
     {
       "name": "Azim Premji Foundation",
@@ -18,11 +18,19 @@
     {
       "name": "United Way of Delhi",
       "logo": "united-way-of-delhi.png",
-      "what": "With Deloitte, supports Seth Vidyalaya"
+      "what": "Deloitte, through United Way of Delhi, supports Seth Vidyalaya"
     },
     {
       "name": "Sleepwell Foundation",
-      "logo": "sleepwell-foundation.png"
+      "logo": "sleepwell-foundation.png",
+      "what": "Supports the training of teachers"
+    },
+    {
+      "name": "Subash Dua Memorial Trust",
+      "what": "Supports the Scholarship Scheme for Meritorious Students"
+    },
+    {
+      "name": "SJ Jindal Trust"
     }
   ],
   "_source": "Old site \"Our Partner\" section, screenshots supplied by the owner on 2026-09-24. Logos cropped from those screenshots."

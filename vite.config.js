@@ -98,7 +98,8 @@ function partnersBlock(list, variant) {
     const mark = p.logo
       ? `<img src="/partners/${esc(p.logo)}" alt="" loading="lazy">`
       : `<span class="pcard__word">${esc(p.name)}</span>`;
-    const inner = `<span class="pcard__panel">${mark}</span><span class="pcard__name">${esc(p.name)}</span>${p.what ? `<span class="pcard__what">${esc(p.what)}</span>` : ''}`;
+    // Without a logo the name itself fills the panel, so it is not repeated.
+    const inner = `<span class="pcard__panel">${mark}</span>${p.logo ? `<span class="pcard__name">${esc(p.name)}</span>` : ''}${p.what ? `<span class="pcard__what">${esc(p.what)}</span>` : ''}`;
     return `<li class="pcard" style="--r:${i}">${p.url ? `<a class="pcard__face" href="${esc(p.url)}" rel="noopener" target="_blank">${inner}</a>` : `<div class="pcard__face">${inner}</div>`}</li>`;
   };
   return `<section class="partners partners--${variant}" aria-labelledby="partners-${variant}"><div class="partners__inner"><p class="eyebrow">With thanks</p><h2 id="partners-${variant}" class="rv">Our partners &amp; supporters</h2><ul class="pcards" data-partners>${list.map(card).join('')}</ul></div></section>`;
