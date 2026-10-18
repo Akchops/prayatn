@@ -22,6 +22,21 @@ Build and deployment → Source: GitHub Actions**. The preview then appears at
 `https://<owner>.github.io/prayatn/`. GitHub Pages on a private repository
 needs a paid plan.
 
+**Going live on prayatnonline.org.** The same workflow builds the real site
+(served from `/`, open to Google, no preview bar, canonical and sitemap on the
+domain) as soon as Pages has a custom domain:
+
+1. At the domain's DNS, for `prayatnonline.org` remove the old site's `A`/`AAAA`
+   records and add `A` 185.199.108.153, 185.199.109.153, 185.199.110.153,
+   185.199.111.153 and `AAAA` 2606:50c0:8000::153, 2606:50c0:8001::153,
+   2606:50c0:8002::153, 2606:50c0:8003::153. Point `www` (`CNAME`) at
+   `<owner>.github.io`. Leave `MX` and `TXT` records alone.
+2. **Settings → Pages → Custom domain**: `prayatnonline.org`, Save. Once the
+   check passes, tick **Enforce HTTPS**.
+3. **Actions → Preview → Run workflow** (or push). The log says
+   `Building for https://prayatnonline.org`. The github.io address then
+   forwards to the domain.
+
 **On your computer.** `npm install && npm run build && npm run preview`, then
 open http://localhost:4173.
 

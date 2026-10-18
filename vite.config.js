@@ -301,11 +301,10 @@ function footMap(site) {
     : `<div class="map" data-map>${google}</div>`;
 }
 
-// Where the built site lives: the GitHub preview (in Actions), or the real
-// domain from site.json. Used for link previews, the sitemap and Google.
-const siteRoot = (site) => (process.env.GITHUB_REPOSITORY_OWNER
-  ? `https://${process.env.GITHUB_REPOSITORY_OWNER}.github.io${BASE}`
-  : `${site.url.replace(/\/$/, '')}/`);
+// Where the built site lives: SITE_URL from the publish workflow (the GitHub
+// preview, or the real domain once it is connected), else the domain in
+// site.json. Used for link previews, the sitemap and Google.
+const siteRoot = (site) => `${(process.env.SITE_URL || site.url).replace(/\/$/, '')}/`;
 const PAGES = ['', 'about/', 'healthcare/', 'education/', 'women-development/', 'gallery/', 'get-involved/'];
 
 // Link previews (WhatsApp, Facebook, X), the canonical address, and on Home

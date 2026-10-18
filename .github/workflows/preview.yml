@@ -1,7 +1,12 @@
-# Builds the site and publishes a PRE-LAUNCH PREVIEW to GitHub Pages
-# (https://<owner>.github.io/prayatn/), marked noindex with a preview bar.
-# It deploys only once Pages is switched on: Settings → Pages → Source:
-# "GitHub Actions". Until then the build still runs and the deploy is skipped.
+# Builds the site and publishes it to GitHub Pages. It deploys only once
+# Pages is switched on: Settings → Pages → Source: "GitHub Actions". Until
+# then the build still runs and the deploy is skipped.
+#
+# Where it is published decides how it is built:
+# - no custom domain: a PRE-LAUNCH PREVIEW at https://<owner>.github.io/prayatn/,
+#   marked noindex with a preview bar;
+# - custom domain set in Settings → Pages (prayatnonline.org): the real site,
+#   served from the domain's root, open to Google, no preview bar.
 name: Preview
 
 on:
@@ -30,14 +35,32 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build
-        env:
-          BASE: /${{ github.event.repository.name }}/
-          PREVIEW: '1'
-      - run: node scripts/first-load-budget.mjs dist/
       - id: pages
         uses: actions/configure-pages@v5
         continue-on-error: true
+      # Pages' address: https://<owner>.github.io/prayatn, or the custom domain.
+      - id: where
+        env:
+          URL: ${{ steps.pages.outputs.base_url }}
+          HOST: ${{ steps.pages.outputs.host }}
+          PATH_: ${{ steps.pages.outputs.base_path }}
+          REPO: ${{ github.event.repository.name }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          if [ -n "$HOST" ] && [ "${HOST%github.io}" = "$HOST" ]; then
+            echo "base=${PATH_}/" >> "$GITHUB_OUTPUT"; echo "preview=" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=/$REPO/" >> "$GITHUB_OUTPUT"; echo "preview=1" >> "$GITHUB_OUTPUT"
+            URL="${URL:-https://$OWNER.github.io/$REPO}"
+          fi
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Building for $URL"
+      - run: npm run build
+        env:
+          BASE: ${{ steps.where.outputs.base }}
+          PREVIEW: ${{ steps.where.outputs.preview }}
+          SITE_URL: ${{ steps.where.outputs.url }}
+      - run: node scripts/first-load-budget.mjs dist/
       - if: steps.pages.outcome == 'success'
         uses: actions/upload-pages-artifact@v3
         with:
