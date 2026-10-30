@@ -49,6 +49,7 @@ jobs:
         run: |
           if [ -n "$HOST" ] && [ "${HOST%github.io}" = "$HOST" ]; then
             echo "base=${PATH_}/" >> "$GITHUB_OUTPUT"; echo "preview=" >> "$GITHUB_OUTPUT"
+            URL="https://$HOST$PATH_" # Pages says http:// until HTTPS is switched on
           else
             echo "base=/$REPO/" >> "$GITHUB_OUTPUT"; echo "preview=1" >> "$GITHUB_OUTPUT"
             URL="${URL:-https://$OWNER.github.io/$REPO}"
