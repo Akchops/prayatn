@@ -369,6 +369,7 @@ function templates() {
         const year = new Date().getFullYear();
         const page = (ctx.path.match(/\/([\w-]+)\/index\.html$/)?.[1]) ?? (ctx.path === '/404.html' ? '404' : 'home');
         const vars = {
+          base: BASE,
           years: String(year - site.founded),
           year: String(year),
           founded: String(site.founded),

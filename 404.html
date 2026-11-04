@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Old addresses (the old Google site, the github.io preview) go to the
+         page that took their place, e.g. /home to Home, /health to
+         Healthcare. Only addresses nothing matches stay on this page. -->
+    <script>(function(l){var b='{{base}}',p=l.pathname.toLowerCase(),to=[[/^(home|index(\.html?)?|project|program|what-we-do|our-work)/,''],[/^(about|who-we-are|team|trustee|mission|history)/,'about/'],[/^(health|swasth|clinic|medical)/,'healthcare/'],[/^(educat|school|seth|vidyalaya|scholar|savera)/,'education/'],[/^(women|mahila|youth|gbv|legal|crc|empower)/,'women-development/'],[/^(gallery|pictures|media)/,'gallery/'],[/^(contact|donat|support|involve|get-involved|volunteer|join|career|job)/,'get-involved/']];if(p.indexOf(b)===0)p=p.slice(b.length);if(/^prayatn(\/|$)/.test(p))return l.replace(b+l.pathname.slice(b.length+8)+l.search+l.hash);var s=p.split('/').filter(Boolean);if(!s.length)s=[''];for(var i=s.length-1;i>=0;i--)for(var j=0;j<to.length;j++)if(to[j][0].test(s[i])){var u=b+to[j][1];if(u!==l.pathname)l.replace(u+l.hash);return}})(location)</script>
     <!--@head-->
     <title>Page not found · Prayatn</title>
     <meta name="robots" content="noindex">
