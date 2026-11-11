@@ -16,9 +16,16 @@ export function start(root) {
   grid.innerHTML = Array.from({ length: MAX }, (_, i) => `<i style="--k:${i}"></i>`).join('');
   const blocks = [...grid.children];
   root.classList.add('is-live');
+  // An amount chosen on Home arrives with the donate link (?gift=12000).
+  const asked = Number(new URLSearchParams(location.search).get('gift'));
+  if (asked >= Number(range.min) && asked <= Number(range.max)) range.value = String(Math.round(asked / 1000) * 1000);
+  const donate = document.querySelectorAll('[data-gift-donate]'), mail = document.querySelectorAll('[data-gift-mail]');
   const set = () => {
     const amount = Number(range.value), months = amount / 1000;
     out.textContent = fmt(amount);
+    // The donate button says the amount and takes it along; the "tell us" email has it filled in.
+    donate.forEach((a) => { a.textContent = `Donate ${fmt(amount)}`; a.href = `${import.meta.env.BASE_URL}get-involved/?gift=${amount}#donate`; });
+    mail.forEach((a) => { const [head, body = ''] = a.href.split('&body='); a.href = `${head}&body=${encodeURIComponent(decodeURIComponent(body).replace(/^Amount:.*$/m, `Amount: ${fmt(amount)}`))}`; });
     const years = Math.floor(months / 12), rest = months % 12;
     says.textContent = years === 0
       ? `keeps a scholar in school for ${plural(months, 'month', 'months')}.`

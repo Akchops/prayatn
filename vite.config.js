@@ -152,7 +152,7 @@ function giveBlock(site) {
     <h4>By cheque</h4><p>${esc(site.chequePayee)}</p><p class="small">Post it to Prayatn, ${site.address.map(esc).join(', ')}.</p></li>
   <li class="give__step"><span class="give__n" aria-hidden="true">2</span><h3>Tell us</h3>
     <p>Email us your name, postal address, PAN, the amount, the date and the transaction reference or cheque number.</p>
-    <p><a class="btn btn--donate" href="mailto:${site.email}?subject=Donation%20receipt&amp;body=${body}">Email us the details</a></p>
+    <p><a class="btn btn--donate" href="mailto:${site.email}?subject=Donation%20receipt&amp;body=${body}" data-gift-mail>Email us your gift details</a></p>
     <p class="small">Or call ${phones}.</p></li>
   <li class="give__step"><span class="give__n" aria-hidden="true">3</span><h3>Get your receipt</h3>
     <p>${esc(site.receiptLine)}</p>
@@ -175,6 +175,19 @@ function giftBlock(site) {
 </div>`;
 }
 
+// The donate band at the end of each programme page: the ask, where the
+// reader has just seen the work.
+const ASKS = {
+  health: ['Keep health care close to home', 'Your gift helps the Swasthya Kendra and the School Health Program look after families and schoolchildren.'],
+  school: ['Keep a child in school', 'Your gift helps Seth Vidyalaya teach, and keeps our scholars studying.'],
+  women: ['Stand with women in their own neighbourhoods', 'Your gift helps the Mahila Panchayats, the Legal Help Desk and the centres that support women.'],
+};
+function askBand(key) {
+  const a = ASKS[key];
+  if (!a) throw new Error(`{{ask ${key}}}: unknown programme`);
+  return `<section class="askband" aria-labelledby="ask-h"><div class="askband__inner"><div><h2 id="ask-h" class="askband__h">${esc(a[0])}</h2><p>${esc(a[1])}</p></div><p class="askband__go"><a class="btn btn--donate" href="/get-involved/#donate">Donate</a><span>By bank transfer or cheque. We send you a receipt.</span></p></div></section>`;
+}
+
 // The slider again on Home, woven into the scroll: the band is pinned and
 // scrolling through it slides the amount up (src/features/gift.js).
 function giftBand(site) {
@@ -184,7 +197,7 @@ function giftBand(site) {
     <div class="giftband__text">
       <h2 id="giftband-h" class="giftband__h rv">What ₹1,000 does</h2>
       <p class="giftband__p">It keeps one of our scholars in school for a month. Keep scrolling, or slide, to see what your gift would cover.</p>
-      <p><a class="btn btn--donate" href="/get-involved/#donate">Give now</a></p>
+      <p><a class="btn btn--donate" href="/get-involved/#donate" data-gift-donate>Donate</a></p>
     </div>
     ${giftBlock(site)}
   </div>
@@ -410,6 +423,7 @@ function templates() {
           .replace(/\{\{img ([\w-]+)([^}]*)\}\}/g, (_, n, a) => picture(n, a, images))
           .replace(/\{\{more ([\w\s-]+)\}\}/g, (_, n) => more(n, images))
           .replace(/\{\{giftband (\w+)\}\}/g, () => giftBand(site))
+          .replace(/\{\{ask (\w+)\}\}/g, (_, k) => askBand(k))
           .replace(/\{\{findmap\}\}/g, () => findMap(site))
           .replace(/\{\{footmap\}\}/g, () => footMap(site))
           .replace(/\{\{gallery ([\w-]+)\}\}/g, (_, w) => gallery(w, images))

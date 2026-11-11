@@ -1445,3 +1445,15 @@ figcaption:empty { display: none; }
   .nav a[aria-current="page"] { text-decoration: underline 3px; }
   :focus-visible { outline: 3px solid Highlight; }
 }
+
+/* Lab 6: the ask at the end of each programme page; three numbers in three columns. */
+.askband { background: var(--marigold); color: var(--indigo); --focus: var(--indigo); }
+.askband__inner { max-width: var(--max); margin: 0 auto; padding: clamp(40px, 6vw, 72px) var(--gutter); display: grid; gap: 18px 48px; align-items: end; }
+@media (min-width: 900px) { .askband__inner { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } }
+.askband__h { font-size: clamp(1.9rem, 1.2rem + 3vw, 3.4rem); max-width: 18ch; margin-bottom: .3em; }
+.askband p { margin: 0; max-width: 46ch; }
+.askband__go { display: grid; gap: 10px; justify-items: start; }
+.askband__go span { font-size: .95rem; }
+.askband .btn--donate { background: var(--indigo); color: var(--khadi); box-shadow: none; }
+.askband .btn--donate:hover { background: #3A4166; }
+@media (min-width: 900px) { .stats__grid:has(> .stat:nth-child(3):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
