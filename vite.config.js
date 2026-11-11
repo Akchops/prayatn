@@ -197,7 +197,7 @@ function giftBand(site) {
   <div class="giftband__inner">
     <div class="giftband__text">
       <h2 id="giftband-h" class="giftband__h rv">What ₹1,000 does</h2>
-      <p class="giftband__p">It keeps one of our scholars in school for a month. Keep scrolling, or slide, to see what your gift would cover.</p>
+      <p class="giftband__p">It keeps one of our scholars in school for a month. ${site.features?.labTheme ? 'Slide' : 'Keep scrolling, or slide,'} to see what your gift would cover.</p>
       <p><a class="btn btn--donate" href="/get-involved/#donate" data-gift-donate>Donate</a></p>
     </div>
     ${giftBlock(site)}
