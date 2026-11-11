@@ -63,7 +63,12 @@ body {
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration-thickness: 2px; text-underline-offset: 3px; text-decoration-color: var(--marigold); }
 a:hover { text-decoration-color: currentColor; }
-:focus-visible { outline: 3px solid var(--rani); outline-offset: 3px; border-radius: 2px; }
+:focus-visible { outline: 3px solid var(--focus, var(--rani)); outline-offset: 3px; border-radius: 2px; }
+/* On the dark (indigo) parts of the page the rani ring is too faint (2.8:1),
+   so the ring turns marigold there (8.5:1). */
+.weave, .woven, .band, .menu__panel, .site-foot, .moments, .reel, .ticker, .loom, .partners, .mission,
+.board, .ways, .helper--vol, .stats, .where, .foreword, .gift, .ncard, .findmap__card, .lightbox,
+.story__media, .corr, .pblock__ask, .map, .reach { --focus: #F2B940; }
 h1, h2, h3 { font-family: var(--display); line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 .5em; font-weight: 700; }
 h2 { font-size: clamp(1.9rem, 1.2rem + 3vw, 3.4rem); }
 h3 { font-size: 1.5rem; letter-spacing: -0.01em; }
