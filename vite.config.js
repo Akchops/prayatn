@@ -111,7 +111,7 @@ function partnersBlock(list, variant) {
 const PROGRAMMES = {
   healthcare: { href: '/healthcare/', title: 'Healthcare', img: 'school-health-clinic-09', line: 'Swasthya Kendra and the School Health Program.' },
   education: { href: '/education/', title: 'Education', img: 'gallery-53', line: 'Seth Vidyalaya, which reaches out to 884 students, and scholarships for meritorious students.' },
-  women: { href: '/women-development/', title: 'Women development', img: 'women-development-33', line: 'Ten Mahila Panchayats, Crisis Management Centres, a weekly Legal Help Desk, and young people as agents of change.' },
+  women: { href: '/women-development/', title: 'Women development', img: 'women-development-34', line: 'Ten Mahila Panchayats, Crisis Management Centres, a weekly Legal Help Desk, and young people as agents of change.' },
 };
 function nextCard(key, label, images) {
   const p = PROGRAMMES[key];
