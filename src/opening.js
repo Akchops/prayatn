@@ -1,4 +1,5 @@
-// Page openings. Each time a page is opened, its header photo
+// Page openings. The first time a page is opened in a visit (not when a link
+// jumps to a part of it), its header photo
 // is built out of tiles (full-screen, or the whole photo as large as fits on a
 // phone), each page in its own way, and then the
 // finished photo flies into its card in the header while the page's own title
@@ -156,7 +157,7 @@ export async function start() {
 
   // Skipping: any input finishes the build and goes straight to the landing.
   let done = false, landing = false;
-  const skip = (e) => { if (e?.type === 'keydown' && e.key === 'Tab') return; land(true); };
+  const skip = () => land(true); // any key, Tab included, so focus never moves behind the cover
   const opts = { passive: true, capture: true };
   addEventListener('pointerdown', skip, opts);
   addEventListener('wheel', skip, opts);
