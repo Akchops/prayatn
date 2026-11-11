@@ -179,6 +179,18 @@ export function start(section) {
   const stick = wrap.querySelector('.corr__stick');
   stick.prepend(canvas);
   section.insertBefore(wrap, section.querySelector('.loom__list-toggle'));
+  // The walk is long (about twenty screens of scrolling) and its photos can't
+  // be reached by keyboard: offer a way straight to the plain list first.
+  const skip = document.createElement('a');
+  skip.className = 'corr__skip'; skip.href = '#photo-list';
+  skip.textContent = 'Skip the walk: see every photo as a list';
+  skip.addEventListener('click', (e) => {
+    const toggle = section.querySelector('[data-list-toggle]');
+    if (toggle && toggle.getAttribute('aria-expanded') !== 'true') { e.preventDefault(); toggle.click(); }
+    const list = document.getElementById('photo-list');
+    if (list) { list.tabIndex = -1; list.focus({ preventScroll: true }); }
+  });
+  section.insertBefore(skip, wrap);
   document.documentElement.classList.add('has-loom');
   section.dataset.tier = 'corridor';
 

@@ -114,8 +114,33 @@ if (menu) {
   const sync = () => document.documentElement.classList.toggle('menu-open', menu.open);
   menu.addEventListener('toggle', sync);
   menu.addEventListener('click', (e) => { if (e.target.closest('.menu__panel a')) menu.open = false; });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.open) { menu.open = false; menu.querySelector('summary').focus(); } });
-  matchMedia('(min-width: 1080px)').addEventListener('change', (m) => { if (m.matches) menu.open = false; });
+  document.addEventListener('keydown', (e) => {
+    if (!menu.open) return;
+    if (e.key === 'Escape') { menu.open = false; menu.querySelector('summary').focus(); return; }
+    // Keep Tab inside the open menu: the page behind it is covered.
+    if (e.key !== 'Tab') return;
+    const items = [menu.querySelector('summary'), ...menu.querySelectorAll('.menu__panel a, .menu__panel button')];
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+  const wide = matchMedia('(min-width: 1080px)');
+  const onWide = (m) => { if (m.matches) menu.open = false; };
+  if (wide.addEventListener) wide.addEventListener('change', onWide); else wide.addListener(onWide);
+}
+
+// The project names drifting across the footer: a button to stop them
+// (anything that moves on its own for more than five seconds needs one).
+const ticker = document.querySelector('.ticker');
+if (ticker && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'ticker__pause'; b.setAttribute('aria-pressed', 'false');
+  b.textContent = 'Pause';
+  b.addEventListener('click', () => {
+    const paused = ticker.classList.toggle('is-paused');
+    b.setAttribute('aria-pressed', String(paused)); b.textContent = paused ? 'Play' : 'Pause';
+  });
+  ticker.after(b);
 }
 
 // Gallery: show the plain list under The Loom on request.
@@ -125,7 +150,7 @@ if (listToggle) listToggle.addEventListener('click', () => {
   const open = list.classList.toggle('is-open');
   listToggle.setAttribute('aria-expanded', String(open));
   listToggle.textContent = open ? 'Hide the list' : 'Show every photo as a list';
-  if (open) list.scrollIntoView({ behavior: 'smooth' });
+  if (open) list.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
 });
 
 // Donate: copy buttons beside each bank detail (hidden without JS).

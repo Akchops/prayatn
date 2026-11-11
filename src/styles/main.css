@@ -636,7 +636,7 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 .foot-brand p:last-child { color: #D9D2C3; max-width: 38ch; }
 .foot-col__title { font: 700 1rem/1.2 var(--display); letter-spacing: .08em; text-transform: uppercase; color: #F2B940; margin-bottom: 14px; }
 .foot-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.foot-col a { display: inline-block; padding: 5px 0; text-decoration-color: rgba(242,185,64,.6); overflow-wrap: anywhere; }
+.foot-col a { display: inline-block; padding: 9px 0; text-decoration-color: rgba(242,185,64,.6); overflow-wrap: anywhere; }
 .foot-col address { line-height: 1.7; margin-bottom: 16px; }
 .map {
   position: relative; min-height: 150px; display: grid; place-items: end start; padding: 12px;
@@ -644,7 +644,7 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 }
 .map::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(30,36,64,.2), rgba(30,36,64,.85)); }
 .map > * { position: relative; }
-.map__open, .map__load { font-weight: 600; color: var(--khadi); background: var(--indigo); padding: 8px 12px; border: 1px solid rgba(243,236,223,.4); text-decoration: none; font-size: .95rem; }
+.map__open, .map__load { display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; font-weight: 600; color: var(--khadi); background: var(--indigo); padding: 8px 12px; border: 1px solid rgba(243,236,223,.4); text-decoration: none; font-size: .95rem; }
 .map__btns { display: flex; flex-wrap: wrap; gap: 8px; }
 .map__load { cursor: pointer; font-family: inherit; }
 .map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -907,7 +907,7 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 @media (prefers-reduced-motion: no-preference) { .lightbox[open] img { animation: card-in .5s cubic-bezier(.2,.8,.2,1) both; } }
 .gfilter { top: var(--head); z-index: 20; display: flex; gap: 8px; overflow-x: auto; padding: 12px var(--gutter); background: var(--khadi); box-shadow: 0 1px 0 rgba(30,36,64,.12); scrollbar-width: none; }
 .gfilter::-webkit-scrollbar { display: none; }
-.gfilter button { flex: none; font: 600 .95rem/1 var(--body); padding: 10px 14px; border: 2px solid var(--indigo); background: transparent; color: var(--indigo); cursor: pointer; min-height: 40px; transition: background-color .2s, color .2s; }
+.gfilter button { flex: none; font: 600 .95rem/1 var(--body); padding: 10px 14px; border: 2px solid var(--indigo); background: transparent; color: var(--indigo); cursor: pointer; min-height: 44px; transition: background-color .2s, color .2s; }
 .gfilter button[aria-pressed="true"] { background: var(--indigo); color: var(--khadi); }
 .gfilter { position: sticky; }
 .g-group[hidden] { display: none; }
@@ -1428,3 +1428,20 @@ a[href^="mailto:"] { overflow-wrap: anywhere; }
 
 /* A photo shown without a caption (photos.json "caption": false). */
 figcaption:empty { display: none; }
+
+/* Lab 4: keyboard and motion control. */
+.ticker { position: relative; }
+.ticker.is-paused .ticker__row { animation-play-state: paused; }
+.ticker:hover .ticker__row { animation-play-state: paused; }
+.ticker__pause { display: block; margin: -12px var(--gutter) 0 auto; min-height: 44px; padding: 8px 14px; font: 600 .9rem/1 var(--body); color: var(--khadi); background: var(--indigo); border: 1px solid rgba(243,236,223,.4); cursor: pointer; --focus: #F2B940; }
+.site-foot .ticker__pause { position: relative; }
+.corr__skip { position: absolute; left: var(--gutter); top: 12px; z-index: 30; padding: 12px 16px; background: var(--khadi); color: var(--indigo); font: 600 1rem/1.2 var(--body); text-decoration: none; transform: translateY(-160%); transition: transform .2s; }
+.corr__skip:focus { transform: none; }
+.loom--corr { position: relative; }
+/* Windows high contrast and other forced colours: keep edges and states visible. */
+@media (forced-colors: active) {
+  .btn, .gfilter button, .map__open, .map__load, .ticker__pause, .fmap__btn { border: 2px solid ButtonText; }
+  .gfilter button[aria-pressed="true"] { outline: 3px solid Highlight; outline-offset: 2px; }
+  .nav a[aria-current="page"] { text-decoration: underline 3px; }
+  :focus-visible { outline: 3px solid Highlight; }
+}
