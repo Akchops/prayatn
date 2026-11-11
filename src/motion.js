@@ -308,7 +308,8 @@ document.querySelectorAll('.since__list').forEach((list) => {
   };
 
   let place;
-  if (since && inner) {
+  // The design lab's calmer pace (features.labTheme) leaves the timeline unpinned.
+  if (since && inner && !document.documentElement.hasAttribute('data-lab')) {
     // Pinned: the runway is one "travel" and one "hold" per milestone.
     since.classList.add('is-pinned');
     const head = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head')) || 60;

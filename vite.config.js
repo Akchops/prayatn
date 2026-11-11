@@ -118,7 +118,8 @@ function nextCard(key, label, images) {
   const im = p && images[p.img];
   if (!p || !im) throw new Error(`{{nextcard ${key}}}: unknown`);
   const prev = label === 'Previous';
-  return `<a class="ncard${prev ? ' ncard--prev' : ''}" href="${p.href}" style="--weave-img:url('/img/${p.img}-weave.png');--weave-rows:${im.rows}"><span class="ncard__weave woven" aria-hidden="true"></span><span class="ncard__photo">${picture(p.img, 'sizes="(min-width: 800px) 50vw, 100vw" alt=""', images)}</span><span class="ncard__body"><span class="ncard__k">${esc(label)}</span><span class="ncard__t">${esc(p.title)}</span><span class="ncard__d">${esc(p.line)}</span><span class="ncard__go" aria-hidden="true">${prev ? '←' : '→'}</span></span></a>`;
+  const thread = { healthcare: 'health', education: 'school', women: 'women' }[key];
+  return `<a class="ncard${prev ? ' ncard--prev' : ''}" data-thread="${thread}" href="${p.href}" style="--weave-img:url('/img/${p.img}-weave.png');--weave-rows:${im.rows}"><span class="ncard__weave woven" aria-hidden="true"></span><span class="ncard__photo">${picture(p.img, 'sizes="(min-width: 800px) 50vw, 100vw" alt=""', images)}</span><span class="ncard__body"><span class="ncard__k">${esc(label)}</span><span class="ncard__t">${esc(p.title)}</span><span class="ncard__d">${esc(p.line)}</span><span class="ncard__go" aria-hidden="true">${prev ? '←' : '→'}</span></span></a>`;
 }
 
 function bankBlock(site) {
@@ -436,6 +437,7 @@ function templates() {
             if (!(k in vars)) throw new Error(`Unknown template variable ${m} in ${ctx.path}`);
             return vars[k];
           })
+          .replace('<html lang="en">', site.features?.labTheme ? '<html lang="en" data-lab>' : '<html lang="en">')
           .replace(/ data-nav="(\w+)"/g, (_, n) => (n === page ? ' aria-current="page"' : ''));
         let out = withBase(fill(html));
         out = shareMeta(out, html, ctx.path, page, site, images);

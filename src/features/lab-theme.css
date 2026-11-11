@@ -1,0 +1,33 @@
+/* Design lab (switch: site.json features.labTheme): "one thread per
+   programme", and a calmer pace. Healthcare is rani, Education marigold,
+   Women development neem, as in the gallery and on About, and each programme
+   carries its colour everywhere it appears. With the switch off none of this
+   applies ([data-lab] is set on <html> at build time). */
+[data-lab] [data-prog="health"], [data-lab] .prog--health, [data-lab] .ncard[data-thread="health"] { --thread: #C22F66; --thread-ink: #A8285A; --thread-lite: #F27BA5; --thread-deep: 58, 14, 34; }
+[data-lab] [data-prog="school"], [data-lab] .prog--school, [data-lab] .ncard[data-thread="school"] { --thread: #E2A019; --thread-ink: #7F5700; --thread-lite: #F2B940; --thread-deep: 58, 42, 8; }
+[data-lab] [data-prog="women"], [data-lab] .prog--women, [data-lab] .ncard[data-thread="women"] { --thread: #1D6E62; --thread-ink: #1D6E62; --thread-lite: #4CC7AE; --thread-deep: 13, 46, 42; }
+
+/* Programme pages: the header's woven photo sits under a veil of the
+   programme's own colour (khadi text 8-10:1), edged with its thread. */
+[data-lab] [data-prog] .band.woven {
+  background-image: linear-gradient(180deg, rgba(var(--thread-deep), .86), rgba(var(--thread-deep), .92)), url('/thread-shade.svg'), var(--weave-img);
+  border-bottom: 10px solid var(--thread);
+}
+[data-lab] [data-prog] .band__kicker { color: var(--thread-lite); }
+[data-lab] [data-prog] .nav__list a[aria-current]::after { background: var(--thread); }
+/* The numbers strip speaks in one colour: the programme's. */
+[data-lab] [data-prog] .stats { border-bottom-color: var(--thread); }
+[data-lab] [data-prog] .stats .stat b { color: var(--thread-lite); }
+/* The story: the step being read is marked by the thread, not by fading the others. */
+[data-lab] [data-prog] .story__kicker { color: var(--thread-ink); }
+[data-lab] [data-prog] .story--live .story__step { border-left: 4px solid transparent; padding-left: 22px; transition: color .5s, border-color .5s; }
+[data-lab] [data-prog] .story--live .story__step.is-active { border-left-color: var(--thread); }
+[data-lab] [data-prog] .story__thread i { background: var(--thread); }
+/* The ask at the end takes the programme's colour too. */
+[data-lab] [data-prog="health"] .askband, [data-lab] [data-prog="women"] .askband { background: var(--thread); color: var(--khadi); --focus: #F2B940; }
+[data-lab] [data-prog="health"] .askband .btn--donate, [data-lab] [data-prog="women"] .askband .btn--donate { background: var(--khadi); color: var(--indigo); }
+/* Home: each programme block is sewn to its thread. */
+[data-lab] .prog { border-left: 6px solid var(--thread); }
+[data-lab] .prog .prog__num { color: var(--thread-ink); }
+/* The next-programme cards carry the thread along their top edge. */
+[data-lab] .ncard[data-thread]::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 8px; z-index: 3; background: var(--thread); }

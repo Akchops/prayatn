@@ -40,7 +40,8 @@ export function start(root) {
   // from Rs 1,000 up to Rs 36,000. Taking hold of the slider hands it over
   // until the band has left the screen.
   const band = root.closest('[data-gift-scroll]');
-  if (!band || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // Not pinned with reduced motion, or in the design lab's calmer pace (features.labTheme).
+  if (!band || matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.hasAttribute('data-lab')) return;
   band.classList.add('is-scrolly');
   let manual = false, raf = 0;
   const hand = () => { manual = true; };
