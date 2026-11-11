@@ -31,3 +31,9 @@
 [data-lab] .prog .prog__num { color: var(--thread-ink); }
 /* The next-programme cards carry the thread along their top edge. */
 [data-lab] .ncard[data-thread]::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 8px; z-index: 3; background: var(--thread); }
+/* Calmer pace: the timeline is no longer pinned, so on a PC the big year rides
+   down beside the milestones instead of floating mid-column. */
+@media (min-width: 900px) {
+  [data-lab] .since__inner { align-items: start; }
+  [data-lab] .since__year { position: sticky; top: calc(var(--head) + 22vh); }
+}
