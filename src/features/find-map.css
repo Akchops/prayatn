@@ -35,14 +35,14 @@
 
 /* Labels: a khadi halo so they read over any street. */
 .fmap text { paint-order: stroke; stroke: #F3ECDF; stroke-linejoin: round; }
-.fmap__street { fill: #3A4166; font: 600 calc(11.5px / var(--s)) var(--body); letter-spacing: .02em; stroke-width: calc(3.5px / var(--s)); text-anchor: middle; dominant-baseline: central; }
-.fmap__street--major, .fmap__street--secondary { fill: #1E2440; font-weight: 700; font-size: calc(12.5px / var(--s)); }
+.fmap__street { fill: #3A4166; font: 600 calc(12.5px / var(--s)) var(--body); letter-spacing: .02em; stroke-width: calc(3.5px / var(--s)); text-anchor: middle; dominant-baseline: central; }
+.fmap__street--major, .fmap__street--secondary { fill: #1E2440; font-weight: 600; font-size: calc(12.5px / var(--s)); }
 .fmap__place { fill: rgba(30,36,64,.5); font: 800 calc(15px / var(--s)) var(--display); letter-spacing: .18em; text-transform: uppercase; text-anchor: middle; stroke-width: calc(4px / var(--s)); }
 .fmap__keep { transform: scale(calc(1 / var(--s))); }
 .fmap__station circle { fill: #F3ECDF; stroke: #C22F66; stroke-width: 4; }
 .fmap__station text { fill: #C22F66; font: 800 13.5px var(--display); letter-spacing: -0.01em; stroke-width: 4px; }
 .fmap__poi circle { fill: #1D6E62; stroke: #F3ECDF; stroke-width: 2; }
-.fmap__poi text { fill: #1D6E62; font: 600 11.5px var(--body); text-anchor: middle; stroke-width: 3.5px; }
+.fmap__poi text { fill: #1D6E62; font: 600 12.5px var(--body); text-anchor: middle; stroke-width: 3.5px; }
 .fmap__poi--place_of_worship circle { fill: #E2A019; }
 .fmap__poi--place_of_worship text { fill: #8A5A00; }
 
@@ -53,7 +53,7 @@
 .fmap__flag rect { fill: #1E2440; filter: drop-shadow(0 6px 10px rgba(30,36,64,.35)); }
 .fmap__flag text { stroke: none; }
 .fmap__flagname { fill: #F3ECDF; font: 800 17px var(--display); letter-spacing: -0.02em; }
-.fmap__flagaddr { fill: #F2B940; font: 600 11.5px var(--body); letter-spacing: .02em; }
+.fmap__flagaddr { fill: #F2B940; font: 600 12.5px var(--body); letter-spacing: .02em; }
 @media (prefers-reduced-motion: reduce) { .fmap__ring { animation: none; opacity: .5; } }
 
 /* Zoom buttons, the gesture hint and the data credit. */
@@ -65,7 +65,7 @@
 .fmap__ui:not(.is-on) { display: none; }
 .fmap__hint { position: absolute; left: 50%; top: 50%; translate: -50% -50%; margin: 0; padding: 12px 18px; background: rgba(30,36,64,.88); color: #F3ECDF; font: 600 1rem/1.3 var(--body); text-align: center; pointer-events: none; opacity: 0; transition: opacity .25s; max-width: 80%; }
 .fmap__hint.is-on { opacity: 1; }
-.fmap__credit { position: absolute; right: 0; bottom: 0; margin: 0; padding: 3px 8px; background: rgba(243,236,223,.85); color: #3A4166; font-size: .72rem; }
+.fmap__credit { position: absolute; right: 0; bottom: 0; margin: 0; padding: 3px 8px; background: rgba(243,236,223,.85); color: #3A4166; font-size: .78rem; }
 .fmap__credit a { color: inherit; }
 @media (min-width: 900px) { .fmap__ui { top: 24px; right: 24px; } }
 

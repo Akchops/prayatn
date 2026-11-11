@@ -18,7 +18,7 @@
 
 /* The first hint: scroll to walk. */
 .corr__hint { position: fixed; left: 50%; bottom: 96px; translate: -50% 0; margin: 0; display: flex; align-items: center; gap: 12px;
-  padding: 12px 18px; background: var(--marigold); color: var(--indigo); font: 700 1rem/1 var(--body); white-space: nowrap;
+  padding: 12px 18px; background: var(--marigold); color: var(--indigo); font: 600 1rem/1 var(--body); white-space: nowrap;
   box-shadow: 0 10px 30px rgba(0,0,0,.35); transition: opacity .5s, translate .5s; }
 .corr__stick .corr__hint { position: absolute; }
 .corr__hint.is-gone { opacity: 0; translate: -50% 20px; }
@@ -48,7 +48,7 @@
 .lightbox__nav { display: none; }
 .lightbox.is-corr .lightbox__nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 12px; }
 .lightbox__nav span { font: 600 .85rem/1 var(--body); letter-spacing: .12em; color: #D9D2C3; font-variant-numeric: tabular-nums; }
-.lightbox__nav button { width: 48px; height: 48px; font: 700 1.4rem/1 var(--body); background: transparent; color: var(--khadi); border: 2px solid rgba(243,236,223,.5); cursor: pointer; }
+.lightbox__nav button { width: 48px; height: 48px; font: 600 1.4rem/1 var(--body); background: transparent; color: var(--khadi); border: 2px solid rgba(243,236,223,.5); cursor: pointer; }
 .lightbox__nav button:hover { background: var(--khadi); color: var(--indigo); }
 .lightbox.is-corr[open] img { animation: none; }
 .corr__stick { touch-action: pan-y; cursor: grab; }
