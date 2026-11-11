@@ -505,7 +505,7 @@ a.reach__way:hover { background: #474F79; }
 .since__thread-under { stroke: rgba(30,36,64,.14); stroke-dasharray: 3 7; }
 .since__thread path:last-child { stroke: var(--rani); }
 .since__list.is-threaded { padding-left: 44px; border-top: 0; }
-.since__list.is-threaded li { position: relative; opacity: .45; transition: opacity .5s; padding: 22px 0; }
+.since__list.is-threaded li { position: relative; opacity: .75; transition: opacity .5s; padding: 22px 0; }
 .since__list.is-threaded li::before {
   content: ''; position: absolute; left: -39px; top: 26px; width: 18px; height: 18px; border-radius: 50%;
   background: var(--khadi); border: 3px solid rgba(30,36,64,.3); transform: scale(.55);
@@ -599,7 +599,7 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
 .give.is-drawn .give__step.is-reached .give__n { background: var(--indigo); color: var(--khadi); transform: none; box-shadow: 0 0 0 5px var(--khadi), 0 0 0 9px var(--marigold); }
 .give.is-drawn .give__step:nth-child(2).is-reached .give__n { box-shadow: 0 0 0 5px var(--khadi), 0 0 0 9px var(--rani); }
 .give.is-drawn .give__step:nth-child(3).is-reached .give__n { box-shadow: 0 0 0 5px var(--khadi), 0 0 0 9px var(--neem); }
-.give.is-drawn .give__step > :not(.give__n) { opacity: .6; transition: opacity .5s; }
+.give.is-drawn .give__step > :not(.give__n) { transition: opacity .5s; }
 .give.is-drawn .give__step.is-reached > :not(.give__n) { opacity: 1; }
 @media (max-width: 480px) { .give.is-drawn::after { left: 19px; } }
 @media (max-width: 520px) { dl.bank div { grid-template-columns: 1fr; gap: 2px; } dl.bank dt { font-size: .85rem; } }
@@ -993,8 +993,8 @@ dl.bank dd { display: flex; justify-content: space-between; align-items: center;
   box-shadow: 0 0 0 4px var(--khadi), 0 24px 60px rgba(30,36,64,.3);
 }
 .story--live .story__steps { padding-bottom: 20vh; }
-.story--live .story__step { min-height: 72svh; display: flex; flex-direction: column; justify-content: center; border-top: 0; padding: 0; opacity: .5; transition: opacity .5s; }
-.story--live .story__step.is-active { opacity: 1; }
+.story--live .story__step { min-height: 72svh; display: flex; flex-direction: column; justify-content: center; border-top: 0; padding: 0; color: var(--muted); transition: color .5s; }
+.story--live .story__step.is-active { color: var(--indigo); }
 .story--live .story__fig { display: none; }
 .shot { position: absolute; inset: 0; z-index: 0; }
 /* One sheet per step, plain indigo, holding the step's photos (laid out by
@@ -1171,7 +1171,7 @@ html.opened [data-intro="deal"] .band__card::before, html.opened [data-intro="de
 .mission .eyebrow { color: #F2B940; }
 .mission__text { margin: 14px 0 0; max-width: 21ch; font: 800 clamp(2rem, .9rem + 4.4vw, 5rem)/1.06 var(--display); letter-spacing: -0.035em; }
 .mission.is-live .mission__stick { position: sticky; top: var(--head); height: calc(100vh - var(--head)); height: calc(100svh - var(--head)); min-height: 0; }
-.mission__w { color: rgba(243,236,223,.17); transition: color .35s; }
+.mission__w { color: rgba(243,236,223,.6); transition: color .35s; }
 .mission__w.is-on { color: var(--khadi); }
 .mission__w.is-key.is-on { color: #F2B940; }
 
@@ -1185,7 +1185,7 @@ html.opened [data-intro="deal"] .band__card::before, html.opened [data-intro="de
 .threads__legend { list-style: none; padding: 0; margin: 20px 0; display: grid; gap: 10px; }
 .threads__legend li { display: flex; align-items: center; gap: 12px; font: 700 1.05rem/1.2 var(--display); transition: opacity .4s; }
 .threads__legend li::before { content: ''; flex: none; width: 46px; height: 10px; border-radius: 5px; background: var(--c); transform-origin: left; transform: scaleX(var(--lp, 1)); }
-.threads.is-live .threads__legend li { opacity: .4; }
+.threads.is-live .threads__legend li { opacity: .75; }
 .threads.is-live .threads__legend li.is-on { opacity: 1; }
 .threads__loom:empty { display: none; }
 /* How we work: a photograph from each area, fanned out, framed in its colour. */
